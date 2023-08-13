@@ -6,7 +6,7 @@
                             document.write(new Date().getFullYear());
                         </script>
                         , made with ❤️ by
-                        <a href="" target="_blank" class="footer-link fw-bolder">Faisal Oktabrian Sholihin</a>
+                        <a href="https://github.com/FaisalOktabrianSholihin/wifi" target="_blank" class="footer-link fw-bolder">King's Team</a>
                     </div>
                 </div>
             </footer>

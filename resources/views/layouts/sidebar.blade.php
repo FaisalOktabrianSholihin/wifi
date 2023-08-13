@@ -70,7 +70,8 @@
                    <span class="menu-header-text">Layanan</span>
                </li>
 
-               @if (Auth::user()->level == "Admin" || Auth::user()->level == "Operator")
+               {{-- @if (Auth::user()->level == "Admin" || Auth::user()->level == "Operator") --}}
+               @if (Auth::user()->level == "Super Admin")
                <li class="menu-item">
                    <a href="javascript:void(0);" class="menu-link menu-toggle">
                        <i class="menu-icon tf-icons bx bx-layout"></i>
@@ -112,7 +113,7 @@
                </li>
 
                <!-- User interface -->
-               <li class="menu-item">
+               {{-- <li class="menu-item">
                    <a href="javascript:void(0)" class="menu-link menu-toggle">
                        <i class="menu-icon tf-icons bx bx-box"></i>
                        <div data-i18n="User interface">Service</div>
@@ -149,8 +150,8 @@
                            </a>
                        </li>
                    </ul>
-               </li>
-               <li class="menu-item">
+               </li> --}}
+               {{-- <li class="menu-item">
                    <a href="javascript:void(0);" class="menu-link menu-toggle">
                        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                        <div data-i18n="Misc">Billing</div>
@@ -167,9 +168,25 @@
                            </a>
                        </li>
                    </ul>
+               </li> --}}
+                <li class="menu-item">
+                   <a href="icons-boxicons.html" class="menu-link">
+                       <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                       <div data-i18n="Boxicons">Billing</div>
+                   </a>
                </li>
-
-               
+                <li class="menu-item">
+                   <a href="icons-boxicons.html" class="menu-link">
+                       <i class="menu-icon tf-icons bx bx-copy"></i>
+                       <div data-i18n="Boxicons">Role</div>
+                   </a>
+               </li>
+                <li class="menu-item">
+                   <a href="icons-boxicons.html" class="menu-link">
+                       <i class="menu-icon tf-icons bx bx-support"></i>
+                       <div data-i18n="Boxicons">Permission</div>
+                   </a>
+               {{-- </li>
                   <li class="menu-item">
                    <a href="javascript:void(0);" class="menu-link menu-toggle">
                        <i class="menu-icon tf-icons bx bx-detail"></i>
@@ -188,15 +205,24 @@
                        </li>
                    </ul>
                     </li> 
-               
-
-               <li class="menu-item">
+                <li class="menu-item">
                    <a href="icons-boxicons.html" class="menu-link">
                        <i class="menu-icon tf-icons bx bx-crown"></i>
                        <div data-i18n="Boxicons">Setting</div>
                    </a>
+               </li> --}}
+                <li class="menu-item">
+                   <a href="icons-boxicons.html" class="menu-link">
+                       <i class="menu-icon tf-icons bx bx-file"></i>
+                       <div data-i18n="Boxicons">File Manager</div>
+                   </a>
                </li>
-
+               <li class="menu-item">
+                   <a href="icons-boxicons.html" class="menu-link">
+                       <i class="menu-icon tf-icons bx bx-box"></i>
+                       <div data-i18n="Boxicons">Module</div>
+                   </a>
+               </li>
                @endif
 
        </aside>
