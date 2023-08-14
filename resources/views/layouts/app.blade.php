@@ -128,6 +128,22 @@
 
 
     <!-- Place this tag in your head or just before your close body tag. -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#select-all').click(function() {
+            $('input[name="permissions[]"]').prop('checked', this.checked);
+        });
+
+        $('input[name="permissions[]"]').click(function() {
+            if ($('input[name="permissions[]"]:checked').length === $('input[name="permissions[]"]').length) {
+                $('#select-all').prop('checked', true);
+            } else {
+                $('#select-all').prop('checked', false);
+            }
+        });
+    });
+</script>
 
 
 

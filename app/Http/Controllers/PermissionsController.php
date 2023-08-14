@@ -24,10 +24,13 @@ class PermissionsController extends Controller
 
     public function update(Request $request, Permission $permission)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3']]);
+        $validated = $request->validate([
+            'name' => ['required', 'min:3'],
+            'guard_name' => ['required', 'in:web,api']
+        ]);
         $permission->update($validated);
 
-        return to_route('super admin.permissions.index')->with('message', 'Permissions Updated successfully.');
+        return redirect()->route('super admin.permissions.index')->with('message', 'Permissions Updated successfully.');
     }
 
     public function destroy(Permission $permission)

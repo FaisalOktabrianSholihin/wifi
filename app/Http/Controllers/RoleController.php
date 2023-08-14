@@ -17,17 +17,25 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3']]);
+        $validated = $request->validate([
+            'name' => ['required', 'min:3'],
+            'guard_name' => ['required', 'in:web,api']
+        ]);
         Role::create($validated);
-        return to_route('super admin.roles.index')->with('message', 'Role Created successfully.');
+        return redirect()->route('super admin.roles.index')->with('message', 'Role Created successfully.');
     }
 
     public function update(Request $request, Role $role)
     {
-        $validated = $request->validate(['name' => ['required', 'min:3']]);
+        $validated = $request->validate([
+            'name' => ['required', 'min:3'],
+            'guard_name' => ['required', 'in:web,api'],
+        ]);
         $role->update($validated);
 
-        return to_route('super admin.roles.index')->with('message', 'Role Updated successfully.');
+        $role->syncPermissions($request->input('permissions', []));
+
+        return redirect()->route('super admin.roles.index')->with('message', 'Role Updated successfully.');
     }
 
     public function destroy(Role $role)

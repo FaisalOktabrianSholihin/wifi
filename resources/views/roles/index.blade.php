@@ -17,6 +17,7 @@
                       <tr>
                           <th>No</th>
                           <th>Name</th>
+                          <th>Guard</th>
                           <th>Permission</th>
                           <th>Actions</th>
                       </tr>
@@ -26,11 +27,28 @@
                         <tr>
                             <td>{{ $roles->firstItem() + $loop->index }}</td>
                             <td>{{ $item->name }}</td>
+                            <td>{{ $item->guard_name }}</td>
                             <td>
-                              @foreach ($item->permissions as $permission)
-                              <span class="badge bg-label-primary me-1">{{ $permission->name }}</span>
-                              @endforeach
-                            </td>
+                              @php
+                                  $permissionsCount = $item->permissions->count();
+                                  $allPermissions = $item->permissions->pluck('name')->implode(', ');
+          
+                                  if ($permissionsCount === count($permissions)) {
+                                      echo '<span class="badge bg-label-primary me-1">' . 'All Permissions' . '</span>';
+                                  } else {
+                                      $permissionsChunks = $item->permissions->chunk(3);
+                                      echo '<div class="d-flex flex-wrap">';
+                                      foreach ($permissionsChunks as $chunk) {
+                                          echo '<div class="d-flex mb-2">';
+                                          foreach ($chunk as $permission) {
+                                              echo '<span class="badge bg-label-primary me-1" style="flex-basis: calc(33.33% - 10px);">' . $permission->name . '</span>';
+                                          }
+                                          echo '</div>';
+                                      }
+                                      echo '</div>';
+                                  }
+                              @endphp
+                          </td>
 
                             {{-- @if (auth()->user()->level == 'Admin') --}}
                                 <td>
@@ -146,7 +164,7 @@
 {{-- Modal update roles --}}
 @foreach ($roles as $value)
 <div class="modal fade" id="update-roles{{ $value->id }}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel1">Edit Role</h5>
@@ -165,35 +183,31 @@
                                 value="{{ $value->name }}" placeholder="Name Roles" />
                         </div>
                     </div>
+                    
                     <div class="mb-3">
-                      <label class="form-label">Role Permission</label>
-                      @if ($value->permissions)
-                      <div class="flex space-x-2">
-                        @foreach ($value->permissions as $role_permission)
-                              <form method="POST"
-                                  action="{{ route('super admin.roles.permissions.revoke', [$value->id, $role_permission->id]) }}"
-                                  >
-                                  @csrf
-                                  @method('DELETE')
-                                  <button class="btn btn-sm btn-outline-danger m-1" type="submit">{{ $role_permission->name }} <span class="tf-icons bx bx-x"></span></button>
-                              </form>
-                          @endforeach
-                      </div>
-                      @endif
+                      <label class="form-label" for="guard">Guard Name</label>
+                      <select class="form-select" id="guard_name" name="guard_name">
+                          <option value="web" {{ $value->guard_name === 'web' ? 'selected' : '' }}>web</option>
+                          <option value="api" {{ $value->guard_name === 'api' ? 'selected' : '' }}>api</option>
+                      </select>
                     </div>
-                    <div class="mb-3">
-                      <label class="form-label">Permission</label>
-                      <div class="flex space-x-2">
-                          @foreach ($permissions as $permission)
-                              <form method="POST" action="{{ route('super admin.roles.permissions', [$value->id]) }}">
-                                  @csrf
-                                  
-                                  <input type="hidden" name="permission" value="{{ $permission->name }}">
-                                  <button class="btn btn-sm btn-outline-success m-1" type="submit">{{ $permission->name }} <span class="tf-icons bx bx-plus"></span></button>
-                              </form>
-                          @endforeach
-                      </div>
-                  </div>
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Permissions</label>
+                    <div class="form-check d-flex flex-wrap">
+                        <div class="form-check me-3 mb-2" style="flex-basis: 25%;">
+                            <input class="form-check-input" type="checkbox" id="select-all">
+                            <label class="form-check-label">check all</label>
+                        </div>
+                        @foreach ($permissions as $permission)
+                            <div class="form-check me-3 mb-2" style="flex-basis: 25%;">
+                                <input class="form-check-input" type="checkbox" name="permissions[]"
+                                    value="{{ $permission->id }}" {{ $value->permissions->contains($permission) ? 'checked' : '' }}>
+                                <label class="form-check-label">{{ $permission->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>                
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

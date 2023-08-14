@@ -146,7 +146,13 @@
                               placeholder="Name" required/>
                       </div>
                   </div>
-                  
+                  <div class="mb-3">
+                    <label class="form-label" for="guard_name">Guard Name</label>
+                    <select class="form-select" id="guard_name" name="guard_name">
+                        <option value="web">web</option>
+                        <option value="api">api</option>
+                    </select>
+                  </div>
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -164,7 +170,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel1">Edit Data User</h5>
+                <h5 class="modal-title" id="exampleModalLabel1">Edit Permission</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('super admin.permissions.update', $value) }}" method="POST">
@@ -179,6 +185,13 @@
                             <input type="text" class="form-control" id="name" name="name"
                                 value="{{ $value->name }}" placeholder="Name Permission" />
                         </div>
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label" for="guard">Guard Name</label>
+                      <select class="form-select" id="guard_name" name="guard_name">
+                          <option value="web" }>web</option>
+                          <option value="api" {{ $value->guard_name === 'api' ? 'selected' : '' }}>api</option>
+                      </select>
                     </div>
                 </div>
                 <div class="modal-footer">
