@@ -70,159 +70,66 @@
                    <span class="menu-header-text">Layanan</span>
                </li>
 
-               {{-- @if (Auth::user()->level == "Admin" || Auth::user()->level == "Operator") --}}
-               @if (Auth::user()->level == "Super Admin")
-               <li class="menu-item">
-                   <a href="javascript:void(0);" class="menu-link menu-toggle">
-                       <i class="menu-icon tf-icons bx bx-layout"></i>
-                       <div data-i18n="Layouts">Data Master</div>
-                   </a>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons bx bx-layout"></i>
+                        <div data-i18n="Layouts">Data Master</div>
+                    </a>
 
-                   <ul class="menu-sub">
-                       <li class="menu-item">
-                           <a href="{{ route('dataMaster') }}" class="menu-link">
-                               <div data-i18n="Without menu">User</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="layouts-without-navbar.html" class="menu-link">
-                               <div data-i18n="Without navbar">Paket</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="layouts-container.html" class="menu-link">
-                               <div data-i18n="Container">ODC-ODP</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="layouts-fluid.html" class="menu-link">
-                               <div data-i18n="Fluid">ONU</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="layouts-blank.html" class="menu-link">
-                               <div data-i18n="Blank">OLT</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="layouts-blank.html" class="menu-link">
-                               <div data-i18n="Blank">Routers</div>
-                           </a>
-                       </li>
-                   </ul>
-               </li>
+                    <ul class="menu-sub">
+                        @can('read user')
+                        <li class="menu-item">
+                            <a href="{{ route('dataMaster') }}" class="menu-link">
+                                <div data-i18n="Without menu">User</div>
+                            </a>
+                        </li>
+                        @endcan
+                    </ul>
+                </li>
 
-               <!-- User interface -->
-               {{-- <li class="menu-item">
-                   <a href="javascript:void(0)" class="menu-link menu-toggle">
-                       <i class="menu-icon tf-icons bx bx-box"></i>
-                       <div data-i18n="User interface">Service</div>
-                   </a>
-                   <ul class="menu-sub">
-                       <li class="menu-item">
-                           <a href="ui-accordion.html" class="menu-link">
-                               <div data-i18n="Accordion">Pemasangan</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="ui-alerts.html" class="menu-link">
-                               <div data-i18n="Alerts">Ubah Paket</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="ui-badges.html" class="menu-link">
-                               <div data-i18n="Badges">Mutasi</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="ui-buttons.html" class="menu-link">
-                               <div data-i18n="Buttons">Buttons</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="ui-carousel.html" class="menu-link">
-                               <div data-i18n="Carousel">Pemutusan</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="ui-collapse.html" class="menu-link">
-                               <div data-i18n="Collapse">Perbaikan</div>
-                           </a>
-                       </li>
-                   </ul>
-               </li> --}}
-               {{-- <li class="menu-item">
-                   <a href="javascript:void(0);" class="menu-link menu-toggle">
-                       <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                       <div data-i18n="Misc">Billing</div>
-                   </a>
-                   <ul class="menu-sub">
-                       <li class="menu-item">
-                           <a href="pages-misc-error.html" class="menu-link">
-                               <div data-i18n="Error">Loket</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="pages-misc-under-maintenance.html" class="menu-link">
-                               <div data-i18n="Under Maintenance">Kolektor</div>
-                           </a>
-                       </li>
-                   </ul>
-               </li> --}}
+                @can('read billing')
                 <li class="menu-item">
-                   <a href="icons-boxicons.html" class="menu-link">
-                       <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                       <div data-i18n="Boxicons">Billing</div>
-                   </a>
-               </li>
+                    <a href="icons-boxicons.html" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                        <div data-i18n="Basic">Billing</div>
+                    </a>
+                </li>
+                @endcan
+                
+                @can('read role')
                 <li class="menu-item">
-                   <a href="icons-boxicons.html" class="menu-link">
-                       <i class="menu-icon tf-icons bx bx-copy"></i>
-                       <div data-i18n="Boxicons">Role</div>
-                   </a>
-               </li>
-                <li class="menu-item">
-                   <a href="icons-boxicons.html" class="menu-link">
-                       <i class="menu-icon tf-icons bx bx-support"></i>
-                       <div data-i18n="Boxicons">Permission</div>
-                   </a>
-               {{-- </li>
-                  <li class="menu-item">
-                   <a href="javascript:void(0);" class="menu-link menu-toggle">
-                       <i class="menu-icon tf-icons bx bx-detail"></i>
-                       <div data-i18n="Form Elements">Managemen Perangkat</div>
-                   </a>
-                   <ul class="menu-sub">
-                       <li class="menu-item">
-                           <a href="forms-basic-inputs.html" class="menu-link">
-                               <div data-i18n="Basic Inputs">Router</div>
-                           </a>
-                       </li>
-                       <li class="menu-item">
-                           <a href="forms-input-groups.html" class="menu-link">
-                               <div data-i18n="Input groups">OLT</div>
-                           </a>
-                       </li>
-                   </ul>
-                    </li> 
-                <li class="menu-item">
-                   <a href="icons-boxicons.html" class="menu-link">
-                       <i class="menu-icon tf-icons bx bx-crown"></i>
-                       <div data-i18n="Boxicons">Setting</div>
-                   </a>
-               </li> --}}
-                <li class="menu-item">
-                   <a href="icons-boxicons.html" class="menu-link">
-                       <i class="menu-icon tf-icons bx bx-file"></i>
-                       <div data-i18n="Boxicons">File Manager</div>
-                   </a>
-               </li>
-               <li class="menu-item">
-                   <a href="icons-boxicons.html" class="menu-link">
-                       <i class="menu-icon tf-icons bx bx-box"></i>
-                       <div data-i18n="Boxicons">Module</div>
-                   </a>
-               </li>
-               @endif
+                    <a href="{{ route('super admin.roles.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-copy"></i>
+                        <div data-i18n="Boxicons">Role</div>
+                    </a>
+                </li>
+                @endcan
 
-       </aside>
+                @can('read permission')
+                <li class="menu-item">
+                    <a href="{{ route('super admin.permissions.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-support"></i>
+                        <div data-i18n="Tables">Permission</div>
+                    </a>
+                </li>
+                @endcan
+                
+                @can('read file manager')
+                <li class="menu-item">
+                    <a href="icons-boxicons.html" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-file"></i>
+                        <div data-i18n="Boxicons">File Manager</div>
+                    </a>
+                </li>
+                @endcan 
+                
+                @can('read module')
+                <li class="menu-item">
+                    <a href="icons-boxicons.html" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-box"></i>
+                        <div data-i18n="Boxicons">Module</div>
+                    </a>
+                </li>
+                @endcan
+
+    </aside>

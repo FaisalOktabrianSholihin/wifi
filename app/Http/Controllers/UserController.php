@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     public function user()
     {
         $user = User::orderByDesc('id')->get();
-        return view('dataMaster.user', ['user' => $user]);
+        $role = Role::all();
+        return view('dataMaster.user', compact('user', 'role'));
     }
 
     public function save(UserRequest $request)

@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermissionsController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -40,9 +43,12 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Route::get('dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
+
+
+
 
     Route::controller(UserController::class)->prefix('dataMaster')->group(function () {
         Route::get('', 'user')->name('dataMaster');
@@ -50,4 +56,16 @@ Route::middleware('auth')->group(function () {
         Route::post('edit/{id}', 'edit');
         Route::get('delete/{id}', 'delete');
     });
+});
+
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['auth']);
+Route::middleware(['auth'])->name('super admin.')->prefix('super admin')->group(function () {
+    Route::resource('/roles', RoleController::class);
+    Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])->name('roles.permissions');
+    Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.revoke');
+    Route::patch('/roles/{role}/sync-permissions', [RoleController::class, 'syncPermissions'])->name('roles.permissions.sync');
+    Route::resource('/permissions', PermissionsController::class);
+    Route::post('/permissions/{permission}/roles', [PermissionsController::class, 'assignRole'])->name('permissions.roles');
+    Route::delete('/permissions/{permission}/roles/{role}', [PermissionsController::class, 'removeRole'])->name('permissions.roles.remove');
+
 });

@@ -5,11 +5,10 @@
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Data Master /</span> User</h4>
             <div class="card">
                 <div class="card-body">
-                    @if (auth()->user()->level == 'Admin')
+                    @can('create user')
                         <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
-                            data-bs-target="#modalTambah">Tambah</button>
-                    @endif
-
+                        data-bs-target="#modalTambah">Tambah</button>
+                    @endcan
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table">
@@ -19,9 +18,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                @if (auth()->user()->level == 'Admin')
-                                    <th>Actions</th>
-                                @endif
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -32,8 +29,15 @@
                                     <td>
                                         {{ $item->email }}
                                     </td>
-                                    <td><span class="badge bg-label-primary me-1">{{ $item->level }}</span></td>
-                                    @if (auth()->user()->level == 'Admin')
+                                    <td>
+                                        @if ($item->roles)
+                                        @foreach ($item->roles as $user_roles)
+                                        <span class="badge bg-label-primary me-1">{{ $user_roles->name }}</span>
+                                        @endforeach
+                                        @endif
+                                        
+                                    </td>
+                                    {{-- @if (auth()->user()->level == 'Admin') --}}
                                         <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -41,23 +45,29 @@
                                                     <i class="bx bx-dots-vertical-rounded"></i>
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <button data-bs-toggle="modal"
+                                                    @can('update user')
+                                                        <button data-bs-toggle="modal"
                                                         data-bs-target="#modalEdit{{ $item->id }}"
                                                         class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
                                                         Edit</button>
+                                                    @endcan
+                                                    
+                                                    @can('delete user')
                                                     <button class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#modalHapus{{ $item->id }}"><i
-                                                            class="bx bx-trash me-1"></i>
-                                                        Delete</button>
+                                                    data-bs-target="#modalHapus{{ $item->id }}"><i
+                                                        class="bx bx-trash me-1"></i>
+                                                    Delete</button>
+                                                    @endcan
+                                                    
                                                 </div>
                                             </div>
                                         </td>
-                                    @endif
+                                    {{-- @endif --}}
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="card mb-4">
+                    <div class="card">
                         <h5 class="card-header">Pagination</h5>
                         <!-- Basic Pagination -->
                         <div class="card-body">
