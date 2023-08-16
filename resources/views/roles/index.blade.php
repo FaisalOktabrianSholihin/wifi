@@ -8,8 +8,7 @@
              
                   <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
                       data-bs-target="#add-roles">Tambah</button>
-             
-
+          
           </div>
           <div class="table-responsive text-nowrap">
               <table class="table">
@@ -149,6 +148,13 @@
                               placeholder="Name" required/>
                       </div>
                   </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="guard">Guard Name</label>
+                    <select class="form-select" id="guard_name" name="guard_name">
+                        <option value="web">web</option>
+                        <option value="api">api</option>
+                    </select>
+                  </div>
               </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -183,7 +189,7 @@
                                 value="{{ $value->name }}" placeholder="Name Roles" />
                         </div>
                     </div>
-                    
+
                     <div class="mb-3">
                       <label class="form-label" for="guard">Guard Name</label>
                       <select class="form-select" id="guard_name" name="guard_name">

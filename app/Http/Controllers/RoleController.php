@@ -10,7 +10,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::OrderByDesc('id')->whereNotIn('name', ['super admin'])->with('permissions')->paginate(10);
+        $roles = Role::OrderByDesc('id')->with('permissions')->paginate(10);
         $permissions = Permission::all();
         return view('roles.index', compact('roles', 'permissions'));
     }

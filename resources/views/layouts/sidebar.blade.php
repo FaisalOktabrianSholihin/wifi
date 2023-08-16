@@ -67,7 +67,7 @@
 
                <!-- Layouts -->
                <li class="menu-header small text-uppercase">
-                   <span class="menu-header-text">Layanan</span>
+                   <span class="menu-header-text">Master Data</span>
                </li>
 
                 <li class="menu-item">
@@ -90,16 +90,20 @@
                 @can('read billing')
                 <li class="menu-item">
                     <a href="icons-boxicons.html" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                        <i class="menu-icon tf-icons bx bx-book"></i>
                         <div data-i18n="Basic">Billing</div>
                     </a>
                 </li>
                 @endcan
                 
+                <li class="menu-header small text-uppercase">
+                    <span class="menu-header-text">Access</span>
+                </li>
+
                 @can('read role')
                 <li class="menu-item">
                     <a href="{{ route('super admin.roles.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-copy"></i>
+                        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
                         <div data-i18n="Boxicons">Role</div>
                     </a>
                 </li>
@@ -108,16 +112,29 @@
                 @can('read permission')
                 <li class="menu-item">
                     <a href="{{ route('super admin.permissions.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-support"></i>
+                        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
                         <div data-i18n="Tables">Permission</div>
                     </a>
                 </li>
                 @endcan
+
+                <li class="menu-header small text-uppercase">
+                    <span class="menu-header-text">Settings</span>
+                </li>
+
+                @can('read setting')
+                <li class="menu-item">
+                    <a href="{{ route('super admin.settings.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-cog"></i>
+                        <div data-i18n="Boxicons">Setting</div>
+                    </a>
+                </li>
+                @endcan 
                 
                 @can('read file manager')
                 <li class="menu-item">
-                    <a href="icons-boxicons.html" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-file"></i>
+                    <a href="{{ route('super admin.files.index') }}" class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-folder-open"></i>
                         <div data-i18n="Boxicons">File Manager</div>
                     </a>
                 </li>

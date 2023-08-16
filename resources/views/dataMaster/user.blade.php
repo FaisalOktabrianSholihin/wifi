@@ -132,44 +132,51 @@
                         <h5 class="modal-title" id="exampleModalLabel1">Edit Data User</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ url('dataMaster/edit/' . $value->id) }}" method="post">
+                    <form action="{{ url('dataMaster/edit/' . $value->id) }}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label class="form-label" for="basic-icon-default-fullname">Nama Lengkap</label>
+                                <label class="form-label" for="basic-icon-default-fullname">Name</label>
                                 <div class="input-group input-group-merge">
                                     <span id="basic-icon-default-fullname2" class="input-group-text"><i
                                             class="bx bx-user"></i></span>
-                                    <input type="text" class="form-control" id="namaUser" name="name"
-                                        value="{{ $value->name }}" placeholder="Nama Lengkap" aria-label="John Doe"
-                                        aria-describedby="basic-icon-default-fullname2" />
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ $value->name }}" placeholder="Name" />
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="basic-icon-default-email">Email</label>
                                 <div class="input-group input-group-merge">
                                     <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-                                    <input type="text" id="emailUser" name="email" value="{{ $value->email }}"
-                                        class="form-control" placeholder="faisal22" aria-label="faisal"
-                                        aria-describedby="basic-icon-default-email2" />
-                                    <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
+                                    <input type="email" id="email" name="email" value="{{ $value->email }}"
+                                        class="form-control" placeholder="example@gmail.com" />
+                                    {{-- <span id="basic-icon-default-email2" class="input-group-text">@example.com</span> --}}
                                 </div>
                                 <div class="form-text">Anda dapat menggunakan huruf, angka & titik</div>
                             </div>
                             <div class="mb-3">
-
                                 <label class="form-label" for="basic-icon-default-fullname">Role</label>
                                 <div class="input-group input-group-merge">
                                     <span id="basic-icon-default-fullname2" class="input-group-text"><i
                                             class="bx bx-user"></i></span>
                                     <div class="btn-group ">
-                                        <select class="form-select" name="level" id="idposisi">
-                                            <option value="{{ $value->level }}">{{ $value->level }}</option>
-                                            <option value="Super Admin">Super Admin</option>
-                                            <option value="Admin">Admin</option>
-                                            <option value="Operator">Operator</option>
+                                        <select class="form-select" name="role" id="role" required>
+                                            @foreach ($role as $item)
+                                                <option value="{{ $item->name }}" {{ $value->hasRole($item->name) ? 'selected' : '' }}>
+                                                    {{ $item->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Password</label>
+                                <div class="input-group input-group-merge">
+                                    <span id="basic-icon-default-fullname2" class="input-group-text"><i
+                                            class="bx bx-key"></i></span>
+                                    <input type="text" class="form-control" id="password" name="password"
+                                        placeholder="*********" minlength="6" />
                                 </div>
                             </div>
                         </div>
@@ -177,7 +184,7 @@
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                                 Batal
                             </button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </form>
                 </div>
@@ -197,23 +204,22 @@
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Nama Lengkap</label>
+                            <label class="form-label" for="basic-icon-default-fullname">Name</label>
                             <div class="input-group input-group-merge">
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
                                         class="bx bx-user"></i></span>
-                                <input type="text" class="form-control" id="namaUser" name="name" value=""
-                                    placeholder="Nama Lengkap" aria-label="John Doe"
-                                    aria-describedby="basic-icon-default-fullname2" />
+                                <input type="text" class="form-control" id="name" name="name"
+                                    placeholder="Name"
+                                    required />
                             </div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-email">Email</label>
                             <div class="input-group input-group-merge">
                                 <span class="input-group-text"><i class="bx bx-envelope"></i></span>
-                                <input type="text" id="emailUser" name="email" value="" class="form-control"
-                                    placeholder="faisal22" aria-label="faisal"
-                                    aria-describedby="basic-icon-default-email2" />
-                                <span id="basic-icon-default-email2" class="input-group-text">@example.com</span>
+                                <input type="email" id="email" name="email" class="form-control"
+                                    placeholder="example@gmail.com" required />
+                                {{-- <span id="basic-icon-default-email2" class="input-group-text">@example.com</span> --}}
                             </div>
                             <div class="form-text">Anda dapat menggunakan huruf, angka & titik</div>
                         </div>
@@ -223,11 +229,11 @@
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
                                         class="bx bx-user"></i></span>
                                 <div class="btn-group ">
-                                    <select class="form-select" name="level" id="idposisi">
-                                        <option value="" selected disabled hidden>Pilih</option>
-                                        <option value="Super Admin">Super Admin</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="Operator">Operator</option>
+                                    <select class="form-select" name="role" id="role">
+                                        <option selected disabled hidden>Select Role</option>
+                                        @foreach ($role as $item)
+                                            <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -236,10 +242,9 @@
                             <label class="form-label" for="basic-icon-default-fullname">Password</label>
                             <div class="input-group input-group-merge">
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                        class="bx bx-user"></i></span>
-                                <input type="text" class="form-control" id="passwordUser" name="password"
-                                    placeholder="Password" aria-label="John Doe"
-                                    aria-describedby="basic-icon-default-fullname2" />
+                                        class="bx bx-key"></i></span>
+                                <input type="text" class="form-control" id="password" name="password"
+                                    placeholder="*********" required />
                             </div>
                         </div>
                     </div>

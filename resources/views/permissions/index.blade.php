@@ -46,7 +46,7 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->guard_name }}</td>
-                            <td>{{ $item->updated_at }}</td>
+                            <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
                             
                             {{-- @if (auth()->user()->level == 'Admin') --}}
                                 <td>

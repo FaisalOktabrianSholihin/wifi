@@ -19,6 +19,17 @@
   text-transform: lowercase;
 }
 
+.form-grid {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 150px;
+  align-items: center;
+}
+
+.form-text {
+  align-self: center; /* Untuk mengatur vertikal alignment */
+}
+
 /* ! For .layout-navbar-fixed added fix padding top tpo .layout-page */
 /* Detached navbar */
 .layout-navbar-fixed .layout-wrapper:not(.layout-horizontal):not(.layout-without-menu) .layout-page {
