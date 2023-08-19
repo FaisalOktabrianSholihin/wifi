@@ -22,7 +22,8 @@ class RoleController extends Controller
             'name' => ['required', 'min:3'],
             'guard_name' => ['required', 'in:web,api']
         ]);
-        Role::create($validated);
+        $role = Role::create($validated);
+        $role->syncPermissions($request->input('permissions', []));
         return redirect()->route('super admin.roles.index')->with('message', 'Role Created successfully.');
     }
 

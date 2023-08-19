@@ -122,7 +122,7 @@
     @stack('scripts')
 
     <!-- Additional JS scripts -->
-    @yield('extra-scripts')
+    @yield('scripts')
 
 
 
