@@ -143,14 +143,14 @@
               <form id="formAuthentication" class="mb-3" action="{{ route('login.action') }}" method="POST">
                 @csrf
                 @if ($errors->any())
-                <div class="alert alert-danger">
+<div class="alert alert-danger">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
+<li>{{ $error }}</li>
+@endforeach
                     </ul>
                 </div>
-                @endif
+@endif
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input
@@ -209,18 +209,18 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="{{asset('assets/vendor/libs/jquery/jquery.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{asset('assets/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
+    <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
+    <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
 
-    <script src="{{asset('assets/vendor/js/menu.js')}}"></script>
+    <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->
 
     <!-- Main JS -->
-    <script src="{{asset('assets/js/main.js')}}"></script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
 
     <!-- Page JS -->
 

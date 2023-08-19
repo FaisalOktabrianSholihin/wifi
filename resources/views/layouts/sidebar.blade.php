@@ -58,7 +58,7 @@
            <ul class="menu-inner py-1">
                <!-- Dashboard -->
 
-               <li class="menu-item active">
+               <li class="menu-item {{ Route::is('dashboard') ? 'active' : '' }}">
                    <a href="{{ route('dashboard') }}" class="menu-link">
                        <i class="menu-icon tf-icons bx bx-home-circle"></i>
                        <div data-i18n="Analytics">Dashboard</div>
@@ -70,83 +70,83 @@
                    <span class="menu-header-text">Master Data</span>
                </li>
 
-                <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <i class="menu-icon tf-icons bx bx-layout"></i>
-                        <div data-i18n="Layouts">Data Master</div>
-                    </a>
+               <li class="menu-item {{ Route::is('dataMaster') ? 'active' : '' }} ">
+                   <a href="javascript:void(0);" class="menu-link menu-toggle">
+                       <i class="menu-icon tf-icons bx bx-layout"></i>
+                       <div data-i18n="Layouts">Data Master</div>
+                   </a>
 
-                    <ul class="menu-sub">
-                        @can('read user')
-                        <li class="menu-item">
-                            <a href="{{ route('dataMaster') }}" class="menu-link">
-                                <div data-i18n="Without menu">User</div>
-                            </a>
-                        </li>
-                        @endcan
-                    </ul>
-                </li>
+                   <ul class="menu-sub">
+                       @can('read user')
+                           <li class="menu-item">
+                               <a href="{{ route('dataMaster') }}" class="menu-link">
+                                   <div data-i18n="Without menu">User</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+               </li>
 
-                @can('read billing')
-                <li class="menu-item">
-                    <a href="icons-boxicons.html" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-book"></i>
-                        <div data-i18n="Basic">Billing</div>
-                    </a>
-                </li>
-                @endcan
-                
-                <li class="menu-header small text-uppercase">
-                    <span class="menu-header-text">Access</span>
-                </li>
+               @can('read billing')
+                   <li class="menu-item  {{ Route::is('super admin.billings.index') ? 'active' : '' }}">
+                       <a href="{{ route('super admin.billings.index') }}" class="menu-link">
+                           <i class="menu-icon tf-icons bx bx-book"></i>
+                           <div data-i18n="Basic">Billing</div>
+                       </a>
+                   </li>
+               @endcan
 
-                @can('read role')
-                <li class="menu-item">
-                    <a href="{{ route('super admin.roles.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-cube-alt"></i>
-                        <div data-i18n="Boxicons">Role</div>
-                    </a>
-                </li>
-                @endcan
+               <li class="menu-header small text-uppercase">
+                   <span class="menu-header-text">Access</span>
+               </li>
 
-                @can('read permission')
-                <li class="menu-item">
-                    <a href="{{ route('super admin.permissions.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
-                        <div data-i18n="Tables">Permission</div>
-                    </a>
-                </li>
-                @endcan
+               @can('read role')
+                   <li class="menu-item {{ Route::is('super admin.roles.index') ? 'active' : '' }} ">
+                       <a href="{{ route('super admin.roles.index') }}" class="menu-link">
+                           <i class="menu-icon tf-icons bx bx-cube-alt"></i>
+                           <div data-i18n="Boxicons">Role</div>
+                       </a>
+                   </li>
+               @endcan
 
-                <li class="menu-header small text-uppercase">
-                    <span class="menu-header-text">Settings</span>
-                </li>
+               @can('read permission')
+                   <li class="menu-item {{ Route::is('super admin.permissions.index') ? 'active' : '' }}">
+                       <a href="{{ route('super admin.permissions.index') }}" class="menu-link">
+                           <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+                           <div data-i18n="Tables">Permission</div>
+                       </a>
+                   </li>
+               @endcan
 
-                @can('read setting')
-                <li class="menu-item">
-                    <a href="{{ route('super admin.settings.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-cog"></i>
-                        <div data-i18n="Boxicons">Setting</div>
-                    </a>
-                </li>
-                @endcan 
-                
-                @can('read file manager')
-                <li class="menu-item">
-                    <a href="{{ route('super admin.files.index') }}" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-folder-open"></i>
-                        <div data-i18n="Boxicons">File Manager</div>
-                    </a>
-                </li>
-                @endcan 
-                
-                @can('read module')
-                <li class="menu-item">
-                    <a href="icons-boxicons.html" class="menu-link">
-                        <i class="menu-icon tf-icons bx bx-box"></i>
-                        <div data-i18n="Boxicons">Module</div>
-                    </a>
-                </li>
-                @endcan
+               <li class="menu-header small text-uppercase">
+                   <span class="menu-header-text">Settings</span>
+               </li>
 
-    </aside>
+               @can('read setting')
+                   <li class="menu-item {{ Route::is('super admin.settings.index') ? 'active' : '' }}">
+                       <a href="{{ route('super admin.settings.index') }}" class="menu-link">
+                           <i class="menu-icon tf-icons bx bx-cog"></i>
+                           <div data-i18n="Boxicons">Setting</div>
+                       </a>
+                   </li>
+               @endcan
+
+               @can('read file manager')
+                   <li class="menu-item {{ Route::is('super admin.files.index') ? 'active' : '' }}">
+                       <a href="{{ route('super admin.files.index') }}" class="menu-link">
+                           <i class="menu-icon tf-icons bx bx-folder-open"></i>
+                           <div data-i18n="Boxicons">File Manager</div>
+                       </a>
+                   </li>
+               @endcan
+
+               @can('read module')
+                   <li class="menu-item {{ Route::is('super admin.modules.index') ? 'active' : '' }}">
+                       <a href="{{ route('super admin.modules.index') }}" class="menu-link">
+                           <i class="menu-icon tf-icons bx bx-box"></i>
+                           <div data-i18n="Boxicons">Module</div>
+                       </a>
+                   </li>
+               @endcan
+
+       </aside>

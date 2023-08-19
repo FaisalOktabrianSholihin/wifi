@@ -3,30 +3,11 @@
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
 
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Access /</span> Permission</h4>
-            <div class="top-0 end-0 flex justify-end">
-                @if (Session::has('message'))
-                    <div class="bs-toast toast fade show bg-primary" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="toast-header">
-                            <i class="bx bx-bell me-2"></i>
-                            <div class="me-auto fw-semibold">Bootstrap</div>
-                            <small>11 mins ago</small>
-                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                        <div class="toast-body">
-                            {{ Session::get('message') }}
-                        </div>
-                    </div>
-                @endif
-            </div>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Master Data /</span> Billing</h4>
             <div class="card">
-                <form method="GET" action="/search" class="d-flex col-lg-4 mt-3" onsubmit="return false">
-                    <input class="form-control me-2" name="search" placeholder="Search" value="" />
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                </form>
                 <div class="flex justify-end me-4 mt-4 mb-4">
                     <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
-                        data-bs-target="#add-permissions">Tambah</button>
+                        data-bs-target="#add-billings">Tambah</button>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table mb-4">
@@ -34,17 +15,15 @@
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
-                                <th>Guard</th>
                                 <th>Update</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            @foreach ($permissions as $item)
+                            @foreach ($billings as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->name }}</td>
-                                    <td>{{ $item->guard_name }}</td>
                                     <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
                                     <td>
                                         <div class="dropdown">
@@ -57,7 +36,7 @@
                                                     class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
                                                     Edit</button>
                                                 <button class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#delete-permissions{{ $item->id }}"><i
+                                                    data-bs-target="#delete-billings{{ $item->id }}"><i
                                                         class="bx bx-trash me-1"></i>
                                                     Delete</button>
                                             </div>
@@ -67,37 +46,30 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="col-lg-12 ">{{ $permissions->links('pagination::bootstrap-5') }}</div>
+                    <div class="col-lg-12 ">{{ $billings->links('pagination::bootstrap-5') }}</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="add-permissions" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="add-billings" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Tambahkan Data User</h5>
+                    <h5 class="modal-title" id="exampleModalLabel1">Tambahkan Data Billing</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="formTambah" method="POST" action="{{ route('super admin.permissions.store') }}">
+                <form id="formTambah" method="POST" action="{{ route('super admin.billings.store') }}">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Name Permission</label>
+                            <label class="form-label" for="basic-icon-default-fullname">Name</label>
                             <div class="input-group input-group-merge">
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
                                         class="bx bx-user"></i></span>
                                 <input type="text" class="form-control" id="name" name="name" value=""
                                     placeholder="Name" required />
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="guard_name">Guard Name</label>
-                            <select class="form-select" id="guard_name" name="guard_name">
-                                <option value="web">web</option>
-                                <option value="api">api</option>
-                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -111,35 +83,26 @@
         </div>
     </div>
 
-    @foreach ($permissions as $value)
+    @foreach ($billings as $value)
         <div class="modal fade" id="update{{ $value->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Edit Permission</h5>
+                        <h5 class="modal-title" id="exampleModalLabel1">Edit Billing</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('super admin.permissions.update', $value) }}" method="POST">
+                    <form action="{{ route('super admin.billings.update', $value) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label class="form-label" for="basic-icon-default-fullname">Nama Permission</label>
+                                <label class="form-label" for="basic-icon-default-fullname">Name</label>
                                 <div class="input-group input-group-merge">
                                     <span id="basic-icon-default-fullname2" class="input-group-text"><i
                                             class="bx bx-user"></i></span>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        value="{{ $value->name }}" placeholder="Name Permission" />
+                                        value="{{ $value->name }}" placeholder="Name" />
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="guard">Guard Name</label>
-                                <select class="form-select" id="guard_name" name="guard_name">
-                                    <option value="web" {{ $value->guard_name === 'web' ? 'selected' : '' }}>web
-                                    </option>
-                                    <option value="api" {{ $value->guard_name === 'api' ? 'selected' : '' }}>api
-                                    </option>
-                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -154,11 +117,10 @@
         </div>
     @endforeach
 
-    {{-- Modal delete --}}
-    @foreach ($permissions as $value)
-        <div class="modal fade" id="delete-permissions{{ $value->id }}" tabindex="-1" aria-hidden="true">
+    @foreach ($billings as $value)
+        <div class="modal fade" id="delete-billings{{ $value->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form method="POST" action="{{ route('super admin.permissions.destroy', $value->id) }}">
+                <form method="POST" action="{{ route('super admin.billings.destroy', $value->id) }}">
                     @csrf
                     @method('DELETE')
                     <div class="modal-content">

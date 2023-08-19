@@ -7,7 +7,7 @@
                 <div class="card-body">
                     @can('create user')
                         <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
-                        data-bs-target="#modalTambah">Tambah</button>
+                            data-bs-target="#modalTambah">Tambah</button>
                     @endcan
                 </div>
                 <div class="table-responsive text-nowrap">
@@ -31,92 +31,43 @@
                                     </td>
                                     <td>
                                         @if ($item->roles)
-                                        @foreach ($item->roles as $user_roles)
-                                        <span class="badge bg-label-primary me-1">{{ $user_roles->name }}</span>
-                                        @endforeach
+                                            @foreach ($item->roles as $user_roles)
+                                                <span class="badge bg-label-primary me-1">{{ $user_roles->name }}</span>
+                                            @endforeach
                                         @endif
-                                        
+
                                     </td>
-                                    {{-- @if (auth()->user()->level == 'Admin') --}}
-                                        <td>
-                                            <div class="dropdown">
-                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                    data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    @can('update user')
-                                                        <button data-bs-toggle="modal"
-                                                        data-bs-target="#modalEdit{{ $item->id }}"
-                                                        class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
+
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                @can('update user')
+                                                    <button data-bs-toggle="modal"
+                                                        data-bs-target="#modalEdit{{ $item->id }}" class="dropdown-item"><i
+                                                            class="bx bx-edit-alt me-1"></i>
                                                         Edit</button>
-                                                    @endcan
-                                                    
-                                                    @can('delete user')
+                                                @endcan
+
+                                                @can('delete user')
                                                     <button class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#modalHapus{{ $item->id }}"><i
-                                                        class="bx bx-trash me-1"></i>
-                                                    Delete</button>
-                                                    @endcan
-                                                    
-                                                </div>
+                                                        data-bs-target="#modalHapus{{ $item->id }}"><i
+                                                            class="bx bx-trash me-1"></i>
+                                                        Delete</button>
+                                                @endcan
+
                                             </div>
-                                        </td>
+                                        </div>
+                                    </td>
                                     {{-- @endif --}}
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="card">
-                        <h5 class="card-header">Pagination</h5>
-                        <!-- Basic Pagination -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <small class="text-light fw-semibold">Basic</small>
-                                    <div class="demo-inline-spacing">
-                                        <!-- Basic Pagination -->
-                                        <nav aria-label="Page navigation">
-                                            <ul class="pagination">
-                                                <li class="page-item first">
-                                                    <a class="page-link" href="javascript:void(0);"><i
-                                                            class="tf-icon bx bx-chevrons-left"></i></a>
-                                                </li>
-                                                <li class="page-item prev">
-                                                    <a class="page-link" href="javascript:void(0);"><i
-                                                            class="tf-icon bx bx-chevron-left"></i></a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="javascript:void(0);">1</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="javascript:void(0);">2</a>
-                                                </li>
-                                                <li class="page-item active">
-                                                    <a class="page-link" href="javascript:void(0);">3</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="javascript:void(0);">4</a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="javascript:void(0);">5</a>
-                                                </li>
-                                                <li class="page-item next">
-                                                    <a class="page-link" href="javascript:void(0);"><i
-                                                            class="tf-icon bx bx-chevron-right"></i></a>
-                                                </li>
-                                                <li class="page-item last">
-                                                    <a class="page-link" href="javascript:void(0);"><i
-                                                            class="tf-icon bx bx-chevrons-right"></i></a>
-                                                </li>
-                                            </ul>
-                                        </nav>
-                                        <!--/ Basic Pagination -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {{ $user->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>
@@ -162,7 +113,8 @@
                                     <div class="btn-group ">
                                         <select class="form-select" name="role" id="role" required>
                                             @foreach ($role as $item)
-                                                <option value="{{ $item->name }}" {{ $value->hasRole($item->name) ? 'selected' : '' }}>
+                                                <option value="{{ $item->name }}"
+                                                    {{ $value->hasRole($item->name) ? 'selected' : '' }}>
                                                     {{ $item->name }}
                                                 </option>
                                             @endforeach
@@ -209,8 +161,7 @@
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
                                         class="bx bx-user"></i></span>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="Name"
-                                    required />
+                                    placeholder="Name" required />
                             </div>
                         </div>
                         <div class="mb-3">

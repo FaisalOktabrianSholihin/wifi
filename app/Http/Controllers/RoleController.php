@@ -10,8 +10,9 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::OrderByDesc('id')->with('permissions')->paginate(10);
+        $roles = Role::OrderByDesc('id')->with('permissions');
         $permissions = Permission::all();
+        $roles = Role::paginate(10);
         return view('roles.index', compact('roles', 'permissions'));
     }
 
@@ -47,7 +48,7 @@ class RoleController extends Controller
 
     public function givePermission(Request $request, Role $role)
     {
-        if($role->hasPermissionTo($request->permission)) {
+        if ($role->hasPermissionTo($request->permission)) {
             return back()->with('message', 'Permission exists.');
         }
         $role->givePermissionTo($request->permission);
@@ -56,7 +57,7 @@ class RoleController extends Controller
 
     public function revokePermission(Role $role, Permission $permission)
     {
-        if($role->hasPermissionTo($permission)) {
+        if ($role->hasPermissionTo($permission)) {
             $role->revokePermissionTo($permission);
             return back()->with('message', 'Permission revoked.');
         }
@@ -69,5 +70,4 @@ class RoleController extends Controller
 
         return back()->with('message', 'Permissions updated successfully.');
     }
-
 }

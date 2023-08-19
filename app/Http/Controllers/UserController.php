@@ -14,6 +14,7 @@ class UserController extends Controller
     {
         $user = User::orderByDesc('id')->get();
         $role = Role::all();
+        $user = User::paginate(10);
         return view('dataMaster.user', compact('user', 'role'));
     }
 

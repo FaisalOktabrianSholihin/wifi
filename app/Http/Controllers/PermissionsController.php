@@ -10,10 +10,31 @@ class PermissionsController extends Controller
 {
     public function index()
     {
+        // if ($request->has('search')) {
+        //     $permissions = Permission::where('name', 'LIKE', '%' . $request->search . '%')->paginate(10);
+        // } else {
+        //     $permissions = Permission::paginate(10);
+        // }
         $permissions = Permission::OrderByDesc('id')->get();
         $roles = Role::all();
+        $permissions = Permission::paginate(10);
         return view('permissions.index', compact('permissions', 'roles'));
     }
+
+    // public function search(Request $request)
+    // {
+    //     $search = $request->search;
+
+    //     $permissions = Permission::where(function ($query) use ($search) {
+
+    //         $query->where('name', 'like', "%$search%")
+    //             ->orWhere('guard', 'like', "%$search%");
+    //     })
+    //     orWhereHas('name')
+    //     ->get();
+
+    //     return view('permissions.index', compact('permissions', 'search'));
+    // }
 
     public function store(Request $request)
     {
@@ -59,5 +80,4 @@ class PermissionsController extends Controller
 
         return back()->with('message', 'Role not exists.');
     }
-
 }

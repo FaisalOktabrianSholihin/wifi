@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileManagerController;
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
@@ -71,4 +73,7 @@ Route::middleware(['isAuth'])->name('super admin.')->prefix('super admin')->grou
     Route::delete('/permissions/{permission}/roles/{role}', [PermissionsController::class, 'removeRole'])->name('permissions.roles.remove');
     Route::resource('/files', FileManagerController::class);
     Route::resource('/settings', SettingController::class);
+    Route::resource('/modules', ModuleController::class);
+    Route::resource('/billings', BillingController::class);
+    Route::get('/search', [PermissionsController::class, 'search']);
 });
