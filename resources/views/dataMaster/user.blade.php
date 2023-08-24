@@ -3,6 +3,21 @@
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Data Master /</span> User</h4>
+            <div class="top-0 end-0 col-md-3">
+                @if (Session::has('message'))
+                    <div class="bs-toast toast fade show bg-primary" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <i class="bx bx-bell me-2"></i>
+                            <div class="me-auto fw-semibold">Bootstrap</div>
+                            <small>11 mins ago</small>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            {{ Session::get('message') }}
+                        </div>
+                    </div>
+                @endif
+            </div>
             <div class="card">
                 <div class="card-body">
                     @can('create user')
@@ -35,9 +50,7 @@
                                                 <span class="badge bg-label-primary me-1">{{ $user_roles->name }}</span>
                                             @endforeach
                                         @endif
-
                                     </td>
-
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -51,18 +64,15 @@
                                                             class="bx bx-edit-alt me-1"></i>
                                                         Edit</button>
                                                 @endcan
-
                                                 @can('delete user')
                                                     <button class="dropdown-item" data-bs-toggle="modal"
                                                         data-bs-target="#modalHapus{{ $item->id }}"><i
                                                             class="bx bx-trash me-1"></i>
                                                         Delete</button>
                                                 @endcan
-
                                             </div>
                                         </div>
                                     </td>
-                                    {{-- @endif --}}
                                 </tr>
                             @endforeach
                         </tbody>

@@ -46,7 +46,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <span>Role</span>
+                            <span>Users</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $users }}</h3>
                         </div>
                     </div>

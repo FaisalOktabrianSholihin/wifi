@@ -75,5 +75,5 @@ Route::middleware(['isAuth'])->name('super admin.')->prefix('super admin')->grou
     Route::resource('/settings', SettingController::class);
     Route::resource('/modules', ModuleController::class);
     Route::resource('/billings', BillingController::class);
-    Route::get('/search', [PermissionsController::class, 'search']);
+    // Route::get('/search', [PermissionsController::class, 'search']);
 });

@@ -67,7 +67,7 @@
 
                <!-- Layouts -->
                <li class="menu-header small text-uppercase">
-                   <span class="menu-header-text">Master Data</span>
+                   <span class="menu-header-text">Layanan</span>
                </li>
 
                <li class="menu-item {{ Route::is('dataMaster') ? 'active' : '' }} ">
@@ -80,21 +80,170 @@
                        @can('read user')
                            <li class="menu-item">
                                <a href="{{ route('dataMaster') }}" class="menu-link">
-                                   <div data-i18n="Without menu">User</div>
+                                   <div data-i18n="Without menu">Users</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
+                       {{-- @can('read paket') --}}
+                       <li class="menu-item">
+                           <a href="" class="menu-link">
+                               <div data-i18n="Without menu">Paket</div>
+                           </a>
+                       </li>
+                       {{-- @endcan --}}
+                   </ul>
+
+                   <ul class="menu-sub">
+                       {{-- @can('read ODC-ODP') --}}
+                       <li class="menu-item">
+                           <a href="" class="menu-link">
+                               <div data-i18n="Without menu">ODC-ODP</div>
+                           </a>
+                       </li>
+                       {{-- @endcan --}}
+                   </ul>
+
+                   <ul class="menu-sub">
+                       {{-- @can('read ONU') --}}
+                       <li class="menu-item">
+                           <a href="" class="menu-link">
+                               <div data-i18n="Without menu">ONU</div>
+                           </a>
+                       </li>
+                       {{-- @endcan --}}
+                   </ul>
+
+                   <ul class="menu-sub">
+                       {{-- @can('read OLT') --}}
+                       <li class="menu-item">
+                           <a href="" class="menu-link">
+                               <div data-i18n="Without menu">OLT</div>
+                           </a>
+                       </li>
+                       {{-- @endcan --}}
+                   </ul>
+
+                   <ul class="menu-sub">
+                       {{-- @can('read routers') --}}
+                       <li class="menu-item">
+                           <a href="" class="menu-link">
+                               <div data-i18n="Without menu">Routers</div>
+                           </a>
+                       </li>
+                       {{-- @endcan --}}
+                   </ul>
+               </li>
+
+               <li class="menu-item  ">
+                   <a href="javascript:void(0);" class="menu-link menu-toggle">
+                       <i class="menu-icon tf-icons bx bx-layout"></i>
+                       <div data-i18n="Layouts">Service</div>
+                   </a>
+                   <ul class="menu-sub">
+                       @can('read billing')
+                           <li class="menu-item">
+                               <a href="{{ route('super admin.billings.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu">Pemasangan</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
+                       @can('read billing')
+                           <li class="menu-item">
+                               <a href="{{ route('super admin.billings.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu">Ubah Paket</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
+                       @can('read billing')
+                           <li class="menu-item">
+                               <a href="{{ route('super admin.billings.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu">Mutasi</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
+                       @can('read billing')
+                           <li class="menu-item">
+                               <a href="{{ route('super admin.billings.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu">Pemutusan</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
+                       @can('read billing')
+                           <li class="menu-item">
+                               <a href="{{ route('super admin.billings.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu">Perbaikan</div>
                                </a>
                            </li>
                        @endcan
                    </ul>
                </li>
 
-               @can('read billing')
-                   <li class="menu-item  {{ Route::is('super admin.billings.index') ? 'active' : '' }}">
-                       <a href="{{ route('super admin.billings.index') }}" class="menu-link">
-                           <i class="menu-icon tf-icons bx bx-book"></i>
-                           <div data-i18n="Basic">Billing</div>
-                       </a>
-                   </li>
-               @endcan
+               <li class="menu-item {{ Route::is('super admin.billings.index') ? 'active' : '' }} ">
+                   <a href="javascript:void(0);" class="menu-link menu-toggle">
+                       <i class="menu-icon tf-icons bx bx-layout"></i>
+                       <div data-i18n="Layouts">Billing</div>
+                   </a>
+                   <ul class="menu-sub">
+                       @can('read billing')
+                           <li class="menu-item">
+                               <a href="{{ route('super admin.billings.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu">Loket</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
+                       @can('read billing')
+                           <li class="menu-item">
+                               <a href="{{ route('super admin.billings.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu">Kolektor</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+               </li>
+
+               <li class="menu-item ">
+                   <a href="javascript:void(0);" class="menu-link menu-toggle">
+                       <i class="menu-icon tf-icons bx bx-layout"></i>
+                       <div data-i18n="Layouts">Managemen Perangkat</div>
+                   </a>
+                   <ul class="menu-sub">
+                       @can('read billing')
+                           <li class="menu-item">
+                               <a href="{{ route('super admin.billings.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu">Router</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
+                       @can('read billing')
+                           <li class="menu-item">
+                               <a href="{{ route('super admin.billings.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu">OLT</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+               </li>
 
                <li class="menu-header small text-uppercase">
                    <span class="menu-header-text">Access</span>

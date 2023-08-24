@@ -2,7 +2,6 @@
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
-
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Access /</span> Permission</h4>
             <div class="top-0 end-0 flex justify-end">
                 @if (Session::has('message'))

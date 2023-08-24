@@ -2,12 +2,13 @@
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
-
             <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Master Data /</span> Billing</h4>
             <div class="card">
-                <div class="flex justify-end me-4 mt-4 mb-4">
-                    <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
-                        data-bs-target="#add-billings">Tambah</button>
+                <div class="card-body">
+                    @can('create billing')
+                        <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
+                            data-bs-target="#add-billings">Tambah</button>
+                    @endcan
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table mb-4">
@@ -32,13 +33,17 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
-                                                <button data-bs-toggle="modal" data-bs-target="#update{{ $item->id }}"
-                                                    class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
-                                                    Edit</button>
-                                                <button class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#delete-billings{{ $item->id }}"><i
-                                                        class="bx bx-trash me-1"></i>
-                                                    Delete</button>
+                                                @can('update billing')
+                                                    <button data-bs-toggle="modal" data-bs-target="#update{{ $item->id }}"
+                                                        class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
+                                                        Edit</button>
+                                                @endcan
+                                                @can('delete billing')
+                                                    <button class="dropdown-item" data-bs-toggle="modal"
+                                                        data-bs-target="#delete-billings{{ $item->id }}"><i
+                                                            class="bx bx-trash me-1"></i>
+                                                        Delete</button>
+                                                @endcan
                                             </div>
                                         </div>
                                     </td>
