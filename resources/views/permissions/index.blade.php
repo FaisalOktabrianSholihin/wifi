@@ -19,8 +19,8 @@
                 @endif
             </div>
             <div class="card">
-                <form method="GET" action="/search" class="d-flex col-lg-4 mt-3" onsubmit="return false">
-                    <input class="form-control me-2" name="search" placeholder="Search" value="" />
+                <form class="d-flex col-lg-4 mt-3" action="{{ route('super admin.permissions.index') }}" method="GET">
+                    <input class="form-control me-2" id="searchInput" name="search" placeholder="Search" value="{{ $search }}" />
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
                 <div class="flex justify-end me-4 mt-4 mb-4">
@@ -41,7 +41,7 @@
                         <tbody class="table-border-bottom-0">
                             @foreach ($permissions as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ ($permissions->currentPage() - 1) * $permissions->perPage() + $loop->iteration }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->guard_name }}</td>
                                     <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
@@ -177,4 +177,25 @@
             </div>
         </div>
     @endforeach
+@endsection
+
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        
+        searchInput.addEventListener('input', function() {
+            const searchValue = searchInput.value;
+            const currentUrl = new URL(window.location.href);
+            
+            if (searchValue.trim() !== '') {
+                currentUrl.searchParams.set('search', searchValue);
+            } else {
+                currentUrl.searchParams.delete('search');
+            }
+            
+            window.location.href = currentUrl.toString();
+        });
+    });
+</script>
 @endsection

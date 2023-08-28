@@ -8,17 +8,17 @@ use Spatie\Permission\Models\Role;
 
 class PermissionsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // if ($request->has('search')) {
-        //     $permissions = Permission::where('name', 'LIKE', '%' . $request->search . '%')->paginate(10);
-        // } else {
-        //     $permissions = Permission::paginate(10);
-        // }
-        $permissions = Permission::OrderByDesc('id')->get();
+        // $permissions = Permission::OrderByDesc('id')->get();
         $roles = Role::all();
-        $permissions = Permission::paginate(10);
-        return view('permissions.index', compact('permissions', 'roles'));
+        $search = $request->input('search');
+
+        $permissions = Permission::when($search, function ($query) use ($search) {
+            return $query->where('name', 'like', '%' . $search . '%')
+                            ->orWhere('guard_name', 'like', '%' . $search . '%');
+        })->paginate(10);
+        return view('permissions.index', compact('permissions', 'roles', 'search'));
     }
 
     // public function search(Request $request)

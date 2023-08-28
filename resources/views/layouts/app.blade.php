@@ -90,8 +90,12 @@
     </div>
 
     <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
+    <div id="loadingOverlay" class="layout-overlay layout-menu-toggle loading-overlay">
+        <div class="spinner-border spinner-border-lg text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
     </div>
+    {{-- </div> --}}
     <!-- / Layout wrapper -->
 
     <!-- Core JS -->
@@ -115,11 +119,26 @@
 
     <script src="{{ asset('assets/js/ui-toasts.js') }}"></script>
 
+    <!-- Additional JS scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+
+            window.addEventListener('beforeunload', function() {
+                loadingOverlay.style.display = 'flex';
+            });
+
+            window.addEventListener('load', function() {
+                loadingOverlay.style.display = 'none';
+            });
+        });
+    </script>
+
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    @stack('scripts')
+    {{-- @stack('scripts') --}}
 
     <!-- Additional JS scripts -->
     @yield('scripts')

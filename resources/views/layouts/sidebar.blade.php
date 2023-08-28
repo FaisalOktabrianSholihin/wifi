@@ -139,7 +139,7 @@
 
                <li class="menu-item  ">
                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                       <i class="menu-icon tf-icons bx bx-layout"></i>
+                       <i class="menu-icon tf-icons bx bx-rocket"></i>
                        <div data-i18n="Layouts">Service</div>
                    </a>
                    <ul class="menu-sub">
@@ -195,7 +195,7 @@
 
                <li class="menu-item {{ Route::is('super admin.billings.index') ? 'active' : '' }} ">
                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                       <i class="menu-icon tf-icons bx bx-layout"></i>
+                       <i class="menu-icon tf-icons bx bx-credit-card"></i>
                        <div data-i18n="Layouts">Billing</div>
                    </a>
                    <ul class="menu-sub">
@@ -221,7 +221,7 @@
 
                <li class="menu-item ">
                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                       <i class="menu-icon tf-icons bx bx-layout"></i>
+                       <i class="menu-icon tf-icons bx bx-devices"></i>
                        <div data-i18n="Layouts">Managemen Perangkat</div>
                    </a>
                    <ul class="menu-sub">
