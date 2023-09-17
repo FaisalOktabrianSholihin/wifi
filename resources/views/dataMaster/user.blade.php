@@ -244,3 +244,23 @@
         </div>
     @endforeach
 @endsection
+@section('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        
+        searchInput.addEventListener('input', function() {
+            const searchValue = searchInput.value;
+            const currentUrl = new URL(window.location.href);
+            
+            if (searchValue.trim() !== '') {
+                currentUrl.searchParams.set('search', searchValue);
+            } else {
+                currentUrl.searchParams.delete('search');
+            }
+            
+            window.location.href = currentUrl.toString();
+        });
+    });
+</script>
+@endsection
