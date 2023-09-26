@@ -2,7 +2,8 @@
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Access /</span> Permission</h4>
+            <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Access /</span> Permission
+            </h4>
             <div class="top-0 end-0 flex justify-end">
                 @if (Session::has('message'))
                     <div class="bs-toast toast fade show bg-primary" role="alert" aria-live="assertive" aria-atomic="true">
@@ -19,8 +20,9 @@
                 @endif
             </div>
             <div class="card">
-                <form class="d-flex col-lg-4 mt-3" action="{{ route('super admin.permissions.index') }}" method="GET">
-                    <input class="form-control me-2" id="searchInput" name="search" placeholder="Search" value="{{ $search }}" />
+                <form class="d-flex col-lg-4 mt-3" action="{{ route('route.permissions.index') }}" method="GET">
+                    <input class="form-control me-2" id="searchInput" name="search" placeholder="Search"
+                        value="{{ $search }}" />
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </form>
                 <div class="flex justify-end me-4 mt-4 mb-4">
@@ -41,7 +43,8 @@
                         <tbody class="table-border-bottom-0">
                             @foreach ($permissions as $item)
                                 <tr>
-                                    <td>{{ ($permissions->currentPage() - 1) * $permissions->perPage() + $loop->iteration }}</td>
+                                    <td>{{ ($permissions->currentPage() - 1) * $permissions->perPage() + $loop->iteration }}
+                                    </td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->guard_name }}</td>
                                     <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
@@ -79,7 +82,7 @@
                     <h5 class="modal-title" id="exampleModalLabel1">Tambahkan Data User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="formTambah" method="POST" action="{{ route('super admin.permissions.store') }}">
+                <form id="formTambah" method="POST" action="{{ route('route.permissions.store') }}">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -118,7 +121,7 @@
                         <h5 class="modal-title" id="exampleModalLabel1">Edit Permission</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('super admin.permissions.update', $value) }}" method="POST">
+                    <form action="{{ route('route.permissions.update', $value) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
@@ -157,7 +160,7 @@
     @foreach ($permissions as $value)
         <div class="modal fade" id="delete-permissions{{ $value->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form method="POST" action="{{ route('super admin.permissions.destroy', $value->id) }}">
+                <form method="POST" action="{{ route('route.permissions.destroy', $value->id) }}">
                     @csrf
                     @method('DELETE')
                     <div class="modal-content">
@@ -180,22 +183,22 @@
 @endsection
 
 @section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-        
-        searchInput.addEventListener('input', function() {
-            const searchValue = searchInput.value;
-            const currentUrl = new URL(window.location.href);
-            
-            if (searchValue.trim() !== '') {
-                currentUrl.searchParams.set('search', searchValue);
-            } else {
-                currentUrl.searchParams.delete('search');
-            }
-            
-            window.location.href = currentUrl.toString();
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+
+            searchInput.addEventListener('input', function() {
+                const searchValue = searchInput.value;
+                const currentUrl = new URL(window.location.href);
+
+                if (searchValue.trim() !== '') {
+                    currentUrl.searchParams.set('search', searchValue);
+                } else {
+                    currentUrl.searchParams.delete('search');
+                }
+
+                window.location.href = currentUrl.toString();
+            });
         });
-    });
-</script>
+    </script>
 @endsection

@@ -21,7 +21,7 @@
                       <!-- Place this tag where you want the button to render. -->
 
                       <div class="flex-grow-1 me-3 me-xl-0">
-                          <span class="fw-semibold d-block">
+                          <span class="fw-semibold d-block" style="color: black">
                               {{ auth()->user()->name }}
                           </span>
                       </div>

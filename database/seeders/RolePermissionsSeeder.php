@@ -16,11 +16,11 @@ class RolePermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-        $superadmin = User::create([
-            'email' => 'superadmin@gmail.com',
-            'name' => 'superadmin',
+        $route = User::create([
+            'email' => 'route@gmail.com',
+            'name' => 'route',
             'email_verified_at' => now(),
-            'password' => bcrypt('superadmin'),
+            'password' => bcrypt('route'),
             'remember_token' => Str::random(10),
         ]);
         $admin = User::create([
@@ -30,17 +30,25 @@ class RolePermissionsSeeder extends Seeder
             'password' => bcrypt('admin'),
             'remember_token' => Str::random(10),
         ]);
-        $operator = User::create([
-            'email' => 'operator@gmail.com',
-            'name' => 'operator',
+        $teknisi = User::create([
+            'email' => 'teknisi@gmail.com',
+            'name' => 'teknisi',
             'email_verified_at' => now(),
-            'password' => bcrypt('operator'),
+            'password' => bcrypt('teknisi'),
+            'remember_token' => Str::random(10),
+        ]);
+        $sales = User::create([
+            'email' => 'sales@gmail.com',
+            'name' => 'sales',
+            'email_verified_at' => now(),
+            'password' => bcrypt('sales'),
             'remember_token' => Str::random(10),
         ]);
 
-        $role_super_admin = Role::create(['name' => 'super admin']);
+        $role_route = Role::create(['name' => 'route']);
         $role_admin = Role::create(['name' => 'admin']);
-        $role_operator = Role::create(['name' => 'operator']);
+        $role_teknisi = Role::create(['name' => 'teknisi']);
+        $role_sales = Role::create(['name' => 'sales']);
 
         $permission = Permission::create(['name' => 'create role']);
         $permission = Permission::create(['name' => 'read role']);
@@ -72,28 +80,39 @@ class RolePermissionsSeeder extends Seeder
         $permission = Permission::create(['name' => 'update module']);
         $permission = Permission::create(['name' => 'delete module']);
 
-        $superadmin->assignRole('super admin');
+        $permission = Permission::create(['name' => 'create pendaftaran']);
+        $permission = Permission::create(['name' => 'read pendaftaran']);
+        $permission = Permission::create(['name' => 'update pendaftaran']);
+        $permission = Permission::create(['name' => 'delete pendaftaran']);
+
+        $route->assignRole('route');
         $admin->assignRole('admin');
-        $operator->assignRole('operator');
+        $teknisi->assignRole('teknisi');
+        $sales->assignRole('sales');
 
-        $role_super_admin->givePermissionTo('create role');
-        $role_super_admin->givePermissionTo('read role');
-        $role_super_admin->givePermissionTo('update role');
-        $role_super_admin->givePermissionTo('delete role');
+        $role_route->givePermissionTo('create role');
+        $role_route->givePermissionTo('read role');
+        $role_route->givePermissionTo('update role');
+        $role_route->givePermissionTo('delete role');
 
-        $role_super_admin->givePermissionTo('create user');
-        $role_super_admin->givePermissionTo('read user');
-        $role_super_admin->givePermissionTo('update user');
-        $role_super_admin->givePermissionTo('delete user');
+        $role_route->givePermissionTo('create user');
+        $role_route->givePermissionTo('read user');
+        $role_route->givePermissionTo('update user');
+        $role_route->givePermissionTo('delete user');
 
-        $role_super_admin->givePermissionTo('create billing');
-        $role_super_admin->givePermissionTo('read billing');
-        $role_super_admin->givePermissionTo('update billing');
-        $role_super_admin->givePermissionTo('delete billing');
+        $role_route->givePermissionTo('create billing');
+        $role_route->givePermissionTo('read billing');
+        $role_route->givePermissionTo('update billing');
+        $role_route->givePermissionTo('delete billing');
 
-        $role_super_admin->givePermissionTo('create permission');
-        $role_super_admin->givePermissionTo('read permission');
-        $role_super_admin->givePermissionTo('update permission');
-        $role_super_admin->givePermissionTo('delete permission');
+        $role_route->givePermissionTo('create permission');
+        $role_route->givePermissionTo('read permission');
+        $role_route->givePermissionTo('update permission');
+        $role_route->givePermissionTo('delete permission');
+
+        $role_route->givePermissionTo('create pendaftaran');
+        $role_route->givePermissionTo('read pendaftaran');
+        $role_route->givePermissionTo('update pendaftaran');
+        $role_route->givePermissionTo('delete pendaftaran');
     }
 }

@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                             <span>Users</span>
-                            <h3 class="card-title text-nowrap mb-1">{{ $users }}</h3>
+                            <h3 class="card-title text-nowrap mb-1" style="color: black">{{ $users }}</h3>
                         </div>
                     </div>
                 </div>
@@ -65,12 +65,12 @@
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                                        <a class="dropdown-item" href="{{ route('super admin.roles.index') }}">View More</a>
+                                        <a class="dropdown-item" href="{{ route('route.roles.index') }}">View More</a>
                                     </div>
                                 </div>
                             </div>
                             <span>Role</span>
-                            <h3 class="card-title text-nowrap mb-1">{{ $roles }}</h3>
+                            <h3 class="card-title text-nowrap mb-1" style="color: black">{{ $roles }}</h3>
                         </div>
                     </div>
                 </div>
@@ -87,13 +87,13 @@
                                         <i class="bx bx-dots-vertical-rounded"></i>
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                                        <a class="dropdown-item" href="{{ route('super admin.permissions.index') }}">View
+                                        <a class="dropdown-item" href="{{ route('route.permissions.index') }}">View
                                             More</a>
                                     </div>
                                 </div>
                             </div>
                             <span>Permission</span>
-                            <h3 class="card-title text-nowrap mb-1">{{ $permissions }}</h3>
+                            <h3 class="card-title text-nowrap mb-1" style="color: black">{{ $permissions }}</h3>
                         </div>
                     </div>
                 </div>

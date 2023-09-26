@@ -2,7 +2,8 @@
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Master Data /</span> Billing</h4>
+            <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Master Data /</span> Billing
+            </h4>
             <div class="card">
                 <div class="card-body">
                     @can('create billing')
@@ -64,7 +65,7 @@
                     <h5 class="modal-title" id="exampleModalLabel1">Tambahkan Data Billing</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="formTambah" method="POST" action="{{ route('super admin.billings.store') }}">
+                <form id="formTambah" method="POST" action="{{ route('route.billings.store') }}">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -96,7 +97,7 @@
                         <h5 class="modal-title" id="exampleModalLabel1">Edit Billing</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('super admin.billings.update', $value) }}" method="POST">
+                    <form action="{{ route('route.billings.update', $value) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
@@ -125,7 +126,7 @@
     @foreach ($billings as $value)
         <div class="modal fade" id="delete-billings{{ $value->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form method="POST" action="{{ route('super admin.billings.destroy', $value->id) }}">
+                <form method="POST" action="{{ route('route.billings.destroy', $value->id) }}">
                     @csrf
                     @method('DELETE')
                     <div class="modal-content">

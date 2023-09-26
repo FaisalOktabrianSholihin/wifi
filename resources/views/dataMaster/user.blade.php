@@ -2,7 +2,8 @@
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Data Master /</span> User</h4>
+            <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Data
+                    Master /</span> User</h4>
             <div class="top-0 end-0 col-md-3">
                 @if (Session::has('message'))
                     <div class="bs-toast toast fade show bg-primary" role="alert" aria-live="assertive" aria-atomic="true">
@@ -245,22 +246,22 @@
     @endforeach
 @endsection
 @section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-        
-        searchInput.addEventListener('input', function() {
-            const searchValue = searchInput.value;
-            const currentUrl = new URL(window.location.href);
-            
-            if (searchValue.trim() !== '') {
-                currentUrl.searchParams.set('search', searchValue);
-            } else {
-                currentUrl.searchParams.delete('search');
-            }
-            
-            window.location.href = currentUrl.toString();
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+
+            searchInput.addEventListener('input', function() {
+                const searchValue = searchInput.value;
+                const currentUrl = new URL(window.location.href);
+
+                if (searchValue.trim() !== '') {
+                    currentUrl.searchParams.set('search', searchValue);
+                } else {
+                    currentUrl.searchParams.delete('search');
+                }
+
+                window.location.href = currentUrl.toString();
+            });
         });
-    });
-</script>
+    </script>
 @endsection

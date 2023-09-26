@@ -6,6 +6,7 @@ use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileManagerController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
@@ -26,7 +27,7 @@ use App\Http\Controllers\UserController;
 //     return view('login');
 // });
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth/login');
 });
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
@@ -63,7 +64,7 @@ Route::middleware('isAuth')->group(function () {
 });
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware(['isAuth']);
-Route::middleware(['isAuth'])->name('super admin.')->prefix('super admin')->group(function () {
+Route::middleware(['isAuth'])->name('route.')->prefix('router')->group(function () {
     Route::resource('/roles', RoleController::class);
     Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])->name('roles.permissions');
     Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.revoke');
@@ -75,5 +76,6 @@ Route::middleware(['isAuth'])->name('super admin.')->prefix('super admin')->grou
     Route::resource('/settings', SettingController::class);
     Route::resource('/modules', ModuleController::class);
     Route::resource('/billings', BillingController::class);
+    // Route::resource('/pendaftarans', PendaftaranController::class);
     // Route::get('/search', [PermissionsController::class, 'search']);
 });

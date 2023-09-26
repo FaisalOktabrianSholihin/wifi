@@ -2,7 +2,7 @@
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Access /</span> Role</h4>
+            <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Access /</span> Role</h4>
             <div class="card">
                 <div class="card-body">
 
@@ -49,7 +49,7 @@
                                         @endphp
                                     </td>
 
-                                    {{-- @if (auth()->user()->level == 'Admin') --}}
+                                    {{-- @if (auth()->user()->leverouter') --}}
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -88,7 +88,7 @@
                     <h5 class="modal-title" id="exampleModalLabel1">Tambahkan Data User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="formTambah" method="POST" action="{{ route('super admin.roles.store') }}">
+                <form id="formTambah" method="POST" action="{{ route('route.roles.store') }}">
                     @csrf
                     <div class="modal-body">
                         <div class="mb-3">
@@ -145,7 +145,7 @@
                         <h5 class="modal-title" id="exampleModalLabel1">Edit Role</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('super admin.roles.update', $value->id) }}" method="POST">
+                    <form action="{{ route('route.roles.update', $value->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
@@ -203,7 +203,7 @@
     @foreach ($roles as $value)
         <div class="modal fade" id="delete-roles{{ $value->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form method="POST" action="{{ route('super admin.roles.destroy', $value->id) }}">
+                <form method="POST" action="{{ route('route.roles.destroy', $value->id) }}">
                     @csrf
                     @method('DELETE')
                     <div class="modal-content">
