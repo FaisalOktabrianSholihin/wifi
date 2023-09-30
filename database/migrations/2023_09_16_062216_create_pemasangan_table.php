@@ -15,17 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('no_pendaftaran', 20)->nullable();
             $table->string('nama')->nullable();
+            $table->string('nik', 16)->nullable();
             $table->text('alamat')->nullable();
             $table->string('telepon', 20)->nullable();
             $table->string('status_survey', 20)->nullable();
             $table->string('user_survey', 20)->nullable();
             $table->string('user_action', 30)->nullable();
             $table->date('tgl_action')->nullable();
-            $table->integer('biaya')->default(0);
-            $table->integer('diskon')->default(0);
-            $table->integer('bayar')->default(0);
-            $table->string('lunas', 11);
-            $table->string('keterangan', 100);
+            $table->integer('biaya')->nullable()->default(0);
+            $table->integer('diskon')->default(0)->nullable();
+            $table->integer('bayar')->default(0)->nullable();
+            $table->string('lunas', 11)->nullable();
+            $table->string('keterangan', 100)->nullable();
             $table->timestamps();
         });
     }

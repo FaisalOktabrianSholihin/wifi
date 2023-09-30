@@ -24,7 +24,7 @@ class RoleController extends Controller
         ]);
         $role = Role::create($validated);
         $role->syncPermissions($request->input('permissions', []));
-        return redirect()->route('super admin.roles.index')->with('message', 'Role Created successfully.');
+        return redirect()->route('route.roles.index')->with('message', 'Role Created successfully.');
     }
 
     public function update(Request $request, Role $role)
@@ -37,7 +37,7 @@ class RoleController extends Controller
 
         $role->syncPermissions($request->input('permissions', []));
 
-        return redirect()->route('super admin.roles.index')->with('message', 'Role Updated successfully.');
+        return redirect()->route('route.roles.index')->with('message', 'Role Updated successfully.');
     }
 
     public function destroy(Role $role)

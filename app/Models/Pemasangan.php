@@ -13,6 +13,7 @@ class Pemasangan extends Model
 
     protected $fillable = [
         'no_pendaftaran',
+        'nik',
         'nama',
         'alamat',
         'telepon',

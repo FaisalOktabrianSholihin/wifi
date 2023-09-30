@@ -173,9 +173,9 @@
                                 <label class="form-label">Permissions</label>
                                 <div class="form-check d-flex flex-wrap">
                                     <div class="form-check me-3 mb-2" style="flex-basis: 25%;">
-                                        <input class="form-check-input" type="checkbox" id="select-all">
+                                        <input class="form-check-input" type="checkbox" id="select-all-{{ $value->id }}">
                                         <label class="form-check-label">check all</label>
-                                    </div>
+                                    </div>                                    
                                     @foreach ($permissions as $permission)
                                         <div class="form-check me-3 mb-2" style="flex-basis: 25%;">
                                             <input class="form-check-input" type="checkbox" name="permissions[]"
@@ -224,30 +224,57 @@
         </div>
     @endforeach
 
-@section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const selectAllCheckbox = document.getElementById('select-all');
-            const permissionCheckboxes = document.querySelectorAll('input[name="permissions[]"]');
-
-            selectAllCheckbox.addEventListener('change', function() {
-                for (const checkbox of permissionCheckboxes) {
-                    checkbox.checked = this.checked;
-                }
-            });
-
-            for (const checkbox of permissionCheckboxes) {
-                checkbox.addEventListener('change', function() {
-                    if (!this.checked) {
-                        selectAllCheckbox.checked = false;
-                    } else {
-                        const allChecked = Array.from(permissionCheckboxes).every(cb => cb.checked);
-                        selectAllCheckbox.checked = allChecked;
+    @endsection
+    @section('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const selectAllCheckbox = document.getElementById('select-all');
+                const permissionCheckboxes = document.querySelectorAll('input[name="permissions[]"]');
+    
+                selectAllCheckbox.addEventListener('change', function() {
+                    for (const checkbox of permissionCheckboxes) {
+                        checkbox.checked = this.checked;
                     }
                 });
+    
+                for (const checkbox of permissionCheckboxes) {
+                    checkbox.addEventListener('change', function() {
+                        if (!this.checked) {
+                            selectAllCheckbox.checked = false;
+                        } else {
+                            const allChecked = Array.from(permissionCheckboxes).every(cb => cb.checked);
+                            selectAllCheckbox.checked = allChecked;
+                        }
+                    });
+                }
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+    const updateModals = document.querySelectorAll('[id^=update-roles]');
+
+    for (const modal of updateModals) {
+        const selectAllCheckbox = modal.querySelector('[id^=select-all]');
+        const permissionCheckboxes = modal.querySelectorAll('input[name="permissions[]"]');
+
+        selectAllCheckbox.addEventListener('change', function() {
+            for (const checkbox of permissionCheckboxes) {
+                checkbox.checked = this.checked;
             }
         });
-    </script>
-@endsection
 
-@endsection
+        for (const checkbox of permissionCheckboxes) {
+            checkbox.addEventListener('change', function() {
+                if (!this.checked) {
+                    selectAllCheckbox.checked = false;
+                } else {
+                    const allChecked = Array.from(permissionCheckboxes).every(cb => cb.checked);
+                    selectAllCheckbox.checked = allChecked;
+                }
+            });
+        }
+    }
+});
+
+        </script>
+    @endsection

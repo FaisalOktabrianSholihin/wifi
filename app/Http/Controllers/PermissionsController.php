@@ -40,7 +40,7 @@ class PermissionsController extends Controller
     {
         $validated = $request->validate(['name' => ['required', 'min:3']]);
         Permission::create($validated);
-        return to_route('super admin.permissions.index')->with('message', 'Permissions Created successfully.');
+        return to_route('route.permissions.index')->with('message', 'Permissions Created successfully.');
     }
 
     public function update(Request $request, Permission $permission)
@@ -51,7 +51,7 @@ class PermissionsController extends Controller
         ]);
         $permission->update($validated);
 
-        return redirect()->route('super admin.permissions.index')->with('message', 'Permissions Updated successfully.');
+        return redirect()->route('route.permissions.index')->with('message', 'Permissions Updated successfully.');
     }
 
     public function destroy(Permission $permission)

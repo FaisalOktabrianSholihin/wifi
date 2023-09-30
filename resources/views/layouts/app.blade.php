@@ -138,7 +138,7 @@
     <!-- Place this tag in your head or just before your close body tag. -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    {{-- @stack('scripts') --}}
+    @stack('scripts')
 
     <!-- Additional JS scripts -->
     @yield('scripts')

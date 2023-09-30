@@ -181,7 +181,7 @@
                    <ul class="menu-sub">
                        @can('read billing')
                            <li class="menu-item">
-                               <a href="{{ route('route.billings.index') }}" class="menu-link">
+                               <a href="{{ route('route.pemasangans.index') }}" class="menu-link">
                                    <div data-i18n="Without menu" style="color: black">Pemasangan</div>
                                </a>
                            </li>
