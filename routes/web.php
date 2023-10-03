@@ -7,10 +7,23 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileManagerController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PemasanganController;
-use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\KolektorController;
+use App\Http\Controllers\LoketController;
+use App\Http\Controllers\MutasiController;
+use App\Http\Controllers\OdcOdpController;
+use App\Http\Controllers\OltController;
+use App\Http\Controllers\OnuController;
+use App\Http\Controllers\PaketController;
+use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\PemutusanController;
+use App\Http\Controllers\PerbaikanController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RouterController;
+use App\Http\Controllers\RoutersController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TunggakanController;
+use App\Http\Controllers\UbahPaketController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -77,6 +90,23 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/settings', SettingController::class);
     Route::resource('/modules', ModuleController::class);
     Route::resource('/billings', BillingController::class);
+    Route::resource('/kolektors', KolektorController::class);
+    Route::resource('/lokets', LoketController::class);
+    Route::resource('/ubah_pakets', UbahPaketController::class);
+    Route::resource('/mutasis', MutasiController::class);
+    Route::resource('/pemutusans', PemutusanController::class);
+    Route::resource('/perbaikans', PerbaikanController::class);
+    Route::resource('/pembayarans', PembayaranController::class);
+    Route::resource('/tunggakans', TunggakanController::class);
+    Route::resource('/routers', RouterController::class);
+    Route::resource('/routerss', RoutersController::class);
+    Route::resource('/olts', OltController::class);
+    Route::resource('/pakets', PaketController::class);
+    Route::resource('/odc-odps', OdcOdpController::class);
+    Route::resource('/onus', OnuController::class);
+    Route::resource('/pembayarans', PembayaranController::class);
+    Route::resource('/tunggakans', TunggakanController::class);
+
     // Route::resource('/pemasangans', PemasanganController::class);
     // Route::get('/pemasangans', [PemasanganController::class, 'index'])->name('pemasangans.index');
     // Route::post('/pemasangans', [PemasanganController::class, 'store'])->name('pemasangans.store');

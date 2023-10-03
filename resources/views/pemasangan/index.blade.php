@@ -2,7 +2,7 @@
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Pendaftaran
+            <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Pemasangan
             </h4>
             <div class="card">
                 <div class="card-body">
@@ -77,7 +77,7 @@
                                                         <button data-bs-toggle="modal"
                                                             data-bs-target="#update{{ $item->id }}"
                                                             class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
-                                                            Edit</button>
+                                                            Assignment</button>
                                                     @endcan
                                                     {{-- @can('create pendaftaran')
                                                         <button class="dropdown-item" data-bs-toggle="modal"

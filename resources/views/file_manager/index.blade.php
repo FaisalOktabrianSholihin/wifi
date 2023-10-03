@@ -7,7 +7,7 @@
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4">File Manager</h4>
+            <h4 class="fw-bold py-3 mb-4" style="color: white">File Manager</h4>
             <div class="container">
                 <div class="row">
                     <div class="col-md-12" id="fm-main-block">
