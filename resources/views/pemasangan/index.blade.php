@@ -4,6 +4,21 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Pemasangan
             </h4>
+            <div class="top-0 end-0 col-md-3">
+                @if (Session::has('message'))
+                    <div class="bs-toast toast fade show bg-primary" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <i class="bx bx-bell me-2"></i>
+                            <div class="me-auto fw-semibold">Bootstrap</div>
+                            <small>11 mins ago</small>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            {{ Session::get('message') }}
+                        </div>
+                    </div>
+                @endif
+            </div>
             <div class="card">
                 <div class="card-body">
                     @can('create pendaftaran')
@@ -42,11 +57,11 @@
                                                         <button data-bs-toggle="modal"
                                                             data-bs-target="#update{{ $item->id }}" class="dropdown-item"><i
                                                                 class="bx bx-edit-alt me-1"></i>
-                                                            Edit</button>
+                                                            Assignment</button>
                                                     @endcan
                                                     @can('create pendaftaran')
                                                         <button class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#delete-billings{{ $item->id }}"><i
+                                                            data-bs-target="#delete{{ $item->id }}"><i
                                                                 class="bx bx-trash me-1"></i>
                                                             Delete</button>
                                                     @endcan
@@ -77,7 +92,7 @@
                                                         <button data-bs-toggle="modal"
                                                             data-bs-target="#update{{ $item->id }}"
                                                             class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
-                                                            Assignment</button>
+                                                            Detail</button>
                                                     @endcan
                                                     {{-- @can('create pendaftaran')
                                                         <button class="dropdown-item" data-bs-toggle="modal"
@@ -95,8 +110,6 @@
                                         <td>{{ $item->telepon }}</td>
                                         <td>{{ $item->user_survey }}</td>
                                         <td><span class="badge bg-primary">{{ $item->status_survey }}</span></td>
-                                        {{-- <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#validasi">Validasi</button></td> --}}
                                     </tr>
                                 @endif
                             @endforeach
@@ -211,7 +224,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Edit Billing</h5>
+                        <h5 class="modal-title" id="exampleModalLabel1">Edit Data Pemasangan</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('route.pemasangans.update', $value->id) }}" method="POST">
@@ -259,16 +272,31 @@
                             @endif
                             @if (auth()->user()->hasRole('sales'))
                                 <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Status Survey</label>
+                                    <label class="form-label" for="status_survey">Status Survey</label>
+                                    <select class="form-select" id="status_survey" name="status_survey">
+                                        <option value="Belum Survey"
+                                            {{ $value->status_survey === 'Belum Survey' ? 'selected' : '' }}>Belum
+                                            Survey
+                                        </option>
+                                        <option value="Berhasil Survey"
+                                            {{ $value->status_survey === 'Berhasil Survey' ? 'selected' : '' }}>
+                                            Berhasil Survey
+                                        </option>
+                                        <option value="Gagal Survey"
+                                            {{ $value->status_survey === 'Gagal Survey' ? 'selected' : '' }}>Gagal
+                                            Survey
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-icon-default-fullname">Keterangan</label>
                                     <div class="input-group input-group-merge">
-                                        <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
-                                        <input type="text" class="form-control" id="status_survey"
-                                            name="status_survey" value="{{ $value->status_survey }}"
-                                            placeholder="Status Suvey" />
+                                        <input type="text" class="form-control" id="keterangan" name="keterangan"
+                                            value="{{ $value->keterangan }}" placeholder="Keterangan" />
                                     </div>
                                 </div>
                             @endif
+
 
                             @if (auth()->user()->hasRole('admin'))
                                 <div class="mb-3">
@@ -289,9 +317,6 @@
                                     </div>
                                 </div>
                             @endif
-
-
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -306,7 +331,7 @@
     @endforeach
 
     @foreach ($pemasangan as $value)
-        <div class="modal fade" id="delete-billings{{ $value->id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="delete{{ $value->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form method="POST" action="{{ route('route.pemasangans.destroy', $value->id) }}">
                     @csrf

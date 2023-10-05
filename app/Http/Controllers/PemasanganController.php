@@ -29,7 +29,6 @@ class PemasanganController extends Controller
 
         // Add status_survey to the validated data
         $validatedData['status_survey'] = 'Belum Survey';
-
         // Create a new Pemasangan record
         Pemasangan::create($validatedData);
 
@@ -40,17 +39,26 @@ class PemasanganController extends Controller
     public function update(Request $request, $id)
     {
         // Validate the request data
-        $validatedData = $request->validate([
-            'nama' => 'required',
-            'nik' => 'required|max:16',
-            'alamat' => 'required',
-            'user_survey' => 'required',
-            // 'status_survey' => 'required',
-            'telepon' => 'required',
-        ]);
-
-        // Find the Pemasangan record
+        // dump($request->all());
         $pemasangan = Pemasangan::findOrFail($id);
+
+        $validatedData = [];
+
+        if (auth()->user()->hasRole('admin')) {
+            $validatedData = $request->validate([
+                'nama' => 'required',
+                'nik' => 'required|max:16',
+                'alamat' => 'required',
+                'user_survey' => 'required',
+                'telepon' => 'required',
+            ]);
+        } elseif (auth()->user()->hasRole('sales')) {
+            $validatedData = $request->validate([
+                'status_survey' => 'required',
+                'keterangan' => 'nullable',
+            ]);
+        }
+
 
         // Update the record with the validated data
         $pemasangan->update($validatedData);
@@ -59,10 +67,11 @@ class PemasanganController extends Controller
     }
 
 
+
     public function destroy($id)
     {
-        $billings = Pemasangan::findOrFail($id);
-        $billings->delete();
+        $pemasangans = Pemasangan::findOrFail($id);
+        $pemasangans->delete();
 
         return back()->with('message', 'Data berhasil di hapus');
     }

@@ -90,6 +90,7 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/settings', SettingController::class);
     Route::resource('/modules', ModuleController::class);
     Route::resource('/billings', BillingController::class);
+    Route::resource('/pemasangans', PemasanganController::class);
     Route::resource('/kolektors', KolektorController::class);
     Route::resource('/lokets', LoketController::class);
     Route::resource('/ubah_pakets', UbahPaketController::class);
@@ -114,7 +115,7 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     // Route::put('/pemasangans/{id}', [PemasanganController::class, 'destroy'])->name('pemasangans.destroy');
     // Route::get('/search', [PermissionsController::class, 'search']);
 });
-Route::get('/pemasangans', [PemasanganController::class, 'index'])->name('route.pemasangans.index')->middleware('isAuth');
-Route::post('/pemasangans', [PemasanganController::class, 'store'])->name('route.pemasangans.store')->middleware('isAuth');
-Route::put('/pemasangans/{id}', [PemasanganController::class, 'update'])->name('route.pemasangans.update')->middleware('isAuth');
-Route::delete('/pemasangans/{id}', [PemasanganController::class, 'destroy'])->name('route.pemasangans.destroy')->middleware('isAuth');
+// Route::get('/pemasangans', [PemasanganController::class, 'index'])->name('route.pemasangans.index')->middleware('isAuth');
+// Route::post('/pemasangans', [PemasanganController::class, 'store'])->name('route.pemasangans.store')->middleware('isAuth');
+// Route::put('/pemasangans/{id}', [PemasanganController::class, 'update'])->name('route.pemasangans.update')->middleware('isAuth');
+// Route::delete('/pemasangans/{id}', [PemasanganController::class, 'destroy'])->name('route.pemasangans.destroy')->middleware('isAuth');
