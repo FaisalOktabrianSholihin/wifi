@@ -74,9 +74,7 @@
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->telepon }}</td>
                                         <td>{{ $item->user_survey }}</td>
-                                        <td><span class="badge bg-primary">{{ $item->status_survey }}</span></td>
-                                        {{-- <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#validasi">Validasi</button></td> --}}
+                                        <td><span class="badge bg-secondary">{{ $item->status_survey }}</span></td>
                                     </tr>
                                 @elseif(auth()->user()->hasRole('sales') && auth()->user()->name === $item->user_survey)
                                     <tr>
@@ -109,19 +107,28 @@
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->telepon }}</td>
                                         <td>{{ $item->user_survey }}</td>
-                                        <td><span class="badge bg-primary">{{ $item->status_survey }}</span></td>
+                                        <td>
+                                            @if ($item->status_survey === 'Belum Survey')
+                                                <span class="badge bg-secondary">{{ $item->status_survey }}</span>
+                                            @elseif ($item->status_survey === 'Gagal Survey')
+                                                <span class="badge bg-danger">{{ $item->status_survey }}</span>
+                                            @elseif ($item->status_survey === 'Berhasil Survey')
+                                                <span class="badge bg-success">{{ $item->status_survey }}</span>
+                                            @else
+                                                <span class="badge bg-dark">{{ $item->status_survey }}</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="validasi" tabindex="-1" aria-hidden="true">
+    {{-- <div class="modal fade" id="validasi" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -129,7 +136,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="formValidasi" method="" action="">
-
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">Name Sales</label>
@@ -150,7 +156,7 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="modal fade" id="add-pemasangan" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
