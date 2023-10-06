@@ -1,24 +1,26 @@
 @extends('layouts.app')
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (Session::has('message'))
+                Swal.fire({
+                    title: 'Berhasil',
+                    text: '{{ Session::get('message') }}',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                });
+            @endif
+        });
+    </script>
+@endpush
+
+
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Pemasangan
             </h4>
-            <div class="top-0 end-0 col-md-3">
-                @if (Session::has('message'))
-                    <div class="bs-toast toast fade show bg-primary" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="toast-header">
-                            <i class="bx bx-bell me-2"></i>
-                            <div class="me-auto fw-semibold">Bootstrap</div>
-                            <small>11 mins ago</small>
-                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                        <div class="toast-body">
-                            {{ Session::get('message') }}
-                        </div>
-                    </div>
-                @endif
-            </div>
             <div class="card">
                 <div class="card-body">
                     @can('create pendaftaran')

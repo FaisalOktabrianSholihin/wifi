@@ -19,13 +19,26 @@ class PemasanganController extends Controller
     public function store(Request $request)
     {
         // Validate the request data
-        $validatedData = $request->validate([
-            'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
-            'nik' => 'required|max:16',
-            'nama' => 'required',
-            'alamat' => 'required',
-            'telepon' => 'required',
-        ]);
+        $validatedData = [];
+        if (auth()->user()->hasRole('admin')) {
+            $validatedData = $request->validate([
+                'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
+                'nik' => 'required|max:16',
+                'nama' => 'required',
+                'alamat' => 'required',
+                'telepon' => 'required',
+            ]);
+        } elseif (auth()->user()->hasRole('sales')){
+            $validatedData = $request->validate([
+                'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
+                'nik' => 'required|max:16',
+                'nama' => 'required',
+                'alamat' => 'required',
+                'telepon' => 'required',
+                
+            ]);
+            $validatedData['user_survey'] = auth()->user()->name;
+        }
 
         // Add status_survey to the validated data
         $validatedData['status_survey'] = 'Belum Survey';
