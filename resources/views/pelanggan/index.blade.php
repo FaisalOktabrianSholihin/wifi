@@ -135,13 +135,50 @@
                         @method('PUT') --}}
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Name</label>
+                            <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
                             <div class="input-group input-group-merge">
-                                <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                        class="bx bx-user"></i></span>
                                 <input type="text" class="form-control" id="name" name="name" value=""
-                                    placeholder="Name" />
+                                    placeholder="No Pelanggan" required />
                             </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Username</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="name" name="name" value=""
+                                    placeholder="Username" required />
+                            </div>
+                        </div>
+                        <div class="mb-3 form-password-toggle">
+                            <label class="form-label" for="basic-icon-default-fullname">Password</label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control" id="name" name="name"
+                                    value="" placeholder="Kata Sandi" required /><span
+                                    class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Tanggal Pemasangan</label>
+                            <div class="input-group input-group-merge">
+                                <input type="date" class="form-control" id="name" name="name" value=""
+                                    placeholder="Name" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Tanggal Isolir</label>
+                            <div class="input-group input-group-merge">
+                                <input type="date" class="form-control" id="name" name="name" value=""
+                                    placeholder="Name" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="status_aktif">Status Pelanggan</label>
+                            <select class="form-select" id="status_aktif" name="status_survey">
+                                <option value="Aktif">
+                                    Aktif
+                                </option>
+                                <option value="Tidak Aktif">Tidak Aktif
+                                </option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
