@@ -87,6 +87,14 @@
                                     placeholder="Username" required />
                             </div>
                         </div>
+                        <div class="mb-3 form-password-toggle">
+                            <label class="form-label" for="basic-icon-default-fullname">Password</label>
+                            <div class="input-group input-group-merge">
+                                <input type="password" class="form-control" id="name" name="name" value=""
+                                    placeholder="Kata Sandi" required /><span class="input-group-text cursor-pointer"><i
+                                        class="bx bx-hide"></i></span>
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">Tanggal Pemasangan</label>
                             <div class="input-group input-group-merge">
@@ -119,7 +127,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Edit ONU</h5>
+                    <h5 class="modal-title" id="exampleModalLabel1">Edit Pelanggan</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="" method="">
