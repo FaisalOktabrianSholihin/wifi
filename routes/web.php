@@ -14,6 +14,8 @@ use App\Http\Controllers\OdcOdpController;
 use App\Http\Controllers\OltController;
 use App\Http\Controllers\OnuController;
 use App\Http\Controllers\PaketController;
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PemasanganTeknisiController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PemutusanController;
 use App\Http\Controllers\PerbaikanController;
@@ -96,6 +98,7 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/ubah_pakets', UbahPaketController::class);
     Route::resource('/mutasis', MutasiController::class);
     Route::resource('/pemutusans', PemutusanController::class);
+    Route::resource('/pelanggans', PelangganController::class);
     Route::resource('/perbaikans', PerbaikanController::class);
     Route::resource('/pembayarans', PembayaranController::class);
     Route::resource('/tunggakans', TunggakanController::class);

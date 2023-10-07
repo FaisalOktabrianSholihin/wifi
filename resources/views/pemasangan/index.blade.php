@@ -40,6 +40,9 @@
                                 <th>Alamat</th>
                                 <th>Telepon</th>
                                 <th>Nama Sales</th>
+                                @if (auth()->user()->hasRole('sales'))
+                                    <th>Nama Teknisi</th>
+                                @endif
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -76,7 +79,17 @@
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->telepon }}</td>
                                         <td>{{ $item->user_survey }}</td>
-                                        <td><span class="badge bg-secondary">{{ $item->status_survey }}</span></td>
+                                        <td>
+                                            @if ($item->status_survey === 'Belum Survey')
+                                                <span class="badge bg-secondary">{{ $item->status_survey }}</span>
+                                            @elseif ($item->status_survey === 'Gagal Survey')
+                                                <span class="badge bg-danger">{{ $item->status_survey }}</span>
+                                            @elseif ($item->status_survey === 'Berhasil Survey')
+                                                <span class="badge bg-success">{{ $item->status_survey }}</span>
+                                            @else
+                                                <span class="badge bg-dark">{{ $item->status_survey }}</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @elseif(auth()->user()->hasRole('sales') && auth()->user()->name === $item->user_survey)
                                     <tr>
@@ -94,12 +107,6 @@
                                                             class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
                                                             Detail</button>
                                                     @endcan
-                                                    {{-- @can('create pendaftaran')
-                                                        <button class="dropdown-item" data-bs-toggle="modal"
-                                                            data-bs-target="#delete-billings{{ $item->id }}"><i
-                                                                class="bx bx-trash me-1"></i>
-                                                            Delete</button>
-                                                    @endcan --}}
                                                 </div>
                                             </div>
                                         </td>
@@ -109,6 +116,9 @@
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->telepon }}</td>
                                         <td>{{ $item->user_survey }}</td>
+                                        @if (auth()->user()->hasRole('sales'))
+                                            <td>{{ $item->nama_teknisi }}</td>
+                                        @endif
                                         <td>
                                             @if ($item->status_survey === 'Belum Survey')
                                                 <span class="badge bg-secondary">{{ $item->status_survey }}</span>
@@ -129,36 +139,6 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="modal fade" id="validasi" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Validasi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="formValidasi" method="" action="">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Name Sales</label>
-                            <div class="input-group input-group-merge">
-                                <select class="form-select" id="guard_name" name="guard_name">
-                                    <option value="web">Yono</option>
-                                    <option value="api">Bahrul</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                            Batal
-                        </button>
-                        <button type="submit" class="btn btn-primary">Kirim</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> --}}
 
     <div class="modal fade" id="add-pemasangan" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">

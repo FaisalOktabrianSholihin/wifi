@@ -40,7 +40,7 @@ class UserController extends Controller
             $user->assignRole($role);
         }
 
-        return redirect()->route('dataMaster')->with('message', 'Add User Successfully');
+        return redirect()->route('dataMaster')->with('message', 'Data berhasil disimpan.');
     }
 
 
@@ -74,13 +74,13 @@ class UserController extends Controller
         }
 
         // Jika berhasil diubah, arahkan kembali ke halaman tampilan data atau halaman lain yang sesuai
-        return redirect()->route('dataMaster')->with('success', 'Data berhasil diperbarui.');
+        return redirect()->route('dataMaster')->with('message', 'Data berhasil diperbarui.');
     }
 
     public function delete($id)
     {
         $user = User::findorfail($id);
         $user->delete();
-        return back();
+        return back()->with('message', 'Data berhasil di hapus');
     }
 }
