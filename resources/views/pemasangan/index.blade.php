@@ -106,6 +106,10 @@
                                                             data-bs-target="#update{{ $item->id }}"
                                                             class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
                                                             Detail</button>
+                                                        <button data-bs-toggle="modal"
+                                                            data-bs-target="#updateAssignment{{ $item->id }}"
+                                                            class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
+                                                            Assignment</button>
                                                     @endcan
                                                 </div>
                                             </div>
@@ -117,7 +121,7 @@
                                         <td>{{ $item->telepon }}</td>
                                         <td>{{ $item->user_survey }}</td>
                                         @if (auth()->user()->hasRole('sales'))
-                                            <td>{{ $item->nama_teknisi }}</td>
+                                            <td>{{ $item->user_action }}</td>
                                         @endif
                                         <td>
                                             @if ($item->status_survey === 'Belum Survey')
@@ -298,6 +302,50 @@
                                                     <option value="{{ $user->name }}"
                                                         {{ $value->name ? 'selected' : '' }}>
                                                         {{ $user->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    @foreach ($pemasangan as $value)
+        <div class="modal fade" id="updateAssignment{{ $value->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Tambah Data Teknisi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('route.pemasangans.updateTeknisi', $value->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            @if (auth()->user()->hasRole('sales'))
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-icon-default-fullname">Pilih Teknisi</label>
+                                    <div class="input-group input-group-merge">
+                                        <span id="basic-icon-default-fullname2" class="input-group-text"><i
+                                                class="bx bx-user"></i></span>
+                                        <div class="btn-group">
+                                            <select class="form-select" name="user_action" id="user_action" required>
+                                                @foreach ($teknisi as $item)
+                                                    <option value="{{ $item->name }}"
+                                                        {{ $value->name ? 'selected' : '' }}>
+                                                        {{ $item->name }}
                                                     </option>
                                                 @endforeach
                                             </select>

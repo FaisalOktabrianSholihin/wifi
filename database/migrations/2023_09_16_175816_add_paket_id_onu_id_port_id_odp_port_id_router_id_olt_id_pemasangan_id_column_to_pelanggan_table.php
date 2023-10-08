@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pelanggan', function (Blueprint $table) {
-            $table->unsignedBigInteger('paket_id')->after('cara_bayar');
-            $table->unsignedBigInteger('onu_id')->after('paket_id');
-            $table->unsignedBigInteger('port_id')->after('onu_id');
-            $table->unsignedBigInteger('odp_port_id')->after('port_id');
-            $table->unsignedBigInteger('router_id')->after('odp_port_id');
-            $table->unsignedBigInteger('olt_id')->after('router_id');
-            $table->unsignedBigInteger('pemasangan_id')->after('olt_id');
+            $table->unsignedBigInteger('paket_id')->nullable()->after('cara_bayar');
+            $table->unsignedBigInteger('onu_id')->nullable()->after('paket_id');
+            $table->unsignedBigInteger('port_id')->nullable()->after('onu_id');
+            $table->unsignedBigInteger('odp_port_id')->nullable()->after('port_id');
+            $table->unsignedBigInteger('router_id')->nullable()->after('odp_port_id');
+            $table->unsignedBigInteger('olt_id')->nullable()->after('router_id');
+            $table->unsignedBigInteger('pemasangan_id')->nullable()->unique()->after('olt_id');
             $table->foreign('paket_id')->references('id')->on('paket')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('onu_id')->references('id')->on('onu')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('port_id')->references('id')->on('port')->onDelete('restrict')->onUpdate('restrict');

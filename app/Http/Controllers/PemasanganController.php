@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pelanggan;
 use App\Models\Pemasangan;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,7 +14,8 @@ class PemasanganController extends Controller
     {
         $pemasangan = Pemasangan::orderByDesc('id')->get();
         $users = User::role('sales')->get();
-        return view('pemasangan.index', compact('pemasangan', 'users'));
+        $teknisi = User::role('teknisi')->get();
+        return view('pemasangan.index', compact('pemasangan', 'users', 'teknisi'));
     }
 
     public function store(Request $request)
@@ -52,7 +54,7 @@ class PemasanganController extends Controller
     public function update(Request $request, $id)
     {
         // Validate the request data
-        // dump($request->all());
+        // dd($request->all());
         $pemasangan = Pemasangan::findOrFail($id);
 
         $validatedData = [];
@@ -69,15 +71,58 @@ class PemasanganController extends Controller
             $validatedData = $request->validate([
                 'status_survey' => 'required',
                 'keterangan' => 'nullable',
+                // 'user_action' => 'nullable',
             ]);
+
+            if ($request->has('user_action')) {
+                $validatedData['user_action'] = $request->input('user_action');
+            }
+        }
+
+        $pemasangan->update($validatedData);
+
+        if ($validatedData['status_survey'] === 'Berhasil Survey') {
+            
+            $pemasanganId = $pemasangan->id;
+            $pemasanganNama = $pemasangan->nama;
+            $pemasanganAlamat = $pemasangan->alamat;
+            $pemasanganTlp = $pemasangan->telepon;
+    
+            Pelanggan::create([
+                'pemasangan_id' => $pemasanganId,
+                'nama' => $pemasanganNama,
+                'alamat' => $pemasanganAlamat,
+                'telepon' => $pemasanganTlp,
+            ]);
+    
+            return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
         }
 
 
-        // Update the record with the validated data
-        $pemasangan->update($validatedData);
-
         return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
     }
+
+    public function updateTeknisi(Request $request, $id)
+    {
+        $pemasangan = Pemasangan::findOrFail($id);
+    
+        if (auth()->user()->hasRole('sales')) {
+            $validatedData = $request->validate([
+                'user_action' => 'required',
+            ]);
+    
+            // Check if status_survey is "Berhasil Survey" before updating
+            if ($pemasangan->status_survey === 'Berhasil Survey') {
+                $pemasangan->update($validatedData);
+                return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
+            } else {
+                return redirect()->route('route.pemasangans.index')->with('message', 'Data tidak dapat diupdate karena status survey belum berhasil');
+            }
+        } else {
+            return redirect()->route('route.pemasangans.index')->with('message', 'Data gagal diupdate.');
+        }
+    }
+    
 
 
 

@@ -26,33 +26,35 @@
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <button data-bs-toggle="modal" data-bs-target="#update" class="dropdown-item"><i
-                                                    class="bx bx-edit-alt me-1"></i>
-                                                Edit</button>
-                                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#delete"><i
-                                                    class="bx bx-trash me-1"></i>
-                                                Delete</button>
+                            @foreach ($customers as $item)
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <button data-bs-toggle="modal" data-bs-target="#update"
+                                                    class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
+                                                    Edit</button>
+                                                <button class="dropdown-item" data-bs-toggle="modal"
+                                                    data-bs-target="#delete"><i class="bx bx-trash me-1"></i>
+                                                    Delete</button>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>XIX2023</td>
-                                <td>jujun</td>
-                                <td>jombang</td>
-                                <td>084321578987</td>
-                                <td>225045</td>
-                                <td>11 Oktober 2023 14:10:33</td>
-                                <td>12 Oktober 2023 14:10:33</td>
-                                <td><span class="badge bg-success">Aktif</span></td>
-                            </tr>
+                                    </td>
+                                    <td>XIX2023</td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>jombang</td>
+                                    <td>084321578987</td>
+                                    <td>225045</td>
+                                    <td>11 Oktober 2023 14:10:33</td>
+                                    <td>12 Oktober 2023 14:10:33</td>
+                                    <td><span class="badge bg-success">Aktif</span></td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                     {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
