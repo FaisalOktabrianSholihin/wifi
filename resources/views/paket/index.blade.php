@@ -14,16 +14,16 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Name</th>
-                                <th>Update</th>
-                                <th>Actions</th>
+                                <th>Aksi</th>
+                                <th>Paket</th>
+                                <th>Iuran</th>
+                                <th>Instalasi</th>
+                                <th>Ubah Paket</th>
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
                             <tr>
                                 <td>1</td>
-                                <td>Dudi</td>
-                                <td>1 Oktober 2023 12:20:12</td>
                                 <td>
                                     <div class="dropdown">
                                         <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -40,48 +40,10 @@
                                         </div>
                                     </div>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Dudi</td>
-                                <td>1 Oktober 2023 12:20:12</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <button data-bs-toggle="modal" data-bs-target="#update" class="dropdown-item"><i
-                                                    class="bx bx-edit-alt me-1"></i>
-                                                Edit</button>
-                                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#delete"><i
-                                                    class="bx bx-trash me-1"></i>
-                                                Delete</button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Dudi</td>
-                                <td>1 Oktober 2023 12:20:12</td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <button data-bs-toggle="modal" data-bs-target="#update" class="dropdown-item"><i
-                                                    class="bx bx-edit-alt me-1"></i>
-                                                Edit</button>
-                                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#delete"><i
-                                                    class="bx bx-trash me-1"></i>
-                                                Delete</button>
-                                        </div>
-                                    </div>
-                                </td>
+                                <td>5M</td>
+                                <td>150000</td>
+                                <td>350000</td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>
@@ -104,12 +66,31 @@
                     {{-- @csrf --}}
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Name</label>
+                            <label class="form-label" for="basic-icon-default-fullname">Paket</label>
                             <div class="input-group input-group-merge">
-                                <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                        class="bx bx-user"></i></span>
-                                <input type="text" class="form-control" id="name" name="name" value=""
-                                    placeholder="Name" required />
+                                <input type="text" class="form-control" id="paket" name="paket" value=""
+                                    placeholder="paket" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Iuran</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="iuran" name="iuran" value=""
+                                    placeholder="iuran" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Instalasi</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="instalasi" name="instalasi" value=""
+                                    placeholder="instalasi" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Ubah Paket</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="ubah_paket" name="ubah_paket" value=""
+                                    placeholder="ubah paket" required />
                             </div>
                         </div>
                     </div>
@@ -138,12 +119,31 @@
                         @method('PUT') --}}
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Name</label>
+                            <label class="form-label" for="basic-icon-default-fullname">Paket</label>
                             <div class="input-group input-group-merge">
-                                <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                        class="bx bx-user"></i></span>
-                                <input type="text" class="form-control" id="name" name="name" value=""
-                                    placeholder="Name" />
+                                <input type="text" class="form-control" id="paket" name="paket" value=""
+                                    placeholder="paket" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Iuran</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="iuran" name="iuran" value=""
+                                    placeholder="iuran" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Instalasi</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="instalasi" name="instalasi"
+                                    value="" placeholder="instalasi" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Ubah Paket</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="ubah_paket" name="ubah_paket"
+                                    value="" placeholder="ubah paket" required />
                             </div>
                         </div>
                     </div>

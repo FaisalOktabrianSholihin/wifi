@@ -123,9 +123,6 @@ class PemasanganController extends Controller
         }
     }
     
-
-
-
     public function destroy($id)
     {
         $pemasangans = Pemasangan::findOrFail($id);
