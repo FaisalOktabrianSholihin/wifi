@@ -24,7 +24,13 @@ class Pemasangan extends Model
         'biaya',
         'diskon',
         'bayar',
+        'paket_id',
         'lunas',
         'keterangan',
     ];
+
+    public function toPaket()
+    {
+        return $this->belongsTo(Paket::class, 'paket_id');
+    }
 }

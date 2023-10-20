@@ -18,4 +18,9 @@ class Paket extends Model
         'ubah_paket',
         'biaya_kolektor',
     ];
+
+    public function pemasangan()
+    {
+        return $this->hasMany(Pemasangan::class);
+    }
 }

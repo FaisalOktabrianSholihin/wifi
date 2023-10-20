@@ -45,7 +45,7 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>XIX2023</td>
+                                    <td>{{ $item->no_pelanggan }}</td>
                                     <td>{{ $item->nama }}</td>
                                     <td>jombang</td>
                                     <td>084321578987</td>

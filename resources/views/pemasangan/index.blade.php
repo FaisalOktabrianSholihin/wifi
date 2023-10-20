@@ -39,6 +39,7 @@
                                 <th>Nama Pelanggan</th>
                                 <th>Alamat</th>
                                 <th>Telepon</th>
+                                <th>Paket</th>
                                 <th>Nama Sales</th>
                                 @if (auth()->user()->hasRole('sales'))
                                     <th>Nama Teknisi</th>
@@ -78,6 +79,7 @@
                                         <td>{{ $item->nama }}</td>
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->telepon }}</td>
+                                        <td>{{ $item->paket->paket }}</td>
                                         <td>{{ $item->user_survey }}</td>
                                         <td>
                                             @if ($item->status_survey === 'Belum Survey')
@@ -119,6 +121,7 @@
                                         <td>{{ $item->nama }}</td>
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->telepon }}</td>
+                                        <td>{{ optional($item->toPaket)->paket }}</td>
                                         <td>{{ $item->user_survey }}</td>
                                         @if (auth()->user()->hasRole('sales'))
                                             <td>{{ $item->user_action }}</td>
@@ -197,6 +200,22 @@
                                         class="bx bx-user"></i></span>
                                 <input type="text" class="form-control" id="telepon" name="telepon" value=""
                                     placeholder="Telepon" required />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Pilih Paket</label>
+                            <div class="input-group input-group-merge">
+                                <span id="basic-icon-default-fullname2" class="input-group-text"><i
+                                        class="bx bx-user"></i></span>
+                                <div class="btn-group">
+                                    <select class="form-select" name="paket_id" id="paket_id" required>
+                                        @foreach ($pakets as $item)
+                                            <option value="{{ $item->id }}" {{ $item->paket ? 'selected' : '' }}>
+                                                {{ $item->paket }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Paket;
 use App\Models\Pelanggan;
 use App\Models\Pemasangan;
 use App\Models\User;
@@ -12,10 +13,11 @@ class PemasanganController extends Controller
 {
     public function index()
     {
-        $pemasangan = Pemasangan::orderByDesc('id')->get();
+        $pemasangan = Pemasangan::with('toPaket')->orderByDesc('id')->get();
         $users = User::role('sales')->get();
         $teknisi = User::role('teknisi')->get();
-        return view('pemasangan.index', compact('pemasangan', 'users', 'teknisi'));
+        $pakets = Paket::orderByDesc('id')->get();
+        return view('pemasangan.index', compact('pemasangan', 'users', 'teknisi', 'pakets'));
     }
 
     public function store(Request $request)
@@ -28,6 +30,7 @@ class PemasanganController extends Controller
                 'nik' => 'required|max:16',
                 'nama' => 'required',
                 'alamat' => 'required',
+                'paket_id' => 'required',
                 'telepon' => 'required',
             ]);
         } elseif (auth()->user()->hasRole('sales')){
@@ -35,6 +38,7 @@ class PemasanganController extends Controller
                 'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
                 'nik' => 'required|max:16',
                 'nama' => 'required',
+                'paket_id' => 'required',
                 'alamat' => 'required',
                 'telepon' => 'required',
                 
@@ -83,16 +87,29 @@ class PemasanganController extends Controller
 
         if ($validatedData['status_survey'] === 'Berhasil Survey') {
             
+            $tahunSaatIni = date('Y');
+
+            $nomorUrut = 1;
+
+            // Format nomor urut menjadi 4 digit dengan leading zeros
+            $nomorUrutFormatted = str_pad($nomorUrut, 4, '0', STR_PAD_LEFT);
+        
+            // Buat no_pelanggan dengan format 20210001
+            $noPelanggan = date('Y') . $nomorUrutFormatted;
+
             $pemasanganId = $pemasangan->id;
             $pemasanganNama = $pemasangan->nama;
             $pemasanganAlamat = $pemasangan->alamat;
             $pemasanganTlp = $pemasangan->telepon;
-    
+            $paketId = $pemasangan->paket_id;
+
             Pelanggan::create([
+                'no_pelanggan' => $noPelanggan,
                 'pemasangan_id' => $pemasanganId,
                 'nama' => $pemasanganNama,
                 'alamat' => $pemasanganAlamat,
                 'telepon' => $pemasanganTlp,
+                'paket_id' => $paketId,
             ]);
     
             return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
