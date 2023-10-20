@@ -74,8 +74,8 @@ class PemasanganController extends Controller
         } elseif (auth()->user()->hasRole('sales')) {
             $validatedData = $request->validate([
                 'status_survey' => 'required',
-                'keterangan' => 'nullable',
-                // 'user_action' => 'nullable',
+                'keterangan' => 'required',
+                'tgl_action' => 'required',
             ]);
 
             if ($request->has('user_action')) {
@@ -96,7 +96,8 @@ class PemasanganController extends Controller
         
             // Buat no_pelanggan dengan format 20210001
             $noPelanggan = date('Y') . $nomorUrutFormatted;
-
+             // Buat password_pppoe dengan 8 angka acak
+            $passwordPppoe = rand(10000000, 99999999);
             $pemasanganId = $pemasangan->id;
             $pemasanganNama = $pemasangan->nama;
             $pemasanganAlamat = $pemasangan->alamat;
@@ -110,6 +111,8 @@ class PemasanganController extends Controller
                 'alamat' => $pemasanganAlamat,
                 'telepon' => $pemasanganTlp,
                 'paket_id' => $paketId,
+                'username_pppoe' => $noPelanggan,
+                'password_pppoe' => $passwordPppoe,
             ]);
     
             return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');

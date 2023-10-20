@@ -157,7 +157,7 @@
                 <form id="formTambah" method="POST" action="{{ route('route.pemasangans.store') }}">
                     @csrf
                     <div class="modal-body">
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">No Pendaftaran</label>
                             <div class="input-group input-group-merge">
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
@@ -165,8 +165,12 @@
                                 <input type="text" class="form-control" id="no_pendaftaran" name="no_pendaftaran"
                                     value="" placeholder="No. Pendafataran" required />
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
+                            <label for="no_pendaftaran" class="form-label">No Pendaftaran</label>
+                            <input class="form-control" type="text" id="no_pendaftaran" name="no_pendaftaran" required />
+                        </div>
+                        {{-- <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">Nomer Induk Kependudukan</label>
                             <div class="input-group input-group-merge">
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
@@ -174,8 +178,12 @@
                                 <input type="text" class="form-control" id="nik" name="nik" value=""
                                     placeholder="Nomer Induk Kependudukan" required />
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
+                            <label for="nik" class="form-label">NIK</label>
+                            <input class="form-control" type="text" id="nik" name="nik" required />
+                        </div>
+                        {{-- <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">Nama</label>
                             <div class="input-group input-group-merge">
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
@@ -183,8 +191,12 @@
                                 <input type="text" class="form-control" id="nama" name="nama" value=""
                                     placeholder="Nama" required />
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
+                            <label for="nama" class="form-label">Nama</label>
+                            <input class="form-control" type="text" id="nama" name="nama" required />
+                        </div>
+                        {{-- <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">Alamat</label>
                             <div class="input-group input-group-merge">
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
@@ -192,8 +204,12 @@
                                 <input type="text" class="form-control" id="alamat" name="alamat" value=""
                                     placeholder="Alamat" required />
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
+                            <label for="alamat" class="form-label">Alamat</label>
+                            <input class="form-control" type="text" id="alamat" name="alamat" required />
+                        </div>
+                        {{-- <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">Telepon</label>
                             <div class="input-group input-group-merge">
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
@@ -201,8 +217,12 @@
                                 <input type="text" class="form-control" id="telepon" name="telepon" value=""
                                     placeholder="Telepon" required />
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="mb-3">
+                            <label for="telepon" class="form-label">Telepon</label>
+                            <input class="form-control" type="text" id="telepon" name="telepon" required />
+                        </div>
+                        {{-- <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">Pilih Paket</label>
                             <div class="input-group input-group-merge">
                                 <span id="basic-icon-default-fullname2" class="input-group-text"><i
@@ -217,6 +237,16 @@
                                     </select>
                                 </div>
                             </div>
+                        </div> --}}
+                        <div class="mb-3">
+                            <label for="paket_id" class="form-label">Pilih Paket</label>
+                            <select id="paket_id" class="form-select" name="paket_id" required>
+                                @foreach ($pakets as $item)
+                                    <option value="{{ $item->id }}" {{ $item->paket ? 'selected' : '' }}>
+                                        {{ $item->paket }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -300,10 +330,15 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
+                                    <label for="tgl_action" class="form-label">Tanggal Survey</label>
+                                    <input class="form-control" type="date" name="tgl_action" id="tgl_action"
+                                        required />
+                                </div>
+                                <div class="mb-3">
                                     <label class="form-label" for="basic-icon-default-fullname">Keterangan</label>
                                     <div class="input-group input-group-merge">
                                         <input type="text" class="form-control" id="keterangan" name="keterangan"
-                                            value="{{ $value->keterangan }}" placeholder="Keterangan" />
+                                            value="{{ $value->keterangan }}" placeholder="Keterangan" required />
                                     </div>
                                 </div>
                             @endif
@@ -355,21 +390,14 @@
                         <div class="modal-body">
                             @if (auth()->user()->hasRole('sales'))
                                 <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Pilih Teknisi</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
-                                        <div class="btn-group">
-                                            <select class="form-select" name="user_action" id="user_action" required>
-                                                @foreach ($teknisi as $item)
-                                                    <option value="{{ $item->name }}"
-                                                        {{ $value->name ? 'selected' : '' }}>
-                                                        {{ $item->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <label for="user_action" class="form-label">Pilih Teknisi</label>
+                                    <select id="user_action" class="form-select" name="user_action" required>
+                                        @foreach ($teknisi as $item)
+                                            <option value="{{ $item->name }}" {{ $value->name ? 'selected' : '' }}>
+                                                {{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             @endif
                         </div>

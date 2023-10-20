@@ -21,6 +21,23 @@ class PelangganController extends Controller
     // Get customers based on pemasangan_id
     $customers = Pelanggan::whereIn('pemasangan_id', $pemasanganIds)->get();
 
+
     return view('pelanggan.index', compact('customers'));
+    }
+
+    public function update(Request $request, $id) {
+        $pelanggan = Pelanggan::findOrFail($id);
+        if (auth()->user()->hasRole('admin')) {
+            $validatedData = $request->validate([
+                'tgl_pasang' => 'required|date',
+                'tgl_isolir' => 'required|date',
+                'aktivasi_router' => 'required',
+                'aktivasi_olt' => 'required',
+                'cara_bayar' => 'required',
+            ]);
+        } else {
+            
+        }
+        
     }
 }

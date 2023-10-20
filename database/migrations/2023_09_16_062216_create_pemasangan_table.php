@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('biaya')->nullable()->default(0);
             $table->integer('diskon')->default(0)->nullable();
             $table->integer('bayar')->default(0)->nullable();
-            $table->string('lunas', 11)->nullable();
+            $table->enum('status_lunas', ['Belum Lunas', 'Lunas'])->nullable();
             $table->string('keterangan', 100)->nullable()->default("");
             $table->timestamps();
         });

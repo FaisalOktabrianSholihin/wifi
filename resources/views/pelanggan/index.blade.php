@@ -20,8 +20,6 @@
                                 <th>Alamat</th>
                                 <th>Telepon</th>
                                 <th>Username</th>
-                                <th>Tanggal Pemasangan</th>
-                                <th>Tanggal Isolir</th>
                                 <th>Status </th>
                             </tr>
                         </thead>
@@ -36,6 +34,9 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu">
+                                                <button data-bs-toggle="modal" data-bs-target="#show{{ $item->id }}"
+                                                    class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
+                                                    Show</button>
                                                 <button data-bs-toggle="modal" data-bs-target="#update"
                                                     class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
                                                     Edit</button>
@@ -47,12 +48,10 @@
                                     </td>
                                     <td>{{ $item->no_pelanggan }}</td>
                                     <td>{{ $item->nama }}</td>
-                                    <td>jombang</td>
-                                    <td>084321578987</td>
-                                    <td>225045</td>
-                                    <td>11 Oktober 2023 14:10:33</td>
-                                    <td>12 Oktober 2023 14:10:33</td>
-                                    <td><span class="badge bg-success">Aktif</span></td>
+                                    <td>{{ $item->alamat }}</td>
+                                    <td>{{ $item->telepon }}</td>
+                                    <td>{{ $item->username_pppoe }}</td>
+                                    <td><span class="badge bg-success">{{ $item->status_aktif }}</span></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -193,6 +192,88 @@
             </div>
         </div>
     </div>
+
+    {{-- modal show ges --}}
+    @foreach ($customers as $item)
+        <div class="modal fade" id="show{{ $item->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Detail Pelanggan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="" method="">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="No Pelanggan" value="{{ $item->no_pelanggan }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Nama</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="No Pelanggan" value="{{ $item->nama }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Alamat</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="No Pelanggan" value="{{ $item->alamat }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Telepon</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        placeholder="No Pelanggan" value="{{ $item->telepon }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Username Pppoe</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ $item->username_pppoe }}" placeholder="Username" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="basic-icon-default-fullname">Password Pppoe</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" class="form-control" id="name" name="name"
+                                        value="{{ $item->password_pppoe }}" placeholder="Kata Sandi" readonly /><span
+                                        class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Tanggal Pemasangan</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="date" class="form-control" id="name" name="name"
+                                        value="{{ $item->tgl_pemasangan }}" placeholder="Name" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Tanggal Isolir</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="date" class="form-control" id="name" name="name"
+                                        value="{{ $item->tgl_isolir }}" placeholder="Name" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Status Aktif</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ $item->status_aktif }}" placeholder="Status Aktif" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
 
     {{-- modal hapus ges --}}
