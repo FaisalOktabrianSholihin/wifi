@@ -57,8 +57,6 @@ class PemasanganController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validate the request data
-        // dd($request->all());
         $pemasangan = Pemasangan::findOrFail($id);
 
         $validatedData = [];
@@ -81,6 +79,24 @@ class PemasanganController extends Controller
             if ($request->has('user_action')) {
                 $validatedData['user_action'] = $request->input('user_action');
             }
+        } else if(auth()->user()->hasRole('teknisi')) {
+
+            if ($request->has('status_aktivasi')) {
+                $validatedData['status_aktivasi'] = $request->input('status_aktivasi');
+            } else if ($request->has('status_instalasi')){
+                $validatedData['status_instalasi'] = $request->input('status_instalasi');
+            } else {
+                $validatedData = $request->validate([
+                    'biaya' => 'required',
+                    'bayar' => 'required',
+                    'diskon' => 'required',
+                    'status_lunas' => 'required',
+                ]);
+            }
+
+            $pemasangan->update($validatedData);
+
+            return redirect()->route('route.pelanggans.index')->with('message', 'Data berhasil diupdate.');
         }
 
         $pemasangan->update($validatedData);

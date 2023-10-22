@@ -17,17 +17,21 @@ class PelangganController extends Controller
     $pemasanganIds = Pemasangan::where('user_action', $username)
         ->pluck('id')
         ->toArray();
-
+    
     // Get customers based on pemasangan_id
     $customers = Pelanggan::whereIn('pemasangan_id', $pemasanganIds)->get();
 
+    $pemasanganData = Pemasangan::join('pelanggan', 'pemasangan_id', '=', 'pelanggan.id')
+    ->whereIn('pelanggan.id', $customers->pluck('id')->toArray())
+    ->select('pemasangan.*')
+    ->get();
 
-    return view('pelanggan.index', compact('customers'));
+    return view('pelanggan.index', compact('customers', 'pemasanganData'));
     }
 
     public function update(Request $request, $id) {
         $pelanggan = Pelanggan::findOrFail($id);
-        if (auth()->user()->hasRole('admin')) {
+        if (auth()->user()->hasRole('teknisi')) {
             $validatedData = $request->validate([
                 'tgl_pasang' => 'required|date',
                 'tgl_isolir' => 'required|date',
@@ -35,7 +39,11 @@ class PelangganController extends Controller
                 'aktivasi_olt' => 'required',
                 'cara_bayar' => 'required',
             ]);
+        $pelanggan->update($validatedData);
+
+            return redirect()->route('route.pemasangan.index')->with('message', 'Data berhasil diupdate.');
         } else {
+            return redirect()->route('route.pemasangan.index')->with('message', 'Data gagal diupdate.');
             
         }
         
