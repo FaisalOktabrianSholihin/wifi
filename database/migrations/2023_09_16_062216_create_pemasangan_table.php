@@ -29,6 +29,7 @@ return new class extends Migration
             $table->integer('diskon')->default(0)->nullable();
             $table->integer('bayar')->default(0)->nullable();
             $table->string('keterangan', 100)->nullable()->default("");
+            $table->string('keterangan_diskon')->nullable()->default("");
             $table->timestamps();
         });
     }

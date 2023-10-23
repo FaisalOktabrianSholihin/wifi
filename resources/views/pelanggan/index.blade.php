@@ -69,10 +69,12 @@
                                     <td>{{ $item->alamat }}</td>
                                     <td>{{ $item->telepon }}</td>
                                     {{-- <td><span class="badge bg-success">{{ $item->status_aktif }}</span></td> --}}
-                                    <td> <button type="button" class="btn btn-primary">
-                                            <span class="tf-icons bx bxs-credit-card" data-bs-toggle="modal"
-                                                data-bs-target="#pembayaran{{ $item->id }}"></span>
-                                        </button></td>
+                                    @if (auth()->user()->hasRole('teknisi'))
+                                        <td> <button type="button" class="btn btn-primary">
+                                                <span class="tf-icons bx bxs-credit-card" data-bs-toggle="modal"
+                                                    data-bs-target="#pembayaran{{ $item->id }}"></span>
+                                            </button></td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
@@ -225,8 +227,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form>
-                        @csrf
-                        @method('PUT')
+                        {{-- @csrf
+                        @method('PUT') --}}
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
@@ -286,52 +288,52 @@
                                 </div>
                             </div>
                             @foreach ($pemasanganData as $pemasangan)
-                                @if ($pemasangan->id == $item->id)
-                                    <div class="mb-3">
-                                        <label class="form-label" for="basic-icon-default-fullname">Status
-                                            Instalasi</label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                value="{{ $pemasangan->status_instalasi }}" readonly />
-                                        </div>
+                                {{-- @if ($pemasangan->id == $item->id) --}}
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-icon-default-fullname">Status
+                                        Instalasi</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ $pemasangan->status_instalasi }}" readonly />
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="basic-icon-default-fullname">Status
-                                            Aktivasi</label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                value="{{ $pemasangan->status_aktivasi }}" readonly />
-                                        </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-icon-default-fullname">Status
+                                        Aktivasi</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ $pemasangan->status_aktivasi }}" readonly />
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="basic-icon-default-fullname">Biaya</label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="text" class="form-control" id="biaya" name="biaya"
-                                                value="{{ $pemasangan->biaya }}" readonly />
-                                        </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-icon-default-fullname">Biaya</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="text" class="form-control" id="biaya" name="biaya"
+                                            value="{{ $pemasangan->biaya }}" readonly />
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="basic-icon-default-fullname">Bayar</label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                value="{{ $pemasangan->bayar }}" readonly />
-                                        </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-icon-default-fullname">Bayar</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ $pemasangan->bayar }}" readonly />
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="basic-icon-default-fullname">Diskon</label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                value="{{ $pemasangan->diskon }}" readonly />
-                                        </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-icon-default-fullname">Diskon</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ $pemasangan->diskon }}" readonly />
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="basic-icon-default-fullname">Status Lunas</label>
-                                        <div class="input-group input-group-merge">
-                                            <input type="text" class="form-control" id="name" name="name"
-                                                value="{{ $pemasangan->status_lunas }}" readonly />
-                                        </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="basic-icon-default-fullname">Status Lunas</label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ $pemasangan->status_lunas }}" readonly />
                                     </div>
-                                @endif
+                                </div>
+                                {{-- @endif --}}
                             @endforeach
                         </div>
                     </form>
@@ -378,7 +380,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label" for="iuran">Iuran</label>
+                                <label class="form-label" for="instalasi">Instalasi</label>
                                 <div class="input-group input-group-merge">
                                     <input type="text" class="form-control" id="instalasi" name="instalasi"
                                         value="{{ $item->toPaket->instalasi }}" readonly />
@@ -388,7 +390,7 @@
                                 <label class="form-label" for="biaya">Biaya</label>
                                 <div class="input-group input-group-merge">
                                     <input type="number" class="form-control" id="biaya" name="biaya"
-                                        value="{{ $item->toPaket->biaya }}" readonly />
+                                        value="{{ $item->toPaket->iuran + $item->toPaket->instalasi }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3 form-password-toggle">
@@ -410,7 +412,7 @@
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="diskon">Keterangan Diskon</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="number" class="form-control" id="keterangan_diskon"
+                                    <input type="text" class="form-control" id="keterangan_diskon"
                                         name="keterangan_diskon" value="" required /><span
                                         class="input-group-text cursor-pointer"><i></i></span>
                                 </div>
@@ -459,4 +461,31 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Ambil elemen-elemen input
+            var iuranInput = document.getElementById("iuran");
+            var instalasiInput = document.getElementById("instalasi");
+            var biayaInput = document.getElementById("biaya");
+
+            // Fungsi untuk menghitung dan mengatur nilai "biaya" saat terjadi perubahan pada "iuran" atau "instalasi"
+            function hitungBiaya() {
+                var iuranValue = parseFloat(iuranInput.value) || 0; // Konversi ke angka, default 0 jika tidak valid
+                var instalasiValue = parseFloat(instalasiInput.value) ||
+                    0; // Konversi ke angka, default 0 jika tidak valid
+                var biayaValue = iuranValue + instalasiValue;
+                biayaInput.value = biayaValue;
+            }
+
+            // Panggil fungsi hitungBiaya saat halaman dimuat
+            hitungBiaya();
+
+            // Tambahkan event listener untuk perubahan pada "iuran" atau "instalasi"
+            iuranInput.addEventListener("input", hitungBiaya);
+            instalasiInput.addEventListener("input", hitungBiaya);
+        });
+    </script>
 @endsection

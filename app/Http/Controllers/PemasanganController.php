@@ -135,6 +135,7 @@ class PemasanganController extends Controller
                     'biaya' => 'required',
                     'bayar' => 'required',
                     'diskon' => 'required',
+                    'keterangan_diskon' => 'required',
                     'status_lunas' => 'required',
                 ]);
             }
