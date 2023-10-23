@@ -79,7 +79,7 @@
                                         <td>{{ $item->nama }}</td>
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->telepon }}</td>
-                                        <td>{{ $item->paket->paket }}</td>
+                                        <td>{{ $item->toPaket->paket }}</td>
                                         <td>{{ $item->user_survey }}</td>
                                         <td>
                                             @if ($item->status_survey === 'Belum Survey')

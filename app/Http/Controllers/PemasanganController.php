@@ -70,15 +70,60 @@ class PemasanganController extends Controller
                 'telepon' => 'required',
             ]);
         } elseif (auth()->user()->hasRole('sales')) {
-            $validatedData = $request->validate([
-                'status_survey' => 'required',
-                'keterangan' => 'required',
-                'tgl_action' => 'required',
-            ]);
-
             if ($request->has('user_action')) {
                 $validatedData['user_action'] = $request->input('user_action');
-            }
+            } else {
+                $validatedData = $request->validate([
+                    'status_survey' => 'required',
+                    'keterangan' => 'required',
+                    'tgl_action' => 'required',
+                ]);
+                if ($validatedData['status_survey'] === 'Berhasil Survey') {
+                    // Ambil ID terakhir dari tabel Pelanggan
+                $lastId = Pelanggan::latest('id')->value('id');
+    
+                // Tambahkan 1 untuk mendapatkan nomor urut berikutnya
+                $nomorUrut = $lastId + 1;
+    
+                // Format nomor urut menjadi 4 digit dengan leading zeros
+                $nomorUrutFormatted = str_pad($nomorUrut, 4, '0', STR_PAD_LEFT);
+    
+                // Buat no_pelanggan dengan format 2023 dan nomor urut
+                $noPelanggan = date('Y') . $nomorUrutFormatted;
+    
+                     // Buat password_pppoe dengan 8 angka acak
+                    $passwordPppoe = rand(10000000, 99999999);
+                    $pemasanganId = $pemasangan->id;
+                    $pemasanganNama = $pemasangan->nama;
+                    $pemasanganAlamat = $pemasangan->alamat;
+                    $pemasanganTlp = $pemasangan->telepon;
+                    $paketId = $pemasangan->paket_id;
+        
+                    Pelanggan::create([
+                        'no_pelanggan' => $noPelanggan,
+                        'pemasangan_id' => $pemasanganId,
+                        'nama' => $pemasanganNama,
+                        'alamat' => $pemasanganAlamat,
+                        'telepon' => $pemasanganTlp,
+                        'paket_id' => $paketId,
+                        'username_pppoe' => $noPelanggan,
+                        'password_pppoe' => $passwordPppoe,
+                    ]);
+
+                    $validated = $request->validate([
+                        'status_survey' => 'required',
+                        'keterangan' => 'required',
+                        'tgl_action' => 'required',
+                    ]);
+                    $pemasangan->update($validated);
+
+            
+                    return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
+                }
+            }           
+            $pemasangan->update($validatedData);
+
+            return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
         } else if(auth()->user()->hasRole('teknisi')) {
 
             if ($request->has('status_aktivasi')) {
@@ -101,40 +146,7 @@ class PemasanganController extends Controller
 
         $pemasangan->update($validatedData);
 
-        if ($validatedData['status_survey'] === 'Berhasil Survey') {
-            
-            $tahunSaatIni = date('Y');
-
-            $nomorUrut = 1;
-
-            // Format nomor urut menjadi 4 digit dengan leading zeros
-            $nomorUrutFormatted = str_pad($nomorUrut, 4, '0', STR_PAD_LEFT);
         
-            // Buat no_pelanggan dengan format 20210001
-            $noPelanggan = date('Y') . $nomorUrutFormatted;
-             // Buat password_pppoe dengan 8 angka acak
-            $passwordPppoe = rand(10000000, 99999999);
-            $pemasanganId = $pemasangan->id;
-            $pemasanganNama = $pemasangan->nama;
-            $pemasanganAlamat = $pemasangan->alamat;
-            $pemasanganTlp = $pemasangan->telepon;
-            $paketId = $pemasangan->paket_id;
-
-            Pelanggan::create([
-                'no_pelanggan' => $noPelanggan,
-                'pemasangan_id' => $pemasanganId,
-                'nama' => $pemasanganNama,
-                'alamat' => $pemasanganAlamat,
-                'telepon' => $pemasanganTlp,
-                'paket_id' => $paketId,
-                'username_pppoe' => $noPelanggan,
-                'password_pppoe' => $passwordPppoe,
-            ]);
-    
-            return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
-        }
-
-
         return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
     }
 
