@@ -306,7 +306,7 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="basic-icon-default-fullname">Biaya</label>
                                         <div class="input-group input-group-merge">
-                                            <input type="text" class="form-control" id="name" name="name"
+                                            <input type="text" class="form-control" id="biaya" name="biaya"
                                                 value="{{ $pemasangan->biaya }}" readonly />
                                         </div>
                                     </div>
@@ -364,10 +364,31 @@
                                 </div>
                             @endforeach
                             <div class="mb-3">
+                                <label class="form-label" for="paket">Paket</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="paket" name="paket"
+                                        value="{{ $item->toPaket->paket }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="iuran">Iuran</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="iuran" name="iuran"
+                                        value="{{ $item->toPaket->iuran }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="iuran">Iuran</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="instalasi" name="instalasi"
+                                        value="{{ $item->toPaket->instalasi }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label" for="biaya">Biaya</label>
                                 <div class="input-group input-group-merge">
                                     <input type="number" class="form-control" id="biaya" name="biaya"
-                                        value="" required />
+                                        value="{{ $item->toPaket->biaya }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3 form-password-toggle">
@@ -383,6 +404,14 @@
                                 <div class="input-group input-group-merge">
                                     <input type="number" class="form-control" id="diskon" name="diskon"
                                         value="" required /><span
+                                        class="input-group-text cursor-pointer"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="diskon">Keterangan Diskon</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="number" class="form-control" id="keterangan_diskon"
+                                        name="keterangan_diskon" value="" required /><span
                                         class="input-group-text cursor-pointer"><i></i></span>
                                 </div>
                             </div>
