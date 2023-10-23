@@ -286,51 +286,52 @@
                                 </div>
                             </div>
                             @foreach ($pemasanganData as $pemasangan)
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Status Instalasi</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->status_instalasi }}" placeholder="Status Aktif"
-                                            readonly />
+                                @if ($pemasangan->id == $item->id)
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-icon-default-fullname">Status
+                                            Instalasi</label>
+                                        <div class="input-group input-group-merge">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{ $pemasangan->status_instalasi }}" readonly />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Status Aktivasi</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->status_aktivasi }}" placeholder="Status Aktif"
-                                            readonly />
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-icon-default-fullname">Status
+                                            Aktivasi</label>
+                                        <div class="input-group input-group-merge">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{ $pemasangan->status_aktivasi }}" readonly />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Biaya</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->biaya }}" placeholder="Status Aktif" readonly />
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-icon-default-fullname">Biaya</label>
+                                        <div class="input-group input-group-merge">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{ $pemasangan->biaya }}" readonly />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Bayar</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->bayar }}" placeholder="Status Aktif" readonly />
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-icon-default-fullname">Bayar</label>
+                                        <div class="input-group input-group-merge">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{ $pemasangan->bayar }}" readonly />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Diskon</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->diskon }}" placeholder="Status Aktif" readonly />
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-icon-default-fullname">Diskon</label>
+                                        <div class="input-group input-group-merge">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{ $pemasangan->diskon }}" readonly />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Status Lunas</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->status_lunas }}" placeholder="Status Aktif"
-                                            readonly />
+                                    <div class="mb-3">
+                                        <label class="form-label" for="basic-icon-default-fullname">Status Lunas</label>
+                                        <div class="input-group input-group-merge">
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{ $pemasangan->status_lunas }}" readonly />
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             @endforeach
                         </div>
                     </form>
@@ -338,6 +339,7 @@
             </div>
         </div>
     @endforeach
+
 
     {{-- modal pembayaran ges --}}
     @foreach ($pemasanganData as $item)
