@@ -33,7 +33,7 @@ class PemasanganController extends Controller
                 'paket_id' => 'required',
                 'telepon' => 'required',
             ]);
-        } elseif (auth()->user()->hasRole('sales')){
+        } elseif (auth()->user()->hasRole('sales')) {
             $validatedData = $request->validate([
                 'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
                 'nik' => 'required|max:16',
@@ -41,7 +41,7 @@ class PemasanganController extends Controller
                 'paket_id' => 'required',
                 'alamat' => 'required',
                 'telepon' => 'required',
-                
+
             ]);
             $validatedData['user_survey'] = auth()->user()->name;
         }
@@ -80,25 +80,25 @@ class PemasanganController extends Controller
                 ]);
                 if ($validatedData['status_survey'] === 'Berhasil Survey') {
                     // Ambil ID terakhir dari tabel Pelanggan
-                $lastId = Pelanggan::latest('id')->value('id');
-    
-                // Tambahkan 1 untuk mendapatkan nomor urut berikutnya
-                $nomorUrut = $lastId + 1;
-    
-                // Format nomor urut menjadi 4 digit dengan leading zeros
-                $nomorUrutFormatted = str_pad($nomorUrut, 4, '0', STR_PAD_LEFT);
-    
-                // Buat no_pelanggan dengan format 2023 dan nomor urut
-                $noPelanggan = date('Y') . $nomorUrutFormatted;
-    
-                     // Buat password_pppoe dengan 8 angka acak
+                    $lastId = Pelanggan::latest('id')->value('id');
+
+                    // Tambahkan 1 untuk mendapatkan nomor urut berikutnya
+                    $nomorUrut = $lastId + 1;
+
+                    // Format nomor urut menjadi 4 digit dengan leading zeros
+                    $nomorUrutFormatted = str_pad($nomorUrut, 4, '0', STR_PAD_LEFT);
+
+                    // Buat no_pelanggan dengan format 2023 dan nomor urut
+                    $noPelanggan = date('Y') . $nomorUrutFormatted;
+
+                    // Buat password_pppoe dengan 8 angka acak
                     $passwordPppoe = rand(10000000, 99999999);
                     $pemasanganId = $pemasangan->id;
                     $pemasanganNama = $pemasangan->nama;
                     $pemasanganAlamat = $pemasangan->alamat;
                     $pemasanganTlp = $pemasangan->telepon;
                     $paketId = $pemasangan->paket_id;
-        
+
                     Pelanggan::create([
                         'no_pelanggan' => $noPelanggan,
                         'pemasangan_id' => $pemasanganId,
@@ -117,18 +117,18 @@ class PemasanganController extends Controller
                     ]);
                     $pemasangan->update($validated);
 
-            
+
                     return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
                 }
-            }           
+            }
             $pemasangan->update($validatedData);
 
             return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
-        } else if(auth()->user()->hasRole('teknisi')) {
+        } else if (auth()->user()->hasRole('teknisi')) {
 
             if ($request->has('status_aktivasi')) {
                 $validatedData['status_aktivasi'] = $request->input('status_aktivasi');
-            } else if ($request->has('status_instalasi')){
+            } else if ($request->has('status_instalasi')) {
                 $validatedData['status_instalasi'] = $request->input('status_instalasi');
             } else {
                 $validatedData = $request->validate([
@@ -146,19 +146,19 @@ class PemasanganController extends Controller
 
         $pemasangan->update($validatedData);
 
-        
+
         return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
     }
 
     public function updateTeknisi(Request $request, $id)
     {
         $pemasangan = Pemasangan::findOrFail($id);
-    
+
         if (auth()->user()->hasRole('sales')) {
             $validatedData = $request->validate([
                 'user_action' => 'required',
             ]);
-    
+
             // Check if status_survey is "Berhasil Survey" before updating
             if ($pemasangan->status_survey === 'Berhasil Survey') {
                 $pemasangan->update($validatedData);
@@ -170,7 +170,7 @@ class PemasanganController extends Controller
             return redirect()->route('route.pemasangans.index')->with('message', 'Data gagal diupdate.');
         }
     }
-    
+
     public function destroy($id)
     {
         $pemasangans = Pemasangan::findOrFail($id);

@@ -62,7 +62,7 @@
                                                     @can('create pendaftaran')
                                                         <button data-bs-toggle="modal"
                                                             data-bs-target="#update{{ $item->id }}" class="dropdown-item"><i
-                                                                class="bx bx-edit-alt me-1"></i>
+                                                                class="bx bx-share"></i>
                                                             Assignment</button>
                                                     @endcan
                                                     @can('create pendaftaran')
@@ -110,7 +110,7 @@
                                                             Detail</button>
                                                         <button data-bs-toggle="modal"
                                                             data-bs-target="#updateAssignment{{ $item->id }}"
-                                                            class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
+                                                            class="dropdown-item"><i class="bx bx-share me-1"></i>
                                                             Assignment</button>
                                                     @endcan
                                                 </div>

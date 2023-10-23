@@ -31,10 +31,9 @@
                                 <th>Aksi</th>
                                 <th>No. Pelanggan</th>
                                 <th>Nama</th>
-                                <th>Status Instalasi</th>
-                                <th>Status Aktivasi</th>
-                                <th>Status Lunas</th>
-                                <th>Status </th>
+                                <th>Alamat</th>
+                                <th>Telepon</th>
+                                {{-- <th>Status </th> --}}
                                 <th>Pembayaran</th>
                             </tr>
                         </thead>
@@ -67,10 +66,9 @@
                                     </td>
                                     <td>{{ $item->no_pelanggan }}</td>
                                     <td>{{ $item->nama }}</td>
-                                    <td><span class="badge bg-success">Berhasil Instalasi</span></td>
-                                    <td><span class="badge bg-success">Berhasil Aktivasi</span></td>
-                                    <td><span class="badge bg-success">Lunas</span></td>
-                                    <td><span class="badge bg-success">{{ $item->status_aktif }}</span></td>
+                                    <td>{{ $item->alamat }}</td>
+                                    <td>{{ $item->telepon }}</td>
+                                    {{-- <td><span class="badge bg-success">{{ $item->status_aktif }}</span></td> --}}
                                     <td> <button type="button" class="btn btn-primary">
                                             <span class="tf-icons bx bxs-credit-card" data-bs-toggle="modal"
                                                 data-bs-target="#pembayaran{{ $item->id }}"></span>
@@ -233,29 +231,29 @@
                             <div class="mb-3">
                                 <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="No Pelanggan" value="{{ $item->no_pelanggan }}" readonly />
+                                    <input type="text" class="form-control" id="no_pelanggan" name="no_pelanggan"
+                                        value="{{ $item->no_pelanggan }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="basic-icon-default-fullname">Nama</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="No Pelanggan" value="{{ $item->nama }}" readonly />
+                                    <input type="text" class="form-control" id="nama" name="nama"
+                                        value="{{ $item->nama }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="basic-icon-default-fullname">Alamat</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="No Pelanggan" value="{{ $item->alamat }}" readonly />
+                                    <input type="text" class="form-control" id="alamat" name="alamat"
+                                        value="{{ $item->alamat }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="basic-icon-default-fullname">Telepon</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="No Pelanggan" value="{{ $item->telepon }}" readonly />
+                                    <input type="text" class="form-control" id="telepon" name="telepon"
+                                        value="{{ $item->telepon }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
