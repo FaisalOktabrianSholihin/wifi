@@ -332,7 +332,7 @@
                                 <div class="mb-3">
                                     <label for="tgl_action" class="form-label">Tanggal Survey</label>
                                     <input class="form-control" type="date" name="tgl_action" id="tgl_action"
-                                        required />
+                                        value="{{ $value->tgl_action }}" required />
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label" for="basic-icon-default-fullname">Keterangan</label>

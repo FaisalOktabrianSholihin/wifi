@@ -16,7 +16,7 @@
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Pelanggan
+            <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Pemasangan
             </h4>
             <div class="card">
                 <div class="card-body">
@@ -40,7 +40,7 @@
                         <tbody class="table-border-bottom-0">
                             @foreach ($customers as $item)
                                 <tr>
-                                    <td>1</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -73,7 +73,12 @@
                                         <td> <button type="button" class="btn btn-primary">
                                                 <span class="tf-icons bx bxs-credit-card" data-bs-toggle="modal"
                                                     data-bs-target="#pembayaran{{ $item->id }}"></span>
-                                            </button></td>
+                                            </button>
+                                            <button type="button" class="btn btn-warning">
+                                                <span class="tf-icons bx bxs-printer" data-bs-toggle="modal"
+                                                    data-bs-target="#"></span>
+                                            </button>
+                                        </td>
                                     @endif
                                 </tr>
                             @endforeach

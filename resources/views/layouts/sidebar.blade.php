@@ -184,7 +184,7 @@
                                <!-- Sidebar teknisi -->
                                <li class="menu-item {{ Route::is('route.pelanggans.index') ? 'active' : '' }}">
                                    <a href="{{ route('route.pelanggans.index') }}" class="menu-link">
-                                       <div data-i18n="Without menu" style="color: black">Pelanggan</div>
+                                       <div data-i18n="Without menu" style="color: black">Pemasangan</div>
                                    </a>
                                </li>
                            @else
