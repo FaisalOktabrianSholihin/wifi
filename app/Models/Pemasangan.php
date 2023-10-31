@@ -29,11 +29,16 @@ class Pemasangan extends Model
         'bayar',
         'paket_id',
         'lunas',
+        'keterangan_diskon',
         'keterangan',
     ];
 
     public function toPaket()
     {
         return $this->belongsTo(Paket::class, 'paket_id');
+    }
+
+    public function pelanggan() {
+        return $this->hasOne(Pelanggan::class);
     }
 }

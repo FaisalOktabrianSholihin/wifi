@@ -74,9 +74,9 @@
                                                 <span class="tf-icons bx bxs-credit-card" data-bs-toggle="modal"
                                                     data-bs-target="#pembayaran{{ $item->id }}"></span>
                                             </button>
-                                            <button type="button" class="btn btn-warning">
-                                                <span class="tf-icons bx bxs-printer" data-bs-toggle="modal"
-                                                    data-bs-target="#"></span>
+                                            <button type="button" class="btn btn-warning"
+                                                id="btnCetakPdf{{ $item->id }}">
+                                                <span class="tf-icons bx bxs-printer" data-bs-toggle="modal"></span>
                                             </button>
                                         </td>
                                     @endif
@@ -347,7 +347,6 @@
         </div>
     @endforeach
 
-
     {{-- modal pembayaran ges --}}
     @foreach ($pemasanganData as $item)
         <div class="modal fade" id="pembayaran{{ $item->id }}" tabindex="-1" aria-hidden="true">
@@ -492,5 +491,14 @@
             iuranInput.addEventListener("input", hitungBiaya);
             instalasiInput.addEventListener("input", hitungBiaya);
         });
+    </script>
+    <script>
+        @foreach ($customers as $item)
+            $('#btnCetakPdf{{ $item->id }}').click(function() {
+                var id = {{ $item->id }};
+                var pdfUrl = "{{ route('route.pelanggans.pdf', ':id') }}".replace(':id', id);
+                window.open(pdfUrl, '_blank');
+            });
+        @endforeach
     </script>
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pelanggan;
 use App\Models\Pemasangan;
 use Illuminate\Http\Request;
+use PDF;
 
 class PelangganController extends Controller
 {
@@ -46,5 +47,19 @@ class PelangganController extends Controller
         } else {
             return redirect()->route('route.pemasangan.index')->with('message', 'Data gagal diupdate.');
         }
+    }
+
+    public function pdf($id) {
+        $customer = Pelanggan::find($id);
+    
+        // Ambil data pemasangan berdasarkan pemasangan_id pelanggan
+        $pemasangan = Pemasangan::find($customer->pemasangan_id);
+    
+        $pdf = PDF::loadView('pelanggan.pdf', ['customer' => $customer, 'pemasangan' => $pemasangan]);
+    
+        // Atur opsi tampilan PDF, misalnya, orientasi dan ukuran halaman
+        $pdf->setPaper('A4', 'portrait');
+        $filename = $customer->no_pelanggan . '_' . $customer->nama . '.pdf';
+        return $pdf->download($filename);
     }
 }

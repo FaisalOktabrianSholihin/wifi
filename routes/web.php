@@ -100,6 +100,8 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/mutasis', MutasiController::class);
     Route::resource('/pemutusans', PemutusanController::class);
     Route::resource('/pelanggans', PelangganController::class);
+    Route::get('/pelanggans/pdf/{id}', [PelangganController::class, 'pdf'])->name('pelanggans.pdf');
+    Route::get('/pelanggans/pdf', [PelangganController::class, 'pdf'])->name('pdf.customer');
     Route::resource('/perbaikans', PerbaikanController::class);
     Route::resource('/pembayarans', PembayaranController::class);
     Route::resource('/tunggakans', TunggakanController::class);

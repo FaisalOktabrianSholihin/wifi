@@ -32,4 +32,9 @@ class Pelanggan extends Model
         'olt_id',
         'pemasangan_id',
     ];
+
+    public function pemasangan()
+    {
+        return $this->belongsTo(Pemasangan::class, 'pemasangan_id');
+    }
 }
