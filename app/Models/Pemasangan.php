@@ -38,7 +38,8 @@ class Pemasangan extends Model
         return $this->belongsTo(Paket::class, 'paket_id');
     }
 
-    public function pelanggan() {
+    public function pelanggan()
+    {
         return $this->hasOne(Pelanggan::class);
     }
 }

@@ -49,16 +49,17 @@ class PelangganController extends Controller
         }
     }
 
-    public function pdf($id) {
+    public function pdf($id)
+    {
         $customer = Pelanggan::find($id);
-    
+
         // Ambil data pemasangan berdasarkan pemasangan_id pelanggan
         $pemasangan = Pemasangan::find($customer->pemasangan_id);
-    
+
         $pdf = PDF::loadView('pelanggan.pdf', ['customer' => $customer, 'pemasangan' => $pemasangan]);
-    
+
         // Atur opsi tampilan PDF, misalnya, orientasi dan ukuran halaman
-        $pdf->setPaper('A4', 'portrait');
+        $pdf->setPaper(array(0, 0, 250, 500), 'portrait');
         $filename = $customer->no_pelanggan . '_' . $customer->nama . '.pdf';
         return $pdf->download($filename);
     }
