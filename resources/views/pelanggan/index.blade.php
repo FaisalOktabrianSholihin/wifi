@@ -401,7 +401,7 @@
                                 <label class="form-label" for="bayar">Bayar</label>
                                 <div class="input-group input-group-merge">
                                     <input type="number" class="form-control" id="bayar" name="bayar"
-                                        value="" required /><span
+                                        value="{{ $item->bayar }}" /><span
                                         class="input-group-text cursor-pointer"><i></i></span>
                                 </div>
                             </div>
@@ -409,7 +409,7 @@
                                 <label class="form-label" for="diskon">Diskon</label>
                                 <div class="input-group input-group-merge">
                                     <input type="number" class="form-control" id="diskon" name="diskon"
-                                        value="" required /><span
+                                        value="{{ $item->diskon }}" /><span
                                         class="input-group-text cursor-pointer"><i></i></span>
                                 </div>
                             </div>
@@ -421,13 +421,25 @@
                                         class="input-group-text cursor-pointer"><i></i></span>
                                 </div>
                             </div>
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label class="form-label" for="status_lunas">Status Lunas</label>
                                 <select class="form-select" id="status_lunas" name="status_lunas">
                                     <option value="Belum Lunas">
                                         Belum Lunas
                                     </option>
                                     <option value="Lunas">Lunas
+                                    </option>
+                                </select>
+                            </div> --}}
+                            <div class="mb-3">
+                                <label class="form-label" for="status_lunas">Status Lunas</label>
+                                <select class="form-select" id="status_lunas" name="status_lunas">
+                                    <option value="Belum Lunas"
+                                        {{ $item->status_lunas == 'Belum Lunas' ? 'selected' : '' }}>
+                                        Belum Lunas
+                                    </option>
+                                    <option value="Lunas" {{ $item->status_lunas == 'Lunas' ? 'selected' : '' }}>
+                                        Lunas
                                     </option>
                                 </select>
                             </div>
