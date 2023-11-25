@@ -11,6 +11,19 @@
                     confirmButtonText: 'Ok'
                 });
             @endif
+            @if ($errors->any())
+                var errorMessage = '';
+                @foreach ($errors->all() as $error)
+                    errorMessage += '{{ $error }}\n';
+                @endforeach
+
+                Swal.fire({
+                    title: 'Error',
+                    text: errorMessage,
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            @endif
         });
     </script>
 @endpush

@@ -48,7 +48,34 @@ class PelangganController extends Controller
             return redirect()->route('route.pemasangan.index')->with('message', 'Data gagal diupdate.');
         }
     }
+    public function updatePembayaran(Request $request, $id) {
+        $pemasangan = Pemasangan::findOrFail($id);
 
+        $validated = [];
+
+        $user = auth()->user();
+
+        if($user->hasRole('teknisi')) {
+
+            if ($request->has('status_aktivasi')) {
+                $validated['status_aktivasi'] = $request->input('status_aktivasi');
+            } else if ($request->has('status_instalasi')) {
+                $validated['status_instalasi'] = $request->input('status_instalasi');
+            } else {
+                $validated = $request->validate([
+                    'biaya' => 'required',
+                    'bayar' => 'required',
+                    'diskon' => 'required',
+                    'keterangan_diskon' => 'required',
+                    'status_lunas' => 'required',
+                ]);
+            }
+
+            $pemasangan->update($validated);
+
+            return redirect()->route('route.pelanggans.index')->with('message', 'Data berhasil diupdate.');
+        } 
+    }
     public function pdf($id)
     {
         $customer = Pelanggan::find($id);

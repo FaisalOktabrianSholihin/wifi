@@ -356,7 +356,7 @@
                         <h5 class="modal-title" id="exampleModalLabel1">Pembayaran</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('route.pemasangans.update', $item->id) }}" method="POST">
+                    <form action="{{ route('route.pelanggans.updatePembayaran', $item->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="modal-body">
@@ -379,29 +379,41 @@
                             <div class="mb-3">
                                 <label class="form-label" for="iuran">Iuran</label>
                                 <div class="input-group input-group-merge">
+                                    <?php
+                                    $iuranFormatted = number_format($item->toPaket->iuran, 0, ',', '.');
+                                    ?>
                                     <input type="text" class="form-control" id="iuran" name="iuran"
-                                        value="{{ $item->toPaket->iuran }}" readonly />
+                                        value="{{ $iuranFormatted }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="instalasi">Instalasi</label>
+                                <?php
+                                $instalasiFormatted = number_format($item->toPaket->instalasi, 0, ',', '.');
+                                ?>
                                 <div class="input-group input-group-merge">
                                     <input type="text" class="form-control" id="instalasi" name="instalasi"
-                                        value="{{ $item->toPaket->instalasi }}" readonly />
+                                        value="{{ $instalasiFormatted }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="biaya">Biaya</label>
                                 <div class="input-group input-group-merge">
+                                    <?php
+                                    $biayaFormatted = number_format($item->toPaket->iuran + $item->toPaket->instalasi, 0, ',', '.');
+                                    ?>
                                     <input type="number" class="form-control" id="biaya" name="biaya"
-                                        value="{{ $item->toPaket->iuran + $item->toPaket->instalasi }}" readonly />
+                                        value="{{ $biayaFormatted }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="bayar">Bayar</label>
                                 <div class="input-group input-group-merge">
+                                    <?php
+                                    $bayarFormatted = number_format($item->bayar, 0, ',', '.');
+                                    ?>
                                     <input type="number" class="form-control" id="bayar" name="bayar"
-                                        value="{{ $item->bayar }}" /><span
+                                        value="{{ $bayarFormatted }}" /><span
                                         class="input-group-text cursor-pointer"><i></i></span>
                                 </div>
                             </div>

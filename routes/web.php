@@ -27,6 +27,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TunggakanController;
 use App\Http\Controllers\UbahPaketController;
 use App\Http\Controllers\UserController;
+use App\Models\Pelanggan;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,7 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/billings', BillingController::class);
     Route::resource('/pemasangans', PemasanganController::class);
     Route::put('/pemasangans/{pemasangan}/update-teknisi', [PemasanganController::class, 'updateTeknisi'])->name('pemasangans.updateTeknisi');
+    Route::put('/pelanggan/{id}/update-pembayaran', [PelangganController::class, 'updatePembayaran'])->name('pelanggans.updatePembayaran');
     Route::resource('/kolektors', KolektorController::class);
     Route::resource('/lokets', LoketController::class);
     Route::resource('/ubah_pakets', UbahPaketController::class);
