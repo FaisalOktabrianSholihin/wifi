@@ -95,7 +95,9 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/billings', BillingController::class);
     Route::resource('/pemasangans', PemasanganController::class);
     Route::put('/pemasangans/{pemasangan}/update-teknisi', [PemasanganController::class, 'updateTeknisi'])->name('pemasangans.updateTeknisi');
-    Route::put('/pelanggan/{id}/update-pembayaran', [PelangganController::class, 'updatePembayaran'])->name('pelanggans.updatePembayaran');
+    Route::put('/pelanggan/{id}/update-pembayaran', [PelangganController::class, 'updatePembayaran'])->name('pelanggans.update-pembayaran');
+    Route::put('/pelanggan/{id}/update-aktivasi', [PelangganController::class, 'updateAktivasi'])->name('pelanggans.update-aktivasi');
+    Route::put('/pelanggan/{id}/update-instalasi', [PelangganController::class, 'updateInstalasi'])->name('pelanggans.update-instalasi');
     Route::resource('/kolektors', KolektorController::class);
     Route::resource('/lokets', LoketController::class);
     Route::resource('/ubah_pakets', UbahPaketController::class);

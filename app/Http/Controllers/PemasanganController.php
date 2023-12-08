@@ -23,7 +23,6 @@ class PemasanganController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request data
         $validatedData = [];
         if (auth()->user()->hasRole('admin')) {
             $validatedData = $request->validate([
@@ -47,15 +46,14 @@ class PemasanganController extends Controller
             $validatedData['user_survey'] = auth()->user()->name;
         }
 
-        // Add status_survey to the validated data
         $validatedData['status_survey'] = 'Belum Survey';
-        // Create a new Pemasangan record
         Pemasangan::create($validatedData);
 
         return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil disimpan.');
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
         $pemasangan = Pemasangan::findOrFail($id);
 
         $validated = [];
@@ -63,7 +61,7 @@ class PemasanganController extends Controller
         $statusSurvey = $pemasangan->status_survey;
         $user = auth()->user();
 
-        if ($statusSurvey === "Berhasil Survey" || $statusSurvey === "Gagal Survey" ) {
+        if ($statusSurvey === "Berhasil Survey" || $statusSurvey === "Gagal Survey") {
             return redirect()->route('route.pemasangans.index')->withErrors('Data gagal diupdate.');
         } else {
             if ($user->hasRole('admin')) {
@@ -80,8 +78,8 @@ class PemasanganController extends Controller
 
                 return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
 
-            
-            } else if ($user->hasRole('sales')) {
+
+            } elseif ($user->hasRole('sales')) {
 
                 if ($request->has('user_action')) {
                     $validated['user_action'] = $request->input('user_action');
@@ -93,20 +91,20 @@ class PemasanganController extends Controller
                     ]);
                     if ($validated['status_survey'] === 'Berhasil Survey') {
                         $lastId = Pelanggan::latest('id')->value('id');
-    
+
                         $nomorUrut = $lastId + 1;
-    
+
                         $nomorUrutFormatted = str_pad($nomorUrut, 4, '0', STR_PAD_LEFT);
-    
+
                         $noPelanggan = date('Y') . $nomorUrutFormatted;
-    
+
                         $passwordPppoe = rand(10000000, 99999999);
                         $pemasanganId = $pemasangan->id;
                         $pemasanganNama = $pemasangan->nama;
                         $pemasanganAlamat = $pemasangan->alamat;
                         $pemasanganTlp = $pemasangan->telepon;
                         $paketId = $pemasangan->paket_id;
-    
+
                         Pelanggan::create([
                             'no_pelanggan' => $noPelanggan,
                             'pemasangan_id' => $pemasanganId,
@@ -117,27 +115,27 @@ class PemasanganController extends Controller
                             'username_pppoe' => $noPelanggan,
                             'password_pppoe' => $passwordPppoe,
                         ]);
-    
+
                         $validated = $request->validate([
                             'status_survey' => 'required',
                             'keterangan' => 'required',
                             'tgl_action' => 'required',
                         ]);
                         $pemasangan->update($validated);
-    
-    
+
+
                         return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
                     }
                 }
                 $pemasangan->update($validated);
-    
+
                 return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
             }
             $pemasangan->update($validated);
 
             return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
         }
-    } 
+    }
 
     public function updateTeknisi(Request $request, $id)
     {

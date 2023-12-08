@@ -10,6 +10,19 @@
                     confirmButtonText: 'Ok'
                 });
             @endif
+            @if ($errors->any())
+                var errorMessage = '';
+                @foreach ($errors->all() as $error)
+                    errorMessage += '{{ $error }}\n';
+                @endforeach
+
+                Swal.fire({
+                    title: 'Error',
+                    text: errorMessage,
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+            @endif
         });
     </script>
 @endpush
@@ -33,7 +46,6 @@
                                 <th>Nama</th>
                                 <th>Alamat</th>
                                 <th>Telepon</th>
-                                {{-- <th>Status </th> --}}
                                 <th>Pembayaran</th>
                             </tr>
                         </thead>
@@ -64,11 +76,10 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ $item->no_pelanggan }}</td>
+                                    <td>{{ $item->pelanggan->no_pelanggan }}</td>
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ $item->alamat }}</td>
                                     <td>{{ $item->telepon }}</td>
-                                    {{-- <td><span class="badge bg-success">{{ $item->status_aktif }}</span></td> --}}
                                     @if (auth()->user()->hasRole('teknisi'))
                                         <td> <button type="button" class="btn btn-primary">
                                                 <span class="tf-icons bx bxs-credit-card" data-bs-toggle="modal"
@@ -84,13 +95,315 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
                 </div>
             </div>
         </div>
     </div>
 
+    {{-- modal show ges --}}
+    @foreach ($customers as $item)
+        <div class="modal fade" id="show{{ $item->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Detail Pelanggan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="no_pelanggan" name="no_pelanggan"
+                                        value="{{ $item->pelanggan->no_pelanggan }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Nama</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="nama" name="nama"
+                                        value="{{ $item->nama }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Alamat</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="alamat" name="alamat"
+                                        value="{{ $item->pelanggan->alamat }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Telepon</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="telepon" name="telepon"
+                                        value="{{ $item->pelanggan->telepon }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Username Pppoe</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ $item->pelanggan->username_pppoe }}" placeholder="Username" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="basic-icon-default-fullname">Password Pppoe</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="password" class="form-control" id="name" name="name"
+                                        value="{{ $item->pelanggan->password_pppoe }}" placeholder="Kata Sandi"
+                                        readonly /><span class="input-group-text cursor-pointer"><i
+                                            class="bx bx-hide"></i></span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Tanggal Pemasangan</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="date" class="form-control" id="name" name="name"
+                                        value="{{ $item->pelanggan->tgl_pasang }}" placeholder="Name" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Tanggal Isolir</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="date" class="form-control" id="name" name="name"
+                                        value="{{ $item->pelanggan->tgl_isolir }}" placeholder="Name" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Status
+                                    Instalasi</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ $item->status_instalasi }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Status
+                                    Aktivasi</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ $item->status_aktivasi }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Biaya</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="biaya" name="biaya"
+                                        value="{{ $item->biaya }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Bayar</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ $item->bayar }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Diskon</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ $item->diskon }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Status Lunas</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ $item->status_lunas }}" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
+    {{-- modal aktivasi ges --}}
+    @foreach ($customers as $item)
+        <div class="modal fade" id="aktivasi{{ $item->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Aktivasi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('route.pelanggans.update-aktivasi', $item->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label" for="status_aktivasi">Status Aktivasi</label>
+                                <select class="form-select" id="status_aktivasi" name="status_aktivasi">
+                                    <option disabled selected> {{ $item->status_aktivasi }}
+                                    </option>
+                                    <option value="Berhasil Aktivasi">
+                                        Berhasil Aktivasi
+                                    </option>
+                                    <option value="Gagal Aktivasi">Gagal Aktivasi
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    {{-- modal instalasi ges --}}
+    @foreach ($customers as $item)
+        <div class="modal fade" id="instalasi{{ $item->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Instalasi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('route.pelanggans.update-instalasi', $item->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label" for="status_instalasi">Status Instalasi</label>
+                                <select class="form-select" id="status_instalasi" name="status_instalasi">
+                                    <option disabled selected> {{ $item->status_instalasi }}
+                                    </option>
+                                    <option value="Berhasil Instalasi">
+                                        Berhasil Instalasi
+                                    </option>
+                                    <option value="Gagal Instalasi">Gagal Instalasi
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    {{-- modal pembayaran ges --}}
+    @foreach ($customers as $item)
+        <div class="modal fade" id="pembayaran{{ $item->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Pembayaran</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('route.pelanggans.update-pembayaran', $item->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="name" name="name"
+                                        value="{{ $item->pelanggan->no_pelanggan }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="paket">Paket</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="paket" name="paket"
+                                        value="{{ $item->toPaket->paket }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="iuran">Iuran</label>
+                                <div class="input-group input-group-merge">
+                                    <?php
+                                    $iuranFormatted = number_format($item->toPaket->iuran, 0, ',', '.');
+                                    ?>
+                                    <input type="text" class="form-control" id="iuran" name="iuran"
+                                        value="{{ $item->toPaket->iuran }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="instalasi">Instalasi</label>
+                                <?php
+                                $instalasiFormatted = number_format($item->toPaket->instalasi, 0, ',', '.');
+                                ?>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="instalasi" name="instalasi"
+                                        value="{{ $item->toPaket->instalasi }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="biaya">Biaya</label>
+                                <div class="input-group input-group-merge">
+                                    <?php
+                                    $biayaFormatted = number_format($item->toPaket->iuran + $item->toPaket->instalasi, 0, ',', '.');
+                                    ?>
+                                    <input type="number" class="form-control" id="biaya" name="biaya"
+                                        value="{{ $item->toPaket->iuran + $item->toPaket->instalasi }}" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="bayar">Bayar</label>
+                                <div class="input-group input-group-merge">
+                                    <?php
+                                    $bayarFormatted = number_format($item->bayar, 0, ',', '.');
+                                    ?>
+                                    <input type="number" class="form-control" id="bayar" name="bayar"
+                                        value="{{ $item->bayar }}" /><span
+                                        class="input-group-text cursor-pointer"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="diskon">Diskon</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="number" class="form-control" id="diskon" name="diskon"
+                                        value="{{ $item->diskon }}" /><span
+                                        class="input-group-text cursor-pointer"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="mb-3 form-password-toggle">
+                                <label class="form-label" for="diskon">Keterangan Diskon</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="keterangan_diskon"
+                                        name="keterangan_diskon" value="" required /><span
+                                        class="input-group-text cursor-pointer"><i></i></span>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="status_lunas">Status Lunas</label>
+                                <select class="form-select" id="status_lunas" name="status_lunas">
+                                    <option value="Belum Lunas"
+                                        {{ $item->status_lunas == 'Belum Lunas' ? 'selected' : '' }}>
+                                        Belum Lunas
+                                    </option>
+                                    <option value="Lunas" {{ $item->status_lunas == 'Lunas' ? 'selected' : '' }}>
+                                        Lunas
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                            <button type="submit" class="btn btn-primary">Tambah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
     {{-- modal tambah ges --}}
     <div class="modal fade" id="add" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -119,9 +432,9 @@
                         <div class="mb-3 form-password-toggle">
                             <label class="form-label" for="basic-icon-default-fullname">Password</label>
                             <div class="input-group input-group-merge">
-                                <input type="password" class="form-control" id="name" name="name" value=""
-                                    placeholder="Kata Sandi" required /><span class="input-group-text cursor-pointer"><i
-                                        class="bx bx-hide"></i></span>
+                                <input type="password" class="form-control" id="name" name="name"
+                                    value="" placeholder="Kata Sandi" required /><span
+                                    class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                             </div>
                         </div>
                         <div class="mb-3">
@@ -150,323 +463,6 @@
         </div>
     </div>
 
-    {{-- modal instalasi ges --}}
-    @foreach ($pemasanganData as $item)
-        <div class="modal fade" id="instalasi{{ $item->id }}" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Instalasi</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('route.pemasangans.update', $item->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label class="form-label" for="status_instalasi">Status Instalasi</label>
-                                <select class="form-select" id="status_instalasi" name="status_instalasi">
-                                    <option value="berhasil instalasi">
-                                        Berhasil
-                                    </option>
-                                    <option value="gagal instalasi">Gagal
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                Batal
-                            </button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endforeach
-
-    {{-- modal aktivasi ges --}}
-    @foreach ($pemasanganData as $item)
-        <div class="modal fade" id="aktivasi{{ $item->id }}" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Aktivasi</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('route.pemasangans.update', $item->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label class="form-label" for="status_aktivasi">Status Aktivasi</label>
-                                <select class="form-select" id="status_aktivasi" name="status_aktivasi">
-                                    <option value="berhasil aktivasi">
-                                        Berhasil
-                                    </option>
-                                    <option value="gagal aktivasi">Gagal
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                Batal
-                            </button>
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endforeach
-
-    {{-- modal show ges --}}
-    @foreach ($customers as $item)
-        <div class="modal fade" id="show{{ $item->id }}" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Detail Pelanggan</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form>
-                        {{-- @csrf
-                        @method('PUT') --}}
-                        <div class="modal-body">
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="no_pelanggan" name="no_pelanggan"
-                                        value="{{ $item->no_pelanggan }}" readonly />
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-icon-default-fullname">Nama</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="nama" name="nama"
-                                        value="{{ $item->nama }}" readonly />
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-icon-default-fullname">Alamat</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="alamat" name="alamat"
-                                        value="{{ $item->alamat }}" readonly />
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-icon-default-fullname">Telepon</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="telepon" name="telepon"
-                                        value="{{ $item->telepon }}" readonly />
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-icon-default-fullname">Username Pppoe</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        value="{{ $item->username_pppoe }}" placeholder="Username" readonly />
-                                </div>
-                            </div>
-                            <div class="mb-3 form-password-toggle">
-                                <label class="form-label" for="basic-icon-default-fullname">Password Pppoe</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" class="form-control" id="name" name="name"
-                                        value="{{ $item->password_pppoe }}" placeholder="Kata Sandi" readonly /><span
-                                        class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-icon-default-fullname">Tanggal Pemasangan</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="date" class="form-control" id="name" name="name"
-                                        value="{{ $item->tgl_pemasangan }}" placeholder="Name" readonly />
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="basic-icon-default-fullname">Tanggal Isolir</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="date" class="form-control" id="name" name="name"
-                                        value="{{ $item->tgl_isolir }}" placeholder="Name" readonly />
-                                </div>
-                            </div>
-                            @foreach ($pemasanganData as $pemasangan)
-                                {{-- @if ($pemasangan->id == $item->id) --}}
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Status
-                                        Instalasi</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->status_instalasi }}" readonly />
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Status
-                                        Aktivasi</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->status_aktivasi }}" readonly />
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Biaya</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="biaya" name="biaya"
-                                            value="{{ $pemasangan->biaya }}" readonly />
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Bayar</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->bayar }}" readonly />
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Diskon</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->diskon }}" readonly />
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Status Lunas</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $pemasangan->status_lunas }}" readonly />
-                                    </div>
-                                </div>
-                                {{-- @endif --}}
-                            @endforeach
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endforeach
-
-    {{-- modal pembayaran ges --}}
-    @foreach ($pemasanganData as $item)
-        <div class="modal fade" id="pembayaran{{ $item->id }}" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Pembayaran</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <form action="{{ route('route.pelanggans.updatePembayaran', $item->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="modal-body">
-                            @foreach ($customers as $cus)
-                                <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
-                                    <div class="input-group input-group-merge">
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            value="{{ $cus->no_pelanggan }}" readonly />
-                                    </div>
-                                </div>
-                            @endforeach
-                            <div class="mb-3">
-                                <label class="form-label" for="paket">Paket</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="paket" name="paket"
-                                        value="{{ $item->toPaket->paket }}" readonly />
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="iuran">Iuran</label>
-                                <div class="input-group input-group-merge">
-                                    <?php
-                                    $iuranFormatted = number_format($item->toPaket->iuran, 0, ',', '.');
-                                    ?>
-                                    <input type="text" class="form-control" id="iuran" name="iuran"
-                                        value="{{ $iuranFormatted }}" readonly />
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="instalasi">Instalasi</label>
-                                <?php
-                                $instalasiFormatted = number_format($item->toPaket->instalasi, 0, ',', '.');
-                                ?>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="instalasi" name="instalasi"
-                                        value="{{ $instalasiFormatted }}" readonly />
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="biaya">Biaya</label>
-                                <div class="input-group input-group-merge">
-                                    <?php
-                                    $biayaFormatted = number_format($item->toPaket->iuran + $item->toPaket->instalasi, 0, ',', '.');
-                                    ?>
-                                    <input type="number" class="form-control" id="biaya" name="biaya"
-                                        value="{{ $biayaFormatted }}" readonly />
-                                </div>
-                            </div>
-                            <div class="mb-3 form-password-toggle">
-                                <label class="form-label" for="bayar">Bayar</label>
-                                <div class="input-group input-group-merge">
-                                    <?php
-                                    $bayarFormatted = number_format($item->bayar, 0, ',', '.');
-                                    ?>
-                                    <input type="number" class="form-control" id="bayar" name="bayar"
-                                        value="{{ $bayarFormatted }}" /><span
-                                        class="input-group-text cursor-pointer"><i></i></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 form-password-toggle">
-                                <label class="form-label" for="diskon">Diskon</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="number" class="form-control" id="diskon" name="diskon"
-                                        value="{{ $item->diskon }}" /><span
-                                        class="input-group-text cursor-pointer"><i></i></span>
-                                </div>
-                            </div>
-                            <div class="mb-3 form-password-toggle">
-                                <label class="form-label" for="diskon">Keterangan Diskon</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control" id="keterangan_diskon"
-                                        name="keterangan_diskon" value="" required /><span
-                                        class="input-group-text cursor-pointer"><i></i></span>
-                                </div>
-                            </div>
-                            {{-- <div class="mb-3">
-                                <label class="form-label" for="status_lunas">Status Lunas</label>
-                                <select class="form-select" id="status_lunas" name="status_lunas">
-                                    <option value="Belum Lunas">
-                                        Belum Lunas
-                                    </option>
-                                    <option value="Lunas">Lunas
-                                    </option>
-                                </select>
-                            </div> --}}
-                            <div class="mb-3">
-                                <label class="form-label" for="status_lunas">Status Lunas</label>
-                                <select class="form-select" id="status_lunas" name="status_lunas">
-                                    <option value="Belum Lunas"
-                                        {{ $item->status_lunas == 'Belum Lunas' ? 'selected' : '' }}>
-                                        Belum Lunas
-                                    </option>
-                                    <option value="Lunas" {{ $item->status_lunas == 'Lunas' ? 'selected' : '' }}>
-                                        Lunas
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                                Batal
-                            </button>
-                            <button type="submit" class="btn btn-primary">Tambah</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    @endforeach
 
     {{-- modal hapus ges --}}
     <div class="modal fade" id="delete" tabindex="-1" aria-hidden="true">
@@ -492,6 +488,13 @@
 @endsection
 
 @section('scripts')
+    <script>
+        // Fungsi untuk menutup modal
+        function closePembayaranModals() {
+            $('[id^=pembayaran]').modal('hide');
+        }
+    </script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             // Ambil elemen-elemen input
