@@ -33,14 +33,14 @@
                                             <div class="dropdown-menu">
                                                 @can('update ubah paket')
                                                     <button data-bs-toggle="modal" data-bs-target="#ubahpaket"
-                                                        class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
-                                                        Ubah Paket</button>
-                                                    <button data-bs-toggle="modal" data-bs-target="#pembayaran"
+                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                        Assigment</button>
+                                                    {{-- <button data-bs-toggle="modal" data-bs-target="#pembayaran"
                                                         class="dropdown-item"><i class="bx bx-share me-1"></i>
                                                         Pembayaran</button>
                                                     <button data-bs-toggle="modal" data-bs-target="#cetaknota"
                                                         class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                        Cetak Nota</button>
+                                                        Cetak Nota</button> --}}
                                                 @endcan
                                             </div>
                                         </div>
@@ -80,11 +80,11 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="paket" class="form-label">Paket</label>
-                            <select id="paket" class="form-select" name="paket" required>
-                                <option value="value1">Option 1</option>
-                                <option value="value2">Option 2</option>
-                                <option value="value3">Option 3</option>
+                            <label for="user_action" class="form-label">Pilih Teknisi</label>
+                            <select id="user_action" class="form-select" name="user_action" required>
+                                <option value="value1">Teknisi 1</option>
+                                <option value="value2">Teknisi 2</option>
+                                <option value="value3">Teknisi 3</option>
                             </select>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                             Batal
                         </button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Kirim</button>
                     </div>
                 </form>
             </div>

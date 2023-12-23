@@ -67,11 +67,25 @@
                         @method('PUT') --}}
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="paket" class="form-label">Pilih Admin</label>
+                            <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="no_pelanggan" name="no_pelanggan"
+                                    value="" placeholder="123123123" readonly />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">Paket Lama</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="no_pelanggan" name="no_pelanggan"
+                                    value="" placeholder="4M" readonly />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="paket" class="form-label">Pilih Paket Baru</label>
                             <select id="paket" class="form-select" name="paket" required>
-                                <option value="value1">Admin 1</option>
-                                <option value="value2">Admin 2</option>
-                                <option value="value3">Admin 3</option>
+                                <option value="value1">4M</option>
+                                <option value="value2">5M</option>
+                                <option value="value3">10M</option>
                             </select>
                         </div>
                     </div>
@@ -79,7 +93,7 @@
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                             Batal
                         </button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="submit" class="btn btn-primary">Kirim</button>
                     </div>
                 </form>
             </div>
