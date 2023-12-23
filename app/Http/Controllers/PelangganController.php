@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pelanggan;
 use App\Models\Pemasangan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use PDF;
@@ -21,6 +22,7 @@ class PelangganController extends Controller
         return view('pelanggan.index', compact('customers'));
 
     }
+
     public function update(Request $request, $id)
     {
         $pelanggan = Pelanggan::findOrFail($id);

@@ -23,4 +23,9 @@ class UbahPaket extends Model
         'lunas',
         'keterangan',
     ];
+
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class, 'no_pelanggan', 'no_pelanggan');
+    }
 }

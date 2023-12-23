@@ -23,5 +23,10 @@ class Paket extends Model
     {
         return $this->hasMany(Pemasangan::class);
     }
-    
+
+    public function pelanggan()
+    {
+        return $this->hasMany(Pemasangan::class);
+    }
+
 }

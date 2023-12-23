@@ -37,4 +37,14 @@ class Pelanggan extends Model
     {
         return $this->belongsTo(Pemasangan::class, 'pemasangan_id');
     }
+
+    public function paket()
+    {
+        return $this->belongsTo(Paket::class, 'paket_id');
+    }
+
+    public function ubahpaket()
+    {
+        return $this->hasMany(UbahPaket::class);
+    }
 }

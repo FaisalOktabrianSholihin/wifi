@@ -102,10 +102,12 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/kolektors', KolektorController::class);
     Route::resource('/lokets', LoketController::class);
     Route::resource('/ubah_pakets', UbahPaketController::class);
+    Route::put('/ubahpakets/{id}/update-teknisi', [UbahPaketController::class, 'updateTeknisi'])->name('ubah_pakets.update-teknisi');
     Route::resource('/mutasis', MutasiController::class);
     Route::resource('/pemutusans', PemutusanController::class);
     Route::resource('/pelanggans', PelangganController::class);
     Route::resource('/ikipelanggans', IkiPelangganController::class);
+    Route::post('/ikipelanggan/{id}/store', [IkiPelangganController::class, 'store'])->name('ikipelanggans.store');
     Route::get('/ikipelanggans/index1', [PelangganController::class, 'index1'])->name('route.ikipelanggans.index1');
     Route::get('/pelanggans/pdf/{id}', [PelangganController::class, 'pdf'])->name('pelanggans.pdf');
     Route::get('/pelanggans/pdf', [PelangganController::class, 'pdf'])->name('pdf.customer');
