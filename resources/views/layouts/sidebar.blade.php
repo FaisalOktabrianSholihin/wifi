@@ -85,6 +85,15 @@
                            </li>
                        @endcan
                    </ul>
+                   <ul class="menu-sub">
+                       @can('read paket')
+                           <li class="menu-item {{ Route::is('route.ikipelanggans.index') ? 'active' : '' }}">
+                               <a href="{{ route('route.ikipelanggans.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu" style="color: black">Pelanggan</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
 
                    <ul class="menu-sub">
                        @can('read paket')

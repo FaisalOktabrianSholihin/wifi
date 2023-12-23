@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BillingController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FileManagerController;
+use App\Http\Controllers\IkiPelangganController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PemasanganController;
 use App\Http\Controllers\KolektorController;
@@ -104,6 +105,8 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/mutasis', MutasiController::class);
     Route::resource('/pemutusans', PemutusanController::class);
     Route::resource('/pelanggans', PelangganController::class);
+    Route::resource('/ikipelanggans', IkiPelangganController::class);
+    Route::get('/ikipelanggans/index1', [PelangganController::class, 'index1'])->name('route.ikipelanggans.index1');
     Route::get('/pelanggans/pdf/{id}', [PelangganController::class, 'pdf'])->name('pelanggans.pdf');
     Route::get('/pelanggans/pdf', [PelangganController::class, 'pdf'])->name('pdf.customer');
     Route::resource('/perbaikans', PerbaikanController::class);
