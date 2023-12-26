@@ -103,7 +103,9 @@
                                             <td>{{ optional(optional($item->pelanggan)->pluck('nama'))->first() }}</td>
                                             <td>{{ $item->paket_lama }}</td>
                                             <td>{{ $item->paket->paket }}</td>
-                                            <td>{{ $item->lunas }}</td>
+                                            <td>
+                                                {{ $item->lunas }}
+                                            </td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -235,37 +237,16 @@
         </div>
     @endforeach
 
-    {{-- modal cetak nota ges --}}
-    <div class="modal fade" id="cetaknota" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Edit Ubah Paket</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="" method="">
-                    {{-- @csrf
-                        @method('PUT') --}}
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Name</label>
-                            <div class="input-group input-group-merge">
-                                <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                        class="bx bx-user"></i></span>
-                                <input type="text" class="form-control" id="name" name="name" value=""
-                                    placeholder="Name" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                            Batal
-                        </button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+@endsection
 
+@section('script')
+    <script>
+        $(document).ready(function() {
+            // Trigger PDF generation after successful payment
+            @if (session('message') && session('message') == 'Data berhasil diupdate.')
+                var pdfUrl = "{{ route('route.ubah_pakets.pdf', $item->id) }}";
+                window.open(pdfUrl, '_blank');
+            @endif
+        });
+    </script>
 @endsection

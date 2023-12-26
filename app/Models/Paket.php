@@ -30,7 +30,7 @@ class Paket extends Model
     }
     public function ubahpaket()
     {
-        return $this->hasMany(UbahPaket::class);
+        return $this->hasMany(UbahPaket::class, 'paket_baru_id', 'id');
     }
 
 }
