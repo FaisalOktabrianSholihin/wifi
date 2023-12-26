@@ -28,5 +28,9 @@ class Paket extends Model
     {
         return $this->hasMany(Pemasangan::class);
     }
+    public function ubahpaket()
+    {
+        return $this->hasMany(UbahPaket::class);
+    }
 
 }

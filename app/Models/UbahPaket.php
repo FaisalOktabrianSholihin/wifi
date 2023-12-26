@@ -20,6 +20,7 @@ class UbahPaket extends Model
         'biaya',
         'diskon',
         'bayar',
+        'paket_baru_id',
         'lunas',
         'keterangan',
     ];
@@ -27,5 +28,10 @@ class UbahPaket extends Model
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class, 'no_pelanggan', 'no_pelanggan');
+    }
+
+    public function paket()
+    {
+        return $this->belongsTo(Paket::class, 'paket_baru_id', 'id');
     }
 }

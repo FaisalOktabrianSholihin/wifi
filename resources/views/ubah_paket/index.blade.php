@@ -48,10 +48,8 @@
                                     <th>Tanggal Ubah</th>
                                 @endif
                                 @if (auth()->user()->hasRole('teknisi'))
-                                    <th>User action</th>
-                                    <th>Tanggal action</th>
+                                    <th>Status</th>
                                 @endif
-
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -68,18 +66,10 @@
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         @can('update ubah paket')
-                                                            {{-- @if (auth()->user()->hasRole('admin')) --}}
                                                             <button data-bs-toggle="modal"
                                                                 data-bs-target="#ubahpaket{{ $item->id }}"
                                                                 class="dropdown-item"><i class="bx bx-share me-1"></i>
                                                                 Assigment</button>
-                                                            {{-- <button data-bs-toggle="modal" data-bs-target="#pembayaran"
-                                                class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                Pembayaran</button>
-                                            <button data-bs-toggle="modal" data-bs-target="#cetaknota"
-                                                class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                Cetak Nota</button> --}}
-                                                            {{-- @endif --}}
                                                         @endcan
                                                     </div>
                                                 </div>
@@ -87,7 +77,7 @@
                                             <td>{{ $item->no_pelanggan }}</td>
                                             <td>{{ optional(optional($item->pelanggan)->pluck('nama'))->first() }}</td>
                                             <td>{{ $item->paket_lama }}</td>
-                                            <td>{{ $item->paket_baru }}</td>
+                                            <td>{{ $item->paket->paket }}</td>
                                             <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
                                         </tr>
                                     @elseif (auth()->user()->hasRole('teknisi') && auth()->user()->name === $item->user_action)
@@ -101,18 +91,10 @@
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         @can('update ubah paket')
-                                                            {{-- @if (auth()->user()->hasRole('admin')) --}}
                                                             <button data-bs-toggle="modal"
-                                                                data-bs-target="#ubahpaket{{ $item->id }}"
+                                                                data-bs-target="#pembayaran{{ $item->id }}"
                                                                 class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                Assigment</button>
-                                                            {{-- <button data-bs-toggle="modal" data-bs-target="#pembayaran"
-                                            class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                            Pembayaran</button>
-                                        <button data-bs-toggle="modal" data-bs-target="#cetaknota"
-                                            class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                            Cetak Nota</button> --}}
-                                                            {{-- @endif --}}
+                                                                Gatau Apa</button>
                                                         @endcan
                                                     </div>
                                                 </div>
@@ -120,9 +102,8 @@
                                             <td>{{ $item->no_pelanggan }}</td>
                                             <td>{{ optional(optional($item->pelanggan)->pluck('nama'))->first() }}</td>
                                             <td>{{ $item->paket_lama }}</td>
-                                            <td>{{ $item->paket_baru }}</td>
-                                            <td>{{ $item->user_action }}</td>
-                                            <td>{{ optional($item->tgl_action)->format('d F Y H:i:s') }}</td>
+                                            <td>{{ $item->paket->paket }}</td>
+                                            <td>{{ $item->lunas }}</td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -141,7 +122,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Ubah Paket</h5>
+                        <h5 class="modal-title" id="exampleModalLabel1">Pembayaran</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('route.ubah_pakets.update-teknisi', $item->id) }}" method="POST">
@@ -179,70 +160,80 @@
     @endforeach
 
     {{-- modal pembayaran ges --}}
-    <div class="modal fade" id="pembayaran" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Pembayaran</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    @foreach ($ubahpaket as $item)
+        <div class="modal fade" id="pembayaran{{ $item->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Pembayaran</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('route.ubah_pakets.pembayaran', $item->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="no pelanggan" name="no pelanggan"
+                                        value="{{ $item->no_pelanggan }}" placeholder="no pelanggan" readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Tanggal Action</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="date" class="form-control" id="tgl_action" name="tgl_action"
+                                        value="" placeholder="" required />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Biaya</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="biaya" name="biaya"
+                                        value="{{ $item->paket->iuran + $item->paket->instalasi }}" placeholder="biaya"
+                                        readonly />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Diskon</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="diskon" name="diskon"
+                                        value="{{ $item->diskon }}" placeholder="diskon" />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Bayar</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="number" class="form-control" id="bayar" name="bayar"
+                                        value="" placeholder="" />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="lunas" class="form-label">Status Pembayaran</label>
+                                <select id="lunas" class="form-select" name="lunas" required>
+                                    <option value="Lunas">Lunas</option>
+                                    <option value="Belum Lunas">Belum Lunas</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Keterangan</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="keterangan" name="keterangan"
+                                        value="" placeholder="keterangan" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
                 </div>
-                <form action="" method="">
-                    {{-- @csrf
-                        @method('PUT') --}}
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
-                            <div class="input-group input-group-merge">
-                                <input type="text" class="form-control" id="no pelanggan" name="no pelanggan"
-                                    value="" placeholder="no pelanggan" readonly />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Biaya</label>
-                            <div class="input-group input-group-merge">
-                                <input type="text" class="form-control" id="biaya" name="biaya" value=""
-                                    placeholder="biaya" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Diskon</label>
-                            <div class="input-group input-group-merge">
-                                <input type="text" class="form-control" id="diskon" name="diskon" value=""
-                                    placeholder="diskon" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Bayar</label>
-                            <div class="input-group input-group-merge">
-                                <input type="text" class="form-control" id="bayar" name="bayar" value=""
-                                    placeholder="bayar" />
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="lunas" class="form-label">Status Pembayaran</label>
-                            <select id="lunas" class="form-select" name="lunas" required>
-                                <option value="value1">Lunas</option>
-                                <option value="value2">Belum Lunas</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">Keterangan</label>
-                            <div class="input-group input-group-merge">
-                                <input type="text" class="form-control" id="keterangan" name="keterangan"
-                                    value="" placeholder="keterangan" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                            Batal
-                        </button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
             </div>
         </div>
-    </div>
+    @endforeach
 
     {{-- modal cetak nota ges --}}
     <div class="modal fade" id="cetaknota" tabindex="-1" aria-hidden="true">

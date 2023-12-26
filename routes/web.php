@@ -103,6 +103,7 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/lokets', LoketController::class);
     Route::resource('/ubah_pakets', UbahPaketController::class);
     Route::put('/ubahpakets/{id}/update-teknisi', [UbahPaketController::class, 'updateTeknisi'])->name('ubah_pakets.update-teknisi');
+    Route::put('/ubahpakets/{id}/update-pembayaran', [UbahPaketController::class, 'pembayaran'])->name('ubah_pakets.pembayaran');
     Route::resource('/mutasis', MutasiController::class);
     Route::resource('/pemutusans', PemutusanController::class);
     Route::resource('/pelanggans', PelangganController::class);

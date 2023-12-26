@@ -111,10 +111,10 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="paket_baru" class="form-label">Pilih Paket Baru</label>
-                                <select id="paket_baru" class="form-select" name="paket_baru" required>
+                                <label for="paket_baru_id" class="form-label">Pilih Paket Baru</label>
+                                <select id="paket_baru_id" class="form-select" name="paket_baru_id" required>
                                     @foreach ($pakets as $item)
-                                        <option value="{{ $item->paket }}" {{ $item->paket ? 'selected' : '' }}>
+                                        <option value="{{ $item->id }}" {{ $item->paket ? 'selected' : '' }}>
                                             {{ $item->paket }}
                                         </option>
                                     @endforeach

@@ -24,16 +24,16 @@ class IkiPelangganController extends Controller
         $validatedData = $request->validate([
             'no_pelanggan' => 'required',
             'paket_lama' => 'required',
-            'paket_baru' => 'required',
+            'paket_baru_id' => 'required',
         ]);
 
         $ubahPaket = UbahPaket::create($validatedData);
-        $paketBaru = $request->input('paket_baru');
-        $paketBaruId = Paket::where('paket', $paketBaru)->first();
-        if (!$paketBaruId) {
-            return redirect()->back()->with('error', 'Paket baru tidak ditemukan.');
-        }
-        $paketId = $paketBaruId->id;
+        // $paketBaru = $request->input('paket_baru');
+        // $paketBaruId = Paket::where('paket', $paketBaru)->first();
+        // if (!$paketBaruId) {
+        //     return redirect()->back()->with('error', 'Paket baru tidak ditemukan.');
+        // }
+        $paketId = $validatedData['paket_baru_id'];
         Pelanggan::where('id', $pelangganId)->update(['paket_id' => $paketId]);
 
         return redirect()->route('route.ikipelanggans.index')->with('message', 'Data berhasil disimpan.');
