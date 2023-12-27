@@ -57,7 +57,7 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
                         <div class="card-body mb-4">
-                            @if (auth()->user()->hasRole('admin') &&
+                            @if (auth()->user()->hasRole('admin') ||
                                     auth()->user()->hasRole('sales'))
                                 <button class="btn btn-outline-primary float-end" data-bs-toggle="modal"
                                     data-bs-target="#add-ubahpaket">Tambah</button>
@@ -161,29 +161,204 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
-                        <p>
-                            Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice
-                            cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice
-                            cream
-                            cheesecake fruitcake.
-                        </p>
-                        <p class="mb-0">
-                            Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah
-                            cotton candy liquorice caramels.
-                        </p>
+                        <div class="card-body mb-4">
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Aksi</th>
+                                        <th>No Pelanggan</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Paket Lama</th>
+                                        <th>Paket Baru</th>
+                                        @if (auth()->user()->hasRole('admin'))
+                                            <th>Tanggal Ubah</th>
+                                        @endif
+                                        @if (auth()->user()->hasRole('teknisi'))
+                                            <th>Status</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @can('read ubah paket')
+                                        @foreach ($berhasil as $item)
+                                            @if (auth()->user()->hasRole('admin'))
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown">
+                                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                @can('update ubah paket')
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#visitpelanggan{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Validasi</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#status{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Status</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#pembayaran{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-card me-1"></i>
+                                                                        Pembayaran</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#ubahpaket{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Cetak Nota</button>
+                                                                @endcan
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ $item->no_pelanggan }}</td>
+                                                    <td>{{ $item->pelanggan->nama }}</td>
+                                                    <td>{{ $item->paket_lama }}</td>
+                                                    <td>{{ $item->paket->paket }}</td>
+                                                    <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
+                                                </tr>
+                                            @elseif (auth()->user()->hasRole('teknisi'))
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown">
+                                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                @can('update ubah paket')
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#pembayaran{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Pembayaran</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#status{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Status</button>
+                                                                @endcan
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ $item->no_pelanggan }}</td>
+                                                    <td>{{ $item->pelanggan->nama }}</td>
+                                                    <td>{{ $item->paket_lama }}</td>
+                                                    <td>{{ $item->paket->paket }}</td>
+                                                    <td>
+                                                        {{ $item->lunas }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endcan
+                                </tbody>
+                            </table>
+                            {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
+                        </div>
                     </div>
                     <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
-                        <p>
-                            Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
-                            cupcake gummi bears cake chocolate.
-                        </p>
-                        <p class="mb-0">
-                            Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake.
-                            Sweet
-                            roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding
-                            jelly
-                            jelly-o tart brownie jelly.
-                        </p>
+                        <div class="card-body mb-4">
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Aksi</th>
+                                        <th>No Pelanggan</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Paket Lama</th>
+                                        <th>Paket Baru</th>
+                                        @if (auth()->user()->hasRole('admin'))
+                                            <th>Tanggal Ubah</th>
+                                        @endif
+                                        @if (auth()->user()->hasRole('teknisi'))
+                                            <th>Status</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @can('read ubah paket')
+                                        @foreach ($gagal as $item)
+                                            @if (auth()->user()->hasRole('admin'))
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown">
+                                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                @can('update ubah paket')
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#visitpelanggan{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Validasi</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#status{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Status</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#pembayaran{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-card me-1"></i>
+                                                                        Pembayaran</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#ubahpaket{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Cetak Nota</button>
+                                                                @endcan
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ $item->no_pelanggan }}</td>
+                                                    <td>{{ $item->pelanggan->nama }}</td>
+                                                    <td>{{ $item->paket_lama }}</td>
+                                                    <td>{{ $item->paket->paket }}</td>
+                                                    <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
+                                                </tr>
+                                            @elseif (auth()->user()->hasRole('teknisi'))
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown">
+                                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                @can('update ubah paket')
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#pembayaran{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Pembayaran</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#status{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Status</button>
+                                                                @endcan
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ $item->no_pelanggan }}</td>
+                                                    <td>{{ $item->pelanggan->nama }}</td>
+                                                    <td>{{ $item->paket_lama }}</td>
+                                                    <td>{{ $item->paket->paket }}</td>
+                                                    <td>
+                                                        {{ $item->lunas }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endcan
+                                </tbody>
+                            </table>
+                            {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -16,19 +16,28 @@ class UbahPaketController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->hasRole('admin') && $user->hasRole('sales')) {
+        if ($user->hasRole('admin') || $user->hasRole('sales')) {
 
-            $ubahpaket = UbahPaket::with(['pelanggan', 'paket'])->orderByDesc('id')->get();
-
+            $ubahpaket = UbahPaket::whereNull('lunas')->with(['pelanggan', 'paket'])->orderByDesc('id')->get();
         } else {
             $ubahpaket = UbahPaket::where('status_visit', 'Perlu')->with(['pelanggan', 'paket'])->orderByDesc('id')->get();
         }
 
-        $berhasil = UbahPaket::where('status_proses', 'Berhasil')->with(['pelanggan', 'paket'])->orderByDesc('id')->get();
+        // $berhasil = UbahPaket::where('status_proses', 'Berhasil')->with(['pelanggan', 'paket'])->orderByDesc('id')->get();
+        $berhasil = UbahPaket::where('status_proses', 'Berhasil')
+            ->whereNotNull('lunas')
+            ->with(['pelanggan', 'paket'])
+            ->orderByDesc('id')
+            ->get();
+
+        $gagal = UbahPaket::where('status_proses', 'Gagal')
+            ->with(['pelanggan', 'paket'])
+            ->orderByDesc('id')
+            ->get();
         $teknisi = User::role('teknisi')->get();
         $data = Pelanggan::with('paket')->get();
         $paket = Paket::all();
-        return view('ubah_paket.index', compact('ubahpaket', 'paket', 'teknisi', 'data', 'berhasil'));
+        return view('ubah_paket.index', compact('ubahpaket', 'paket', 'teknisi', 'data', 'berhasil', 'gagal'));
     }
 
     public function updateTeknisi(Request $request, $id)
@@ -127,7 +136,6 @@ class UbahPaketController extends Controller
         $ubahpaket->update($validatedData);
 
         return redirect()->route('route.ubah_pakets.index')->with('message', 'Data berhasil disimpan.');
-
     }
 
     public function updateProses(Request $request, $id)
@@ -143,6 +151,5 @@ class UbahPaketController extends Controller
         $ubahpaket->update($validatedData);
 
         return redirect()->route('route.ubah_pakets.index')->with('message', 'Data berhasil disimpan.');
-
     }
 }
