@@ -20,7 +20,10 @@ class UbahPaket extends Model
         'biaya',
         'diskon',
         'bayar',
+        'status_visit',
+        'status_proses',
         'paket_baru_id',
+        'keterangan_proses',
         'lunas',
         'keterangan',
     ];

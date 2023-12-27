@@ -29,6 +29,7 @@ use App\Http\Controllers\TunggakanController;
 use App\Http\Controllers\UbahPaketController;
 use App\Http\Controllers\UserController;
 use App\Models\Pelanggan;
+use App\Models\UbahPaket;
 
 /*
 |--------------------------------------------------------------------------
@@ -87,7 +88,7 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::post('/roles/{role}/permissions', [RoleController::class, 'givePermission'])->name('roles.permissions');
     Route::delete('/roles/{role}/permissions/{permission}', [RoleController::class, 'revokePermission'])->name('roles.permissions.revoke');
     Route::patch('/roles/{role}/sync-permissions', [RoleController::class, 'syncPermissions'])->name('roles.permissions.sync');
-    Route::resource('/permissions', PermissionsController::class);
+    Route::resource('/permissions', PermissionsController::class)->middleware('role:route');
     Route::post('/permissions/{permission}/roles', [PermissionsController::class, 'assignRole'])->name('permissions.roles');
     Route::delete('/permissions/{permission}/roles/{role}', [PermissionsController::class, 'removeRole'])->name('permissions.roles.remove');
     Route::resource('/files', FileManagerController::class);
@@ -109,7 +110,9 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/pemutusans', PemutusanController::class);
     Route::resource('/pelanggans', PelangganController::class);
     Route::resource('/ikipelanggans', IkiPelangganController::class);
-    Route::post('/ikipelanggan/{id}/store', [IkiPelangganController::class, 'store'])->name('ikipelanggans.store');
+    Route::post('/ubahpaket/store', [UbahPaketController::class, 'store'])->name('ubah_pakets.store');
+    Route::put('/ubahpaket/{id}/updateVisit', [UbahPaketController::class, 'updateVisit'])->name('ubah_pakets.visit');
+    Route::put('/ubahpaket/{id}/updateStatus', [UbahPaketController::class, 'updateProses'])->name('ubah_pakets.proses');
     Route::get('/ikipelanggans/index1', [PelangganController::class, 'index1'])->name('route.ikipelanggans.index1');
     Route::get('/pelanggans/pdf/{id}', [PelangganController::class, 'pdf'])->name('pelanggans.pdf');
     Route::get('/pelanggans/pdf', [PelangganController::class, 'pdf'])->name('pdf.customer');

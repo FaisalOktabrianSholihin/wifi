@@ -13,7 +13,9 @@ return new class () extends Migration {
         Schema::create('ubah_paket', function (Blueprint $table) {
             $table->id();
             $table->string('paket_lama', 50)->nullable();
-            $table->string('paket_baru', 50)->nullable();
+            $table->string('status_proses', 50)->nullable();
+            $table->text('keterangan_proses')->nullable();
+            $table->string('status_visit', 50)->nullable();
             $table->string('user_action', 30)->nullable();
             $table->date('tgl_action')->nullable();
             $table->integer('biaya')->default(0);

@@ -57,8 +57,11 @@
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
                         <div class="card-body mb-4">
-                            <button class="btn btn-outline-primary float-end" data-bs-toggle="modal"
-                                data-bs-target="#add-ubahpaket">Tambah</button>
+                            @if (auth()->user()->hasRole('admin') &&
+                                    auth()->user()->hasRole('sales'))
+                                <button class="btn btn-outline-primary float-end" data-bs-toggle="modal"
+                                    data-bs-target="#add-ubahpaket">Tambah</button>
+                            @endif
                         </div>
                         <div class="table-responsive text-nowrap">
                             <table class="table mb-4">
@@ -92,9 +95,14 @@
                                                             </button>
                                                             <div class="dropdown-menu">
                                                                 @can('update ubah paket')
-                                                                    <button data-bs-toggle="modal" data-bs-target="#visitpelanggan"
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#visitpelanggan{{ $item->id }}"
                                                                         class="dropdown-item"><i class="bx bx-share me-1"></i>
                                                                         Validasi</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#status{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Status</button>
                                                                     <button data-bs-toggle="modal"
                                                                         data-bs-target="#pembayaran{{ $item->id }}"
                                                                         class="dropdown-item"><i class="bx bx-card me-1"></i>
@@ -108,12 +116,12 @@
                                                         </div>
                                                     </td>
                                                     <td>{{ $item->no_pelanggan }}</td>
-                                                    <td>{{ optional(optional($item->pelanggan)->pluck('nama'))->first() }}</td>
+                                                    <td>{{ $item->pelanggan->nama }}</td>
                                                     <td>{{ $item->paket_lama }}</td>
                                                     <td>{{ $item->paket->paket }}</td>
                                                     <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
                                                 </tr>
-                                            @elseif (auth()->user()->hasRole('teknisi') && auth()->user()->name === $item->user_action)
+                                            @elseif (auth()->user()->hasRole('teknisi'))
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>
@@ -127,13 +135,17 @@
                                                                     <button data-bs-toggle="modal"
                                                                         data-bs-target="#pembayaran{{ $item->id }}"
                                                                         class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Gatau Apa</button>
+                                                                        Pembayaran</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#status{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Status</button>
                                                                 @endcan
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td>{{ $item->no_pelanggan }}</td>
-                                                    <td>{{ optional(optional($item->pelanggan)->pluck('nama'))->first() }}</td>
+                                                    <td>{{ $item->pelanggan->nama }}</td>
                                                     <td>{{ $item->paket_lama }}</td>
                                                     <td>{{ $item->paket->paket }}</td>
                                                     <td>
@@ -269,23 +281,30 @@
                     <h5 class="modal-title" id="exampleModalLabel1">Ajukan Ubah Paket</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="" method="POST">
-                    {{-- @csrf
-                        @method('POST') --}}
+                <form action="{{ route('route.ubah_pakets.store') }}" method="POST">
+                    @csrf
+                    @method('POST')
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
-                            <div class="input-group input-group-merge">
-                                <input type="text" class="form-control" id="paket_lama" name="paket_lama"
-                                    value="" />
-                            </div>
+                            <label for="no_pelanggan" class="form-label">No Pelanggan</label>
+                            <select id="no_pelanggan" class="form-select" name="no_pelanggan" required>
+                                <option selected>Pilih Pelanggan</option>
+                                @foreach ($data as $item)
+                                    <option value="{{ $item->no_pelanggan }}" {{-- {{ $item->no_pelanggan ? 'selected' : '' }} --}}>
+                                        {{ $item->no_pelanggan }} - {{ $item->nama }} - {{ $item->paket->paket }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="paket_baru_id" class="form-label">Paket Baru</label>
                             <select id="paket_baru_id" class="form-select" name="paket_baru_id" required>
-                                <option value="1">Opsi 1</option>
-                                <option value="2">Opsi 2</option>
-                                <option value="3">Opsi 3</option>
+                                <option selected>Pilih Paket Baru</option>
+                                @foreach ($paket as $item)
+                                    <option value="{{ $item->id }}">
+                                        {{ $item->paket }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -420,35 +439,77 @@
     @endforeach
 
     {{-- modal visit ges --}}
-    <div class="modal fade" id="visitpelanggan" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Validasi Visit Pelanggan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="" method="POST">
-                    {{-- @csrf
-                        @method('PUT') --}}
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="paket_baru_id" class="form-label">Status Visit</label>
-                            <select id="paket_baru_id" class="form-select" name="paket_baru_id" required>
-                                <option value="1">Perlu Pemasangan Perangkat</option>
-                                <option value="2">Tidak Perlu Pemasangan Perangkat</option>
-                            </select>
+    @foreach ($ubahpaket as $item)
+        <div class="modal fade" id="visitpelanggan{{ $item->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Validasi Visit Pelanggan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('route.ubah_pakets.visit', $item->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="status_visit" class="form-label">Status Visit</label>
+                                <select id="status_visit" class="form-select" name="status_visit" required>
+                                    <option value="Perlu">Perlu Pemasangan Perangkat</option>
+                                    <option value="Tidak Perlu">Tidak Perlu Pemasangan Perangkat</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                            Batal
-                        </button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    @endforeach
+
+    {{-- modal status ges --}}
+    @foreach ($ubahpaket as $item)
+        <div class="modal fade" id="status{{ $item->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Status Proses</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('route.ubah_pakets.proses', $item->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="status_proses" class="form-label">Status Proses</label>
+                                <select id="status_proses" class="form-select" name="status_proses" required>
+                                    <option value="Berhasil">Berhasil</option>
+                                    <option value="Gagal">Gagal</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-icon-default-fullname">Keterangan</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control" id="keterangan_proses"
+                                        name="keterangan_proses" value="" placeholder="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
 @endsection
 
