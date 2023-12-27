@@ -32,7 +32,9 @@
             <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Data Master /</span> Pelanggan
             </h4>
             <div class="card">
-                <div class="card-body">
+                <div class="card-body mb-4">
+                    <button class="btn btn-outline-primary float-end" data-bs-toggle="modal"
+                        data-bs-target="#add-pelanggan">Tambah</button>
                 </div>
                 <div class="table-responsive text-nowrap">
                     <table class="table mb-4">

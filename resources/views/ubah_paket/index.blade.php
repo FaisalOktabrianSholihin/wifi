@@ -31,7 +31,151 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Services /</span> Ubah Paket
             </h4>
-            <div class="card">
+            <div class="nav-align-top mb-4">
+                <ul class="nav nav-pills mb-3" role="tablist">
+                    <li class="nav-item">
+                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true"
+                            style="color: white">Proses
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
+                            aria-selected="false" style="color: white">
+                            Berhasil
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-pills-top-messages" aria-controls="navs-pills-top-messages"
+                            aria-selected="false" style="color: white">
+                            Gagal
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
+                        <div class="card-body mb-4">
+                            <button class="btn btn-outline-primary float-end" data-bs-toggle="modal"
+                                data-bs-target="#add-ubahpaket">Tambah</button>
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Aksi</th>
+                                        <th>No Pelanggan</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Paket Lama</th>
+                                        <th>Paket Baru</th>
+                                        @if (auth()->user()->hasRole('admin'))
+                                            <th>Tanggal Ubah</th>
+                                        @endif
+                                        @if (auth()->user()->hasRole('teknisi'))
+                                            <th>Status</th>
+                                        @endif
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @can('read ubah paket')
+                                        @foreach ($ubahpaket as $item)
+                                            @if (auth()->user()->hasRole('admin'))
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown">
+                                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                @can('update ubah paket')
+                                                                    <button data-bs-toggle="modal" data-bs-target="#visitpelanggan"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Validasi</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#pembayaran{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-card me-1"></i>
+                                                                        Pembayaran</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#ubahpaket{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Cetak Nota</button>
+                                                                @endcan
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ $item->no_pelanggan }}</td>
+                                                    <td>{{ optional(optional($item->pelanggan)->pluck('nama'))->first() }}</td>
+                                                    <td>{{ $item->paket_lama }}</td>
+                                                    <td>{{ $item->paket->paket }}</td>
+                                                    <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
+                                                </tr>
+                                            @elseif (auth()->user()->hasRole('teknisi') && auth()->user()->name === $item->user_action)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                                data-bs-toggle="dropdown">
+                                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                @can('update ubah paket')
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#pembayaran{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Gatau Apa</button>
+                                                                @endcan
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{{ $item->no_pelanggan }}</td>
+                                                    <td>{{ optional(optional($item->pelanggan)->pluck('nama'))->first() }}</td>
+                                                    <td>{{ $item->paket_lama }}</td>
+                                                    <td>{{ $item->paket->paket }}</td>
+                                                    <td>
+                                                        {{ $item->lunas }}
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    @endcan
+                                </tbody>
+                            </table>
+                            {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
+                        <p>
+                            Donut dragée jelly pie halvah. Danish gingerbread bonbon cookie wafer candy oat cake ice
+                            cream. Gummies halvah tootsie roll muffin biscuit icing dessert gingerbread. Pastry ice
+                            cream
+                            cheesecake fruitcake.
+                        </p>
+                        <p class="mb-0">
+                            Jelly-o jelly beans icing pastry cake cake lemon drops. Muffin muffin pie tiramisu halvah
+                            cotton candy liquorice caramels.
+                        </p>
+                    </div>
+                    <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
+                        <p>
+                            Oat cake chupa chups dragée donut toffee. Sweet cotton candy jelly beans macaroon gummies
+                            cupcake gummi bears cake chocolate.
+                        </p>
+                        <p class="mb-0">
+                            Cake chocolate bar cotton candy apple pie tootsie roll ice cream apple pie brownie cake.
+                            Sweet
+                            roll icing sesame snaps caramels danish toffee. Brownie biscuit dessert dessert. Pudding
+                            jelly
+                            jelly-o tart brownie jelly.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="card">
                 <div class="card-body">
                 </div>
                 <div class="table-responsive text-nowrap">
@@ -112,8 +256,46 @@
                             @endcan
                         </tbody>
                     </table>
-                    {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
                 </div>
+            </div> --}}
+        </div>
+    </div>
+
+    {{-- modal ubah paket ges --}}
+    <div class="modal fade" id="add-ubahpaket" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Ajukan Ubah Paket</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="" method="POST">
+                    {{-- @csrf
+                        @method('POST') --}}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="paket_lama" name="paket_lama"
+                                    value="" />
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="paket_baru_id" class="form-label">Paket Baru</label>
+                            <select id="paket_baru_id" class="form-select" name="paket_baru_id" required>
+                                <option value="1">Opsi 1</option>
+                                <option value="2">Opsi 2</option>
+                                <option value="3">Opsi 3</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary">Kirim</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -236,6 +418,37 @@
             </div>
         </div>
     @endforeach
+
+    {{-- modal visit ges --}}
+    <div class="modal fade" id="visitpelanggan" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel1">Validasi Visit Pelanggan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="" method="POST">
+                    {{-- @csrf
+                        @method('PUT') --}}
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="paket_baru_id" class="form-label">Status Visit</label>
+                            <select id="paket_baru_id" class="form-select" name="paket_baru_id" required>
+                                <option value="1">Perlu Pemasangan Perangkat</option>
+                                <option value="2">Tidak Perlu Pemasangan Perangkat</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 @endsection
 
