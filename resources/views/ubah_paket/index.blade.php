@@ -382,7 +382,7 @@
                     @csrf
                     @method('POST')
                     <div class="modal-body">
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="no_pelanggan" class="form-label">No Pelanggan</label>
                             <select id="select2" class="form-select" name="no_pelanggan" required>
                                 <option selected>Pilih Pelanggan</option>
@@ -392,6 +392,18 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div> --}}
+                        <div class="mb-3">
+                            <label for="no_pelanggan" class="form-label">Cari Pelanggan</label>
+                            <input class="form-control" list="datalistOptions" id="no_pelanggan" name="no_pelanggan"
+                                placeholder="Cari nama pelanggan" />
+                            <datalist id="datalistOptions">
+                                @foreach ($data as $item)
+                                    <option value="{{ $item->no_pelanggan }}">
+                                        Nama Pelanggan = {{ $item->nama }} , Jenis Paket = {{ $item->paket->paket }}
+                                    </option>
+                                @endforeach
+                            </datalist>
                         </div>
                         <div class="mb-3">
                             <label for="paket_baru_id" class="form-label">Paket Baru</label>
