@@ -76,6 +76,7 @@
                                         @if (auth()->user()->hasRole('admin') ||
                                                 auth()->user()->hasRole('sales'))
                                             <th>Tanggal Ubah</th>
+                                            <th>Status Kunjungan</th>
                                         @endif
                                         @if (auth()->user()->hasRole('teknisi'))
                                             <th>Status</th>
@@ -97,8 +98,7 @@
                                                             </button>
                                                             <div class="dropdown-menu">
                                                                 @can('update ubah paket')
-                                                                    @if (auth()->user()->hasRole('admin') ||
-                                                                            auth()->user()->hasRole('sales'))
+                                                                    @if (auth()->user()->hasRole('admin'))
                                                                         <button data-bs-toggle="modal"
                                                                             data-bs-target="#visitpelanggan{{ $item->id }}"
                                                                             class="dropdown-item"><i class="bx bx-share me-1"></i>
@@ -127,6 +127,15 @@
                                                     <td>{{ $item->paket_lama }}</td>
                                                     <td>{{ $item->paket->paket }}</td>
                                                     <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
+                                                    <td>
+                                                        @if ($item->status_visit === 'Belum Diproses')
+                                                            <span class="badge bg-secondary">{{ $item->status_visit }}</span>
+                                                        @elseif ($item->status_visit === 'Perlu')
+                                                            <span class="badge bg-secondary">{{ $item->status_visit }}</span>
+                                                        @elseif ($item->status_visit === 'Tidak Perlu')
+                                                            <span class="badge bg-secondary">{{ $item->status_visit }}</span>
+                                                        @endif
+                                                    </td>
                                                 </tr>
                                             @elseif (auth()->user()->hasRole('teknisi'))
                                                 <tr>
@@ -180,7 +189,8 @@
                                         <th>Nama Pelanggan</th>
                                         <th>Paket Lama</th>
                                         <th>Paket Baru</th>
-                                        @if (auth()->user()->hasRole('admin'))
+                                        @if (auth()->user()->hasRole('admin') ||
+                                                auth()->user()->hasRole('sales'))
                                             <th>Tanggal Ubah</th>
                                         @endif
                                         @if (auth()->user()->hasRole('teknisi'))
@@ -191,7 +201,8 @@
                                 <tbody class="table-border-bottom-0">
                                     @can('read ubah paket')
                                         @foreach ($berhasil as $item)
-                                            @if (auth()->user()->hasRole('admin'))
+                                            @if (auth()->user()->hasRole('admin') ||
+                                                    auth()->user()->hasRole('sales'))
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>
@@ -280,7 +291,8 @@
                                         <th>Nama Pelanggan</th>
                                         <th>Paket Lama</th>
                                         <th>Paket Baru</th>
-                                        @if (auth()->user()->hasRole('admin'))
+                                        @if (auth()->user()->hasRole('admin') ||
+                                                auth()->user()->hasRole('sales'))
                                             <th>Tanggal Ubah</th>
                                         @endif
                                         @if (auth()->user()->hasRole('teknisi'))
@@ -291,7 +303,8 @@
                                 <tbody class="table-border-bottom-0">
                                     @can('read ubah paket')
                                         @foreach ($gagal as $item)
-                                            @if (auth()->user()->hasRole('admin'))
+                                            @if (auth()->user()->hasRole('admin') ||
+                                                    auth()->user()->hasRole('sales'))
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>

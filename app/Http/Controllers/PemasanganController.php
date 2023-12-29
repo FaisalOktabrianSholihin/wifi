@@ -77,8 +77,6 @@ class PemasanganController extends Controller
                 $pemasangan->update($validated);
 
                 return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
-
-
             } elseif ($user->hasRole('sales')) {
 
                 if ($request->has('user_action')) {

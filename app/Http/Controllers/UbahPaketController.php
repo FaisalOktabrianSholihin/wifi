@@ -20,14 +20,22 @@ class UbahPaketController extends Controller
 
             $ubahpaket = UbahPaket::whereNull('lunas')->where(function ($query) {
                 $query->where('status_proses', '!=', 'Gagal')
-                ->orWhereNull('status_proses');
+                    ->orWhereNull('status_proses');
             })
-            ->with(['pelanggan', 'paket'])
-            ->orderByDesc('id')
-            ->get();
-
+                ->with(['pelanggan', 'paket'])
+                ->orderByDesc('id')
+                ->get();
         } else {
-            $ubahpaket = UbahPaket::where('status_visit', 'Perlu')->with(['pelanggan', 'paket'])->orderByDesc('id')->get();
+            // $ubahpaket = UbahPaket::where('status_visit', 'Perlu')->with(['pelanggan', 'paket'])->orderByDesc('id')->get();
+            $ubahpaket = UbahPaket::where('status_visit', 'Perlu')
+                ->where(function ($query) {
+                    $query->where('status_proses', '!=', 'Gagal')
+                        ->orWhereNull('status_proses');
+                })
+                ->whereNull('lunas')
+                ->with(['pelanggan', 'paket'])
+                ->orderByDesc('id')
+                ->get();
         }
 
         $berhasil = UbahPaket::where('status_proses', 'Berhasil')
@@ -124,6 +132,7 @@ class UbahPaketController extends Controller
             'no_pelanggan' => $noPelanggan,
             'paket_lama' => $namaPaketLama,
             'paket_baru_id' => $paketIdBaru,
+            'status_visit' => 'Belum Diproses',
         ]);
 
         Pelanggan::where('no_pelanggan', $noPelanggan)->update(['paket_id' => $paketIdBaru]);
@@ -139,6 +148,10 @@ class UbahPaketController extends Controller
         $validatedData = $request->validate([
             'status_visit' => 'required',
         ]);
+
+        if ($ubahpaket->status_visit == 'Perlu' || $ubahpaket->status_visit == 'Tidak Perlu') {
+            return redirect()->route('route.ubah_pakets.index')->withErrors('Data gagal diupdate.');
+        }
 
         $ubahpaket->update($validatedData);
 
