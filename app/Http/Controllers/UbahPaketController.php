@@ -18,12 +18,18 @@ class UbahPaketController extends Controller
 
         if ($user->hasRole('admin') || $user->hasRole('sales')) {
 
-            $ubahpaket = UbahPaket::whereNull('lunas')->with(['pelanggan', 'paket'])->orderByDesc('id')->get();
+            $ubahpaket = UbahPaket::whereNull('lunas')->where(function ($query) {
+                $query->where('status_proses', '!=', 'Gagal')
+                ->orWhereNull('status_proses');
+            })
+            ->with(['pelanggan', 'paket'])
+            ->orderByDesc('id')
+            ->get();
+
         } else {
             $ubahpaket = UbahPaket::where('status_visit', 'Perlu')->with(['pelanggan', 'paket'])->orderByDesc('id')->get();
         }
 
-        // $berhasil = UbahPaket::where('status_proses', 'Berhasil')->with(['pelanggan', 'paket'])->orderByDesc('id')->get();
         $berhasil = UbahPaket::where('status_proses', 'Berhasil')
             ->whereNotNull('lunas')
             ->with(['pelanggan', 'paket'])
@@ -34,6 +40,7 @@ class UbahPaketController extends Controller
             ->with(['pelanggan', 'paket'])
             ->orderByDesc('id')
             ->get();
+
         $teknisi = User::role('teknisi')->get();
         $data = Pelanggan::with('paket')->get();
         $paket = Paket::all();

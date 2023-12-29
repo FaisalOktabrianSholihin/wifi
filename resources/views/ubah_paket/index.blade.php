@@ -73,7 +73,8 @@
                                         <th>Nama Pelanggan</th>
                                         <th>Paket Lama</th>
                                         <th>Paket Baru</th>
-                                        @if (auth()->user()->hasRole('admin'))
+                                        @if (auth()->user()->hasRole('admin') ||
+                                                auth()->user()->hasRole('sales'))
                                             <th>Tanggal Ubah</th>
                                         @endif
                                         @if (auth()->user()->hasRole('teknisi'))
@@ -84,7 +85,8 @@
                                 <tbody class="table-border-bottom-0">
                                     @can('read ubah paket')
                                         @foreach ($ubahpaket as $item)
-                                            @if (auth()->user()->hasRole('admin'))
+                                            @if (auth()->user()->hasRole('admin') ||
+                                                    auth()->user()->hasRole('sales'))
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>
@@ -95,22 +97,27 @@
                                                             </button>
                                                             <div class="dropdown-menu">
                                                                 @can('update ubah paket')
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#visitpelanggan{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Validasi</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#status{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Status</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#pembayaran{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-card me-1"></i>
-                                                                        Pembayaran</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#ubahpaket{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Cetak Nota</button>
+                                                                    @if (auth()->user()->hasRole('admin') ||
+                                                                            auth()->user()->hasRole('sales'))
+                                                                        <button data-bs-toggle="modal"
+                                                                            data-bs-target="#visitpelanggan{{ $item->id }}"
+                                                                            class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                            Validasi</button>
+                                                                    @endif
+                                                                    @if (auth()->user()->hasRole('admin'))
+                                                                        <button data-bs-toggle="modal"
+                                                                            data-bs-target="#status{{ $item->id }}"
+                                                                            class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                            Status</button>
+                                                                        <button data-bs-toggle="modal"
+                                                                            data-bs-target="#pembayaran{{ $item->id }}"
+                                                                            class="dropdown-item"><i class="bx bx-card me-1"></i>
+                                                                            Pembayaran</button>
+                                                                        <button data-bs-toggle="modal"
+                                                                            data-bs-target="#ubahpaket{{ $item->id }}"
+                                                                            class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                            Cetak Nota</button>
+                                                                    @endif
                                                                 @endcan
                                                             </div>
                                                         </div>
