@@ -69,28 +69,52 @@ class UbahPaketController extends Controller
     public function pembayaran(Request $request, $id)
     {
         $ubahpaket = UbahPaket::findOrFail($id);
+        $user = auth()->user();
 
-        $username = auth()->user()->name;
+        if ($ubahpaket->status_visit == 'Tidak Perlu' && ($user->hasRole('admin'))) {
+            $username = $user->name;
 
-        // Manually add user_action to the data array
-        $validatedData = $request->all();
-        $validatedData['user_action'] = $username;
+            $validatedData = $request->all();
+            $validatedData['user_action'] = $username;
 
-        // Validate the data
-        $validatedData = Validator::make($validatedData, [
-            'user_action' => 'required',
-            'tgl_action' => 'required|date',
-            'biaya' => 'required',
-            'diskon' => 'required',
-            'bayar' => 'required',
-            'lunas' => 'required',
-            'keterangan' => 'nullable'
-        ])->validate();
+            $validatedData = Validator::make($validatedData, [
+                'user_action' => 'required',
+                'tgl_action' => 'required|date',
+                'biaya' => 'required',
+                'diskon' => 'required',
+                'bayar' => 'required',
+                'lunas' => 'required',
+                'keterangan' => 'nullable'
+            ])->validate();
 
-        $ubahpaket->update($validatedData);
+            $ubahpaket->update($validatedData);
 
-        return redirect()->route('route.ubah_pakets.pdf', $ubahpaket->id)->with('message', 'Data berhasil diupdate.');
+            return redirect()->route('route.ubah_pakets.pdf', $ubahpaket->id)->with('message', 'Data berhasil diupdate.');
+        }
+        if ($ubahpaket->status_visit == 'Perlu' && ($user->hasRole('teknisi'))) {
+            $username = $user->name;
+
+            $validatedData = $request->all();
+            $validatedData['user_action'] = $username;
+
+            $validatedData = Validator::make($validatedData, [
+                'user_action' => 'required',
+                'tgl_action' => 'required|date',
+                'biaya' => 'required',
+                'diskon' => 'required',
+                'bayar' => 'required',
+                'lunas' => 'required',
+                'keterangan' => 'nullable'
+            ])->validate();
+
+            $ubahpaket->update($validatedData);
+
+            return redirect()->route('route.ubah_pakets.pdf', $ubahpaket->id)->with('message', 'Data berhasil diupdate.');
+        }
+
+        return redirect()->route('route.ubah_pakets.index')->withErrors('Anda tidak memiliki izin untuk memproses pembayaran ini.');
     }
+
 
 
     public function pdf($id)
@@ -160,16 +184,35 @@ class UbahPaketController extends Controller
 
     public function updateProses(Request $request, $id)
     {
-
         $ubahpaket = UbahPaket::findOrFail($id);
+        $user = auth()->user();
 
-        $validatedData = $request->validate([
-            'status_proses' => 'required',
-            'keterangan_proses' => 'nullable',
-        ]);
+        if (!is_null($ubahpaket->status_proses)) {
+            return redirect()->route('route.ubah_pakets.index')->withErrors('Status proses sudah diatur sebelumnya. Anda tidak dapat memperbarui data ini.');
+        }
 
-        $ubahpaket->update($validatedData);
+        if ($ubahpaket->status_visit == 'Tidak Perlu' && ($user->hasRole('admin'))) {
+            $validatedData = $request->validate([
+                'status_proses' => 'required',
+                'keterangan_proses' => 'nullable',
+            ]);
 
-        return redirect()->route('route.ubah_pakets.index')->with('message', 'Data berhasil disimpan.');
+            $ubahpaket->update($validatedData);
+
+            return redirect()->route('route.ubah_pakets.index')->with('message', 'Data berhasil disimpan.');
+        }
+
+        if ($ubahpaket->status_visit == 'Perlu' && $user->hasRole('teknisi')) {
+            $validatedData = $request->validate([
+                'status_proses' => 'required',
+                'keterangan_proses' => 'nullable',
+            ]);
+
+            $ubahpaket->update($validatedData);
+
+            return redirect()->route('route.ubah_pakets.index')->with('message', 'Data berhasil disimpan.');
+        }
+
+        return redirect()->route('route.ubah_pakets.index')->withErrors('Anda tidak memiliki izin untuk memperbarui data ini.');
     }
 }

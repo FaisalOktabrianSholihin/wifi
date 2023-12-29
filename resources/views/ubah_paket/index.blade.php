@@ -113,10 +113,10 @@
                                                                             data-bs-target="#pembayaran{{ $item->id }}"
                                                                             class="dropdown-item"><i class="bx bx-card me-1"></i>
                                                                             Pembayaran</button>
-                                                                        <button data-bs-toggle="modal"
+                                                                        {{-- <button data-bs-toggle="modal"
                                                                             data-bs-target="#ubahpaket{{ $item->id }}"
                                                                             class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                            Cetak Nota</button>
+                                                                            Cetak Nota</button> --}}
                                                                     @endif
                                                                 @endcan
                                                             </div>
@@ -149,13 +149,13 @@
                                                             <div class="dropdown-menu">
                                                                 @can('update ubah paket')
                                                                     <button data-bs-toggle="modal"
-                                                                        data-bs-target="#pembayaran{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Pembayaran</button>
-                                                                    <button data-bs-toggle="modal"
                                                                         data-bs-target="#status{{ $item->id }}"
                                                                         class="dropdown-item"><i class="bx bx-share me-1"></i>
                                                                         Status</button>
+                                                                    <button data-bs-toggle="modal"
+                                                                        data-bs-target="#pembayaran{{ $item->id }}"
+                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                        Pembayaran</button>
                                                                 @endcan
                                                             </div>
                                                         </div>
@@ -184,7 +184,6 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Aksi</th>
                                         <th>No Pelanggan</th>
                                         <th>Nama Pelanggan</th>
                                         <th>Paket Lama</th>
@@ -205,34 +204,6 @@
                                                     auth()->user()->hasRole('sales'))
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown">
-                                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                @can('update ubah paket')
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#visitpelanggan{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Validasi</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#status{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Status</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#pembayaran{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-card me-1"></i>
-                                                                        Pembayaran</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#ubahpaket{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Cetak Nota</button>
-                                                                @endcan
-                                                            </div>
-                                                        </div>
-                                                    </td>
                                                     <td>{{ $item->no_pelanggan }}</td>
                                                     <td>{{ $item->pelanggan->nama }}</td>
                                                     <td>{{ $item->paket_lama }}</td>
@@ -242,26 +213,6 @@
                                             @elseif (auth()->user()->hasRole('teknisi'))
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown">
-                                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                @can('update ubah paket')
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#pembayaran{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Pembayaran</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#status{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Status</button>
-                                                                @endcan
-                                                            </div>
-                                                        </div>
-                                                    </td>
                                                     <td>{{ $item->no_pelanggan }}</td>
                                                     <td>{{ $item->pelanggan->nama }}</td>
                                                     <td>{{ $item->paket_lama }}</td>
@@ -286,7 +237,6 @@
                                 <thead>
                                     <tr>
                                         <th>No</th>
-                                        <th>Aksi</th>
                                         <th>No Pelanggan</th>
                                         <th>Nama Pelanggan</th>
                                         <th>Paket Lama</th>
@@ -307,34 +257,6 @@
                                                     auth()->user()->hasRole('sales'))
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown">
-                                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                @can('update ubah paket')
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#visitpelanggan{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Validasi</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#status{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Status</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#pembayaran{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-card me-1"></i>
-                                                                        Pembayaran</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#ubahpaket{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Cetak Nota</button>
-                                                                @endcan
-                                                            </div>
-                                                        </div>
-                                                    </td>
                                                     <td>{{ $item->no_pelanggan }}</td>
                                                     <td>{{ $item->pelanggan->nama }}</td>
                                                     <td>{{ $item->paket_lama }}</td>
@@ -344,26 +266,6 @@
                                             @elseif (auth()->user()->hasRole('teknisi'))
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>
-                                                        <div class="dropdown">
-                                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                                data-bs-toggle="dropdown">
-                                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                @can('update ubah paket')
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#pembayaran{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Pembayaran</button>
-                                                                    <button data-bs-toggle="modal"
-                                                                        data-bs-target="#status{{ $item->id }}"
-                                                                        class="dropdown-item"><i class="bx bx-share me-1"></i>
-                                                                        Status</button>
-                                                                @endcan
-                                                            </div>
-                                                        </div>
-                                                    </td>
                                                     <td>{{ $item->no_pelanggan }}</td>
                                                     <td>{{ $item->pelanggan->nama }}</td>
                                                     <td>{{ $item->paket_lama }}</td>
@@ -482,10 +384,10 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="no_pelanggan" class="form-label">No Pelanggan</label>
-                            <select id="no_pelanggan" class="form-select" name="no_pelanggan" required>
+                            <select id="select2" class="form-select" name="no_pelanggan" required>
                                 <option selected>Pilih Pelanggan</option>
                                 @foreach ($data as $item)
-                                    <option value="{{ $item->no_pelanggan }}" {{-- {{ $item->no_pelanggan ? 'selected' : '' }} --}}>
+                                    <option value="{{ $item->no_pelanggan }}">
                                         {{ $item->no_pelanggan }} - {{ $item->nama }} - {{ $item->paket->paket }}
                                     </option>
                                 @endforeach
@@ -705,7 +607,6 @@
             </div>
         </div>
     @endforeach
-
 @endsection
 
 @section('script')
