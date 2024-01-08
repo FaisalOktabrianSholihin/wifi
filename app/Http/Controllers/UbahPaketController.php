@@ -188,7 +188,7 @@ class UbahPaketController extends Controller
         $user = auth()->user();
 
         if (!is_null($ubahpaket->status_proses)) {
-            return redirect()->route('route.ubah_pakets.index')->withErrors('Status proses sudah diatur sebelumnya. Anda tidak dapat memperbarui data ini.');
+            return redirect()->route('route.ubah_pakets.index')->withErrors('Anda tidak memiliki izin untuk mengubah status proses ini.');
         }
 
         if ($ubahpaket->status_visit == 'Tidak Perlu' && ($user->hasRole('admin'))) {

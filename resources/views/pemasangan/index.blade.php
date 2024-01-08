@@ -34,7 +34,7 @@
         <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Pemasangan
             </h4>
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-body">
                     @can('create pendaftaran')
                         <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
@@ -156,6 +156,307 @@
                         </tbody>
                     </table>
                 </div>
+            </div> --}}
+            <div class="nav-align-top mb-4">
+                <ul class="nav nav-pills mb-3" role="tablist">
+                    <li class="nav-item">
+                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true"
+                            style="color: white">Proses
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
+                            aria-selected="false" style="color: white">
+                            Berhasil
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-pills-top-messages" aria-controls="navs-pills-top-messages"
+                            aria-selected="false" style="color: white">
+                            Gagal
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
+                        <div class="card-body mb-4">
+                            @can('create pendaftaran')
+                                <button class="btn btn-outline-primary float-end" data-bs-toggle="modal"
+                                    data-bs-target="#add-pemasangan">Tambah</button>
+                            @endcan
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Aksi</th>
+                                        <th>No. Pendaftaran</th>
+                                        <th>NIK</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Alamat</th>
+                                        <th>Telepon</th>
+                                        <th>Paket</th>
+                                        <th>Nama Sales</th>
+                                        @if (auth()->user()->hasRole('sales'))
+                                            <th>Nama Teknisi</th>
+                                        @endif
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @foreach ($pemasangan as $item)
+                                        @if (auth()->user()->hasRole('admin'))
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown">
+                                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            @can('create pendaftaran')
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#update{{ $item->id }}"
+                                                                    class="dropdown-item"><i class="bx bx-share"></i>
+                                                                    Assignment</button>
+                                                            @endcan
+                                                            @can('create pendaftaran')
+                                                                <button class="dropdown-item" data-bs-toggle="modal"
+                                                                    data-bs-target="#delete{{ $item->id }}"><i
+                                                                        class="bx bx-trash me-1"></i>
+                                                                    Delete</button>
+                                                            @endcan
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ $item->no_pendaftaran }}</td>
+                                                <td>{{ $item->nik }}</td>
+                                                <td>{{ $item->nama }}</td>
+                                                <td>{{ $item->alamat }}</td>
+                                                <td>{{ $item->telepon }}</td>
+                                                <td>{{ $item->toPaket->paket }}</td>
+                                                <td>{{ $item->user_survey }}</td>
+                                                <td>
+                                                    @if ($item->status_survey === 'Belum Survey')
+                                                        <span class="badge bg-secondary">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Gagal Survey')
+                                                        <span class="badge bg-danger">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Berhasil Survey')
+                                                        <span class="badge bg-success">{{ $item->status_survey }}</span>
+                                                    @else
+                                                        <span class="badge bg-dark">{{ $item->status_survey }}</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @elseif(auth()->user()->hasRole('sales') && auth()->user()->name === $item->user_survey)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown">
+                                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            @can('create pendaftaran')
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#update{{ $item->id }}"
+                                                                    class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
+                                                                    Detail</button>
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#updateAssignment{{ $item->id }}"
+                                                                    class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                    Assignment</button>
+                                                            @endcan
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>{{ $item->no_pendaftaran }}</td>
+                                                <td>{{ $item->nik }}</td>
+                                                <td>{{ $item->nama }}</td>
+                                                <td>{{ $item->alamat }}</td>
+                                                <td>{{ $item->telepon }}</td>
+                                                <td>{{ optional($item->toPaket)->paket }}</td>
+                                                <td>{{ $item->user_survey }}</td>
+                                                @if (auth()->user()->hasRole('sales'))
+                                                    <td>{{ $item->user_action }}</td>
+                                                @endif
+                                                <td>
+                                                    @if ($item->status_survey === 'Belum Survey')
+                                                        <span class="badge bg-secondary">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Gagal Survey')
+                                                        <span class="badge bg-danger">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Berhasil Survey')
+                                                        <span class="badge bg-success">{{ $item->status_survey }}</span>
+                                                    @else
+                                                        <span class="badge bg-dark">{{ $item->status_survey }}</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
+                        <div class="card-body mb-4">
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No. Pendaftaran</th>
+                                        <th>NIK</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Alamat</th>
+                                        <th>Telepon</th>
+                                        <th>Paket</th>
+                                        <th>Nama Sales</th>
+                                        @if (auth()->user()->hasRole('sales'))
+                                            <th>Nama Teknisi</th>
+                                        @endif
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @foreach ($pemasangan as $item)
+                                        @if (auth()->user()->hasRole('admin'))
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->no_pendaftaran }}</td>
+                                                <td>{{ $item->nik }}</td>
+                                                <td>{{ $item->nama }}</td>
+                                                <td>{{ $item->alamat }}</td>
+                                                <td>{{ $item->telepon }}</td>
+                                                <td>{{ $item->toPaket->paket }}</td>
+                                                <td>{{ $item->user_survey }}</td>
+                                                <td>
+                                                    @if ($item->status_survey === 'Belum Survey')
+                                                        <span class="badge bg-secondary">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Gagal Survey')
+                                                        <span class="badge bg-danger">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Berhasil Survey')
+                                                        <span class="badge bg-success">{{ $item->status_survey }}</span>
+                                                    @else
+                                                        <span class="badge bg-dark">{{ $item->status_survey }}</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @elseif(auth()->user()->hasRole('sales') && auth()->user()->name === $item->user_survey)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->no_pendaftaran }}</td>
+                                                <td>{{ $item->nik }}</td>
+                                                <td>{{ $item->nama }}</td>
+                                                <td>{{ $item->alamat }}</td>
+                                                <td>{{ $item->telepon }}</td>
+                                                <td>{{ optional($item->toPaket)->paket }}</td>
+                                                <td>{{ $item->user_survey }}</td>
+                                                @if (auth()->user()->hasRole('sales'))
+                                                    <td>{{ $item->user_action }}</td>
+                                                @endif
+                                                <td>
+                                                    @if ($item->status_survey === 'Belum Survey')
+                                                        <span class="badge bg-secondary">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Gagal Survey')
+                                                        <span class="badge bg-danger">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Berhasil Survey')
+                                                        <span class="badge bg-success">{{ $item->status_survey }}</span>
+                                                    @else
+                                                        <span class="badge bg-dark">{{ $item->status_survey }}</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
+                        <div class="card-body mb-4">
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No. Pendaftaran</th>
+                                        <th>NIK</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Alamat</th>
+                                        <th>Telepon</th>
+                                        <th>Paket</th>
+                                        <th>Nama Sales</th>
+                                        @if (auth()->user()->hasRole('sales'))
+                                            <th>Nama Teknisi</th>
+                                        @endif
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @foreach ($pemasangan as $item)
+                                        @if (auth()->user()->hasRole('admin'))
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->no_pendaftaran }}</td>
+                                                <td>{{ $item->nik }}</td>
+                                                <td>{{ $item->nama }}</td>
+                                                <td>{{ $item->alamat }}</td>
+                                                <td>{{ $item->telepon }}</td>
+                                                <td>{{ $item->toPaket->paket }}</td>
+                                                <td>{{ $item->user_survey }}</td>
+                                                <td>
+                                                    @if ($item->status_survey === 'Belum Survey')
+                                                        <span class="badge bg-secondary">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Gagal Survey')
+                                                        <span class="badge bg-danger">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Berhasil Survey')
+                                                        <span class="badge bg-success">{{ $item->status_survey }}</span>
+                                                    @else
+                                                        <span class="badge bg-dark">{{ $item->status_survey }}</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @elseif(auth()->user()->hasRole('sales') && auth()->user()->name === $item->user_survey)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $item->no_pendaftaran }}</td>
+                                                <td>{{ $item->nik }}</td>
+                                                <td>{{ $item->nama }}</td>
+                                                <td>{{ $item->alamat }}</td>
+                                                <td>{{ $item->telepon }}</td>
+                                                <td>{{ optional($item->toPaket)->paket }}</td>
+                                                <td>{{ $item->user_survey }}</td>
+                                                @if (auth()->user()->hasRole('sales'))
+                                                    <td>{{ $item->user_action }}</td>
+                                                @endif
+                                                <td>
+                                                    @if ($item->status_survey === 'Belum Survey')
+                                                        <span class="badge bg-secondary">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Gagal Survey')
+                                                        <span class="badge bg-danger">{{ $item->status_survey }}</span>
+                                                    @elseif ($item->status_survey === 'Berhasil Survey')
+                                                        <span class="badge bg-success">{{ $item->status_survey }}</span>
+                                                    @else
+                                                        <span class="badge bg-dark">{{ $item->status_survey }}</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -179,10 +480,11 @@
                                     value="" placeholder="No. Pendafataran" required />
                             </div>
                         </div> --}}
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="no_pendaftaran" class="form-label">No Pendaftaran</label>
-                            <input class="form-control" type="text" id="no_pendaftaran" name="no_pendaftaran" required />
-                        </div>
+                            <input class="form-control" type="text" id="no_pendaftaran" name="no_pendaftaran"
+                                readonly />
+                        </div> --}}
                         {{-- <div class="mb-3">
                             <label class="form-label" for="basic-icon-default-fullname">Nomer Induk Kependudukan</label>
                             <div class="input-group input-group-merge">

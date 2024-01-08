@@ -11,17 +11,62 @@ use PDF;
 
 class PelangganController extends Controller
 {
+    // public function index()
+    // {
+    //     $username = auth()->user()->name;
+
+    //     $customers = Pemasangan::where('user_action', $username)->get();
+
+    //     $customers->load('pelanggan');
+
+    //     return view('pelanggan.index', compact('customers'));
+    // }
+
     public function index()
     {
-        $username = auth()->user()->name;
+        $user = auth()->user();
 
-        $customers = Pemasangan::where('user_action', $username)->get();
+        // Query untuk data yang berhasil
+        $berhasil = Pemasangan::whereNotNull('status_lunas')
+            ->where('status_lunas', 'Lunas')
+            ->with(['pelanggan', 'toPaket'])
+            ->orderByDesc('id')
+            ->get();
 
-        $customers->load('pelanggan');
+        // Query untuk data yang gagal
+        $gagal = Pemasangan::where('status_lunas', 'Belum Lunas')
+            ->with(['pelanggan', 'toPaket'])
+            ->orderByDesc('id')
+            ->get();
 
-        return view('pelanggan.index', compact('customers'));
+        // Query utama untuk data yang belum lunas
+        if ($user->hasRole('teknisi')) {
+            $customers = Pemasangan::where(function ($query) {
+                $query->whereNull('status_lunas')
+                    ->orWhere('status_lunas', '!=', 'Lunas');
+            })
+                ->with(['pelanggan', 'toPaket'])
+                ->orderByDesc('id')
+                ->get();
+        } else {
+            // Handle role 'admin' or 'sales' here if needed
+            $customers = Pemasangan::where(function ($query) {
+                $query->whereNull('status_lunas')
+                    ->orWhere('status_lunas', '!=', 'Lunas');
+            })
+                ->with(['pelanggan', 'toPaket'])
+                ->orderByDesc('id')
+                ->get();
+        }
 
+        // Handle properti yang mungkin null
+        foreach ($customers as $customer) {
+            $customer->no_pelanggan = optional($customer->pelanggan)->no_pelanggan;
+        }
+
+        return view('pelanggan.index', compact('customers', 'berhasil', 'gagal'));
     }
+
 
     public function update(Request $request, $id)
     {

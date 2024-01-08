@@ -21,12 +21,42 @@ class PemasanganController extends Controller
         return view('pemasangan.index', compact('pemasangan', 'users', 'teknisi', 'pakets'));
     }
 
+    // public function store(Request $request)
+    // {
+    //     $validatedData = [];
+    //     if (auth()->user()->hasRole('admin')) {
+    //         $validatedData = $request->validate([
+    //             'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
+    //             'nik' => 'required|max:16',
+    //             'nama' => 'required',
+    //             'alamat' => 'required',
+    //             'paket_id' => 'required',
+    //             'telepon' => 'required',
+    //         ]);
+    //     } elseif (auth()->user()->hasRole('sales')) {
+    //         $validatedData = $request->validate([
+    //             'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
+    //             'nik' => 'required|max:16',
+    //             'nama' => 'required',
+    //             'paket_id' => 'required',
+    //             'alamat' => 'required',
+    //             'telepon' => 'required',
+
+    //         ]);
+    //         $validatedData['user_survey'] = auth()->user()->name;
+    //     }
+
+    //     $validatedData['status_survey'] = 'Belum Survey';
+    //     Pemasangan::create($validatedData);
+
+    //     return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil disimpan.');
+    // }
+
     public function store(Request $request)
     {
         $validatedData = [];
         if (auth()->user()->hasRole('admin')) {
             $validatedData = $request->validate([
-                'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
                 'nik' => 'required|max:16',
                 'nama' => 'required',
                 'alamat' => 'required',
@@ -35,22 +65,27 @@ class PemasanganController extends Controller
             ]);
         } elseif (auth()->user()->hasRole('sales')) {
             $validatedData = $request->validate([
-                'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
                 'nik' => 'required|max:16',
                 'nama' => 'required',
                 'paket_id' => 'required',
                 'alamat' => 'required',
                 'telepon' => 'required',
-
             ]);
             $validatedData['user_survey'] = auth()->user()->name;
         }
 
+        $tahunSekarang = date('Y');
+        $nomorUnik = Pemasangan::max('id') + 1;
+        $nomorPendaftaran = "XIX{$tahunSekarang}{$nomorUnik}";
+
+        $validatedData['no_pendaftaran'] = $nomorPendaftaran;
         $validatedData['status_survey'] = 'Belum Survey';
+
         Pemasangan::create($validatedData);
 
         return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil disimpan.');
     }
+
 
     public function update(Request $request, $id)
     {
