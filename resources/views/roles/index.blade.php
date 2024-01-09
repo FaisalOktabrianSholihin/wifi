@@ -174,7 +174,7 @@
                                 <div class="form-check d-flex flex-wrap">
                                     <div class="form-check me-3 mb-2" style="flex-basis: 25%;">
                                         <input class="form-check-input" type="checkbox" id="select-all-{{ $value->id }}">
-                                        <label class="form-check-label">check all</label>
+                                        <label class="form-check-label" >check all</label>
                                     </div>                                    
                                     @foreach ($permissions as $permission)
                                         <div class="form-check me-3 mb-2" style="flex-basis: 25%;">

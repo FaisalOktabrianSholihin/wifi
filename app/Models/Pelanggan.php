@@ -33,6 +33,31 @@ class Pelanggan extends Model
         'pemasangan_id',
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($pelanggan) {
+            $noPelanggan = 'ID' . now()->year . static::generateRandomString(4);
+            $password = static::generateRandomString(10);
+            $pelanggan->no_pelanggan = $noPelanggan;
+            $pelanggan->username_pppoe = $noPelanggan;
+            $pelanggan->password_pppoe = $password;
+        });
+    }
+
+    protected static function generateRandomString($length = 5)
+    {
+        $characters = '0123456789';
+        $randomString = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, strlen($characters) - 1)];
+        }
+
+        return $randomString;
+    }
+
     public function pemasangan()
     {
         return $this->belongsTo(Pemasangan::class, 'pemasangan_id');

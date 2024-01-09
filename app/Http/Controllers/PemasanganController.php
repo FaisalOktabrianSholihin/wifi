@@ -12,45 +12,42 @@ use Spatie\Permission\Models\Role;
 
 class PemasanganController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['role:admin|sales'], ['only' => ['store']]);
+        $this->middleware(['role:admin'], ['only' => ['updatePemasangan', 'assignmentSales']]);
+        $this->middleware(['role:sales'], ['only' => ['updateSurvey', 'assignmentTeknisi']]);
+        $this->middleware(['role:teknisi'], ['only' => ['statusInstalasi', 'statusAktivasi']]);
+    }
     public function index()
     {
-        $pemasangan = Pemasangan::with('toPaket')->orderByDesc('id')->get();
+        $admin = auth()->user()->hasRole('admin');
+        $sales = auth()->user()->hasRole('sales');
+        $username = auth()->user()->name;
+
+        if ($admin || $sales) {
+            $pemasangan = Pemasangan::with('toPaket')
+                ->when($sales, function ($query) use ($username) {
+                    $query->where('user_survey', $username);
+                })
+                ->orderByDesc('id')
+                ->get();
+        } else {
+            $pemasangan = Pemasangan::where('user_action', $username)
+                ->orderByDesc('id')
+                ->with('toPaket')
+                ->get();
+
+            $pemasangan->load('pelanggan');
+        }
+
+        // $pemasangan = Pemasangan::with('toPaket')->orderByDesc('id')->get();
         $users = User::role('sales')->get();
         $teknisi = User::role('teknisi')->get();
         $pakets = Paket::orderByDesc('id')->get();
         return view('pemasangan.index', compact('pemasangan', 'users', 'teknisi', 'pakets'));
     }
 
-    // public function store(Request $request)
-    // {
-    //     $validatedData = [];
-    //     if (auth()->user()->hasRole('admin')) {
-    //         $validatedData = $request->validate([
-    //             'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
-    //             'nik' => 'required|max:16',
-    //             'nama' => 'required',
-    //             'alamat' => 'required',
-    //             'paket_id' => 'required',
-    //             'telepon' => 'required',
-    //         ]);
-    //     } elseif (auth()->user()->hasRole('sales')) {
-    //         $validatedData = $request->validate([
-    //             'no_pendaftaran' => 'required|unique:pemasangan,no_pendaftaran',
-    //             'nik' => 'required|max:16',
-    //             'nama' => 'required',
-    //             'paket_id' => 'required',
-    //             'alamat' => 'required',
-    //             'telepon' => 'required',
-
-    //         ]);
-    //         $validatedData['user_survey'] = auth()->user()->name;
-    //     }
-
-    //     $validatedData['status_survey'] = 'Belum Survey';
-    //     Pemasangan::create($validatedData);
-
-    //     return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil disimpan.');
-    // }
 
     public function store(Request $request)
     {
@@ -139,13 +136,13 @@ class PemasanganController extends Controller
                         $paketId = $pemasangan->paket_id;
 
                         Pelanggan::create([
-                            'no_pelanggan' => $noPelanggan,
+                            // 'no_pelanggan' => $noPelanggan,
                             'pemasangan_id' => $pemasanganId,
                             'nama' => $pemasanganNama,
                             'alamat' => $pemasanganAlamat,
                             'telepon' => $pemasanganTlp,
                             'paket_id' => $paketId,
-                            'username_pppoe' => $noPelanggan,
+                            // 'username_pppoe' => $noPelanggan,
                             'password_pppoe' => $passwordPppoe,
                         ]);
 
@@ -196,5 +193,137 @@ class PemasanganController extends Controller
         $pemasangans->delete();
 
         return back()->with('message', 'Data berhasil di hapus');
+    }
+
+    //ini terbaru
+
+    //update pemasangan route nya {{ route.pemasangans.update-pemasangan }} admin yang hanya bisa uodate misal salah nama or anything else
+    public function updatePemasangan(Request $request, $id)
+    {
+        try {
+            $pemasangan = Pemasangan::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            throw ($e->getMessage());
+        }
+
+        $validatedData = $request->validate([
+            'nama' => 'required',
+            'nik' => 'required',
+            'alamat' => 'required',
+            'telepon' => 'required',
+            'paket_id' => 'required',
+        ]);
+
+        $pemasangan->update($validatedData);
+
+        return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
+    }
+
+    //udpate pemasangan assignment sales jadi jangan dijadiin satu menurut gua {{ route.pemasangans.assignment-sales }}
+    public function assignmentSales(Request $request, $id)
+    {
+        try {
+            $pemasangan = Pemasangan::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            throw ($e->getMessage());
+        }
+
+        $validatedData = $request->validate([
+            'user_survey' => 'required',
+        ]);
+
+        $pemasangan->update($validatedData);
+
+        return redirect()->route('route.pemasangans.index')->with('message', 'Berhasil assignment data pemasangan ke sales.');
+    }
+
+    //update survey di sales {{ route.pemasangans.update-survey }}
+    public function updateSurvey(Request $request, $id)
+    {
+        try {
+            $pemasangan = Pemasangan::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            throw ($e->getMessage());
+        }
+        if ($pemasangan->status_survey === 'Berhasil Survey' || $pemasangan->status_survey === 'Gagal Survey') {
+            return back()->withErrors('Data sudah diupdate');
+        }
+        $validatedData = $request->validate([
+            'status_survey' => 'required',
+            'keterangan' => 'required',
+            'tgl_action' => 'required|date',
+        ]);
+
+        $pemasangan->update($validatedData);
+
+        if ($validatedData['status_survey'] === 'Berhasil Survey') {
+            Pelanggan::create([
+                'paket_id' => $pemasangan->paket_id,
+                'pemasangan_id' => $pemasangan->id,
+            ]);
+        }
+
+        return redirect()->route('route.pemasangans.index')->with('message', 'Berhasil update status survey.');
+    }
+    //udpate pemasangan assignment teknisi dari sales {{ route.pemasangans.assignment-teknisi }}
+    public function assignmentTeknisi(Request $request, $id)
+    {
+        try {
+            $pemasangan = Pemasangan::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            throw ($e->getMessage());
+        }
+        if ($pemasangan->status_survey === 'Belum Survey') {
+            return back()->withErrors('Silahkan isi status survey terlebih dahulu');
+        }
+        $validatedData = $request->validate([
+            'user_action' => 'required',
+        ]);
+
+        $pemasangan->update($validatedData);
+
+        return redirect()->route('route.pemasangans.index')->with('message', 'Berhasil assignment data pemasangan ke teknisi.');
+    }
+    //  {{ route.pemasangans.update-instalasi }}
+    public function statusInstalasi(Request $request, $id)
+    {
+        try {
+            $pemasangan = Pemasangan::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            throw ($e->getMessage());
+        }
+        if ($pemasangan->status_instalasi === 'Berhasil Instalasi' || $pemasangan->status_instalasi === 'Gagal Instalasi') {
+            return back()->withErrors('Gagal mengupdate data, status instalasi sudah diupdate');
+        }
+        $validatedData = $request->validate([
+            'status_instalasi' => 'required',
+        ]);
+
+        $pemasangan->update($validatedData);
+
+        return redirect()->route('route.pemasangans.index')->with('message', 'Berhasil update status instalasi.');
+    }
+    //  {{ route.pemasangans.update-aktivasi }}
+
+    public function statusAktivasi(Request $request, $id)
+    {
+        try {
+            $pemasangan = Pemasangan::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            throw ($e->getMessage());
+        }
+        if ($pemasangan->status_aktivasi === 'Berhasil Aktivasi' || $pemasangan->status_aktivasi === 'Gagal Aktivasi') {
+            return back()->withErrors('Gagal mengupdate data, status aktivasi sudah diupdate');
+        }
+        if ($pemasangan->status_instalasi === 'Gagal Aktivasi' || $pemasangan->status_instalasi === null) {
+            return back()->withErrors('Gagal mengupdate data, status instalasi Gagal atau belum diupdate');
+        }
+        $validatedData = $request->validate([
+            'status_aktivasi' => 'required',
+        ]);
+
+        $pemasangan->update($validatedData);
+
+        return redirect()->route('route.pemasangans.index')->with('message', 'Berhasil update status aktivasi.');
     }
 }

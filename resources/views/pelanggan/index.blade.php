@@ -355,28 +355,29 @@
                                 <label class="form-label" for="basic-icon-default-fullname">Alamat</label>
                                 <div class="input-group input-group-merge">
                                     <input type="text" class="form-control" id="alamat" name="alamat"
-                                        value="{{ $item->pelanggan->alamat }}" readonly />
+                                        value="{{ $item->alamat }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="basic-icon-default-fullname">Telepon</label>
                                 <div class="input-group input-group-merge">
                                     <input type="text" class="form-control" id="telepon" name="telepon"
-                                        value="{{ $item->pelanggan->telepon }}" readonly />
+                                        value="{{ $item->telepon }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="basic-icon-default-fullname">Username Pppoe</label>
                                 <div class="input-group input-group-merge">
                                     <input type="text" class="form-control" id="name" name="name"
-                                        value="{{ $item->pelanggan->username_pppoe }}" placeholder="Username" readonly />
+                                        value="{{ optional($item->pelanggan)->username_pppoe }}" placeholder="Username"
+                                        readonly />
                                 </div>
                             </div>
                             <div class="mb-3 form-password-toggle">
                                 <label class="form-label" for="basic-icon-default-fullname">Password Pppoe</label>
                                 <div class="input-group input-group-merge">
                                     <input type="password" class="form-control" id="name" name="name"
-                                        value="{{ $item->pelanggan->password_pppoe }}" placeholder="Kata Sandi"
+                                        value="{{ optional($item->pelanggan)->password_pppoe }}" placeholder="Kata Sandi"
                                         readonly /><span class="input-group-text cursor-pointer"><i
                                             class="bx bx-hide"></i></span>
                                 </div>
@@ -385,14 +386,16 @@
                                 <label class="form-label" for="basic-icon-default-fullname">Tanggal Pemasangan</label>
                                 <div class="input-group input-group-merge">
                                     <input type="date" class="form-control" id="name" name="name"
-                                        value="{{ $item->pelanggan->tgl_pasang }}" placeholder="Name" readonly />
+                                        value="{{ optional($item->pelanggan)->tgl_pasang }}" placeholder="Name"
+                                        readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="basic-icon-default-fullname">Tanggal Isolir</label>
                                 <div class="input-group input-group-merge">
                                     <input type="date" class="form-control" id="name" name="name"
-                                        value="{{ $item->pelanggan->tgl_isolir }}" placeholder="Name" readonly />
+                                        value="{{ optional($item->pelanggan)->tgl_isolir }}" placeholder="Name"
+                                        readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -539,7 +542,7 @@
                                 <label class="form-label" for="basic-icon-default-fullname">No Pelanggan</label>
                                 <div class="input-group input-group-merge">
                                     <input type="text" class="form-control" id="name" name="name"
-                                        value="{{ $item->pelanggan->no_pelanggan }}" readonly />
+                                        value="{{ optional($item->pelanggan)->no_pelanggan }}" readonly />
                                 </div>
                             </div>
                             <div class="mb-3">
