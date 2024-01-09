@@ -36,6 +36,7 @@ class PemasanganController extends Controller
             $pemasangan = Pemasangan::where('user_action', $username)
                 ->orderByDesc('id')
                 ->with('toPaket')
+                ->has('pelanggan')
                 ->get();
 
             $pemasangan->load('pelanggan');
