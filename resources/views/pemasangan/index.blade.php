@@ -184,7 +184,7 @@
                     <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
                         <div class="card-body mb-4">
                             @can('create pendaftaran')
-                                <button class="btn btn-outline-primary float-end" data-bs-toggle="modal"
+                                <button class="btn btn-primary float-end" data-bs-toggle="modal"
                                     data-bs-target="#add-pemasangan">Tambah</button>
                             @endcan
                         </div>
@@ -554,10 +554,11 @@
                             </div>
                         </div> --}}
                         <div class="mb-3">
-                            <label for="paket_id" class="form-label">Pilih Paket</label>
+                            <label for="paket_id" class="form-label">Paket</label>
                             <select id="paket_id" class="form-select" name="paket_id" required>
+                                <option selected>Pilih Paket</option>
                                 @foreach ($pakets as $item)
-                                    <option value="{{ $item->id }}" {{ $item->paket ? 'selected' : '' }}>
+                                    <option value="{{ $item->id }}">
                                         {{ $item->paket }}
                                     </option>
                                 @endforeach
@@ -591,8 +592,6 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="basic-icon-default-fullname">Nama</label>
                                     <div class="input-group input-group-merge">
-                                        <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
                                         <input type="text" class="form-control" id="nama" name="nama"
                                             value="{{ $value->nama }}" placeholder="Nama" />
                                     </div>
@@ -601,8 +600,6 @@
                                     <label class="form-label" for="basic-icon-default-fullname">Nomer Induk
                                         Kependudukan</label>
                                     <div class="input-group input-group-merge">
-                                        <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
                                         <input type="text" class="form-control" id="nik" name="nik"
                                             value="{{ $value->nik }}" placeholder="Nomer Induk Kependudukan" />
                                     </div>
@@ -610,8 +607,6 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="basic-icon-default-fullname">Alamat</label>
                                     <div class="input-group input-group-merge">
-                                        <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
                                         <input type="text" class="form-control" id="alamat" name="alamat"
                                             value="{{ $value->alamat }}" placeholder="Alamat" />
                                     </div>
@@ -619,8 +614,6 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="basic-icon-default-fullname">Telepon</label>
                                     <div class="input-group input-group-merge">
-                                        <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
                                         <input type="text" class="form-control" id="telepon" name="telepon"
                                             value="{{ $value->telepon }}" placeholder="Telepon" />
                                     </div>
@@ -661,21 +654,15 @@
 
                             @if (auth()->user()->hasRole('admin'))
                                 <div class="mb-3">
-                                    <label class="form-label" for="basic-icon-default-fullname">Pilih Sales</label>
-                                    <div class="input-group input-group-merge">
-                                        <span id="basic-icon-default-fullname2" class="input-group-text"><i
-                                                class="bx bx-user"></i></span>
-                                        <div class="btn-group">
-                                            <select class="form-select" name="user_survey" id="user_survey" required>
-                                                @foreach ($users as $user)
-                                                    <option value="{{ $user->name }}"
-                                                        {{ $value->name ? 'selected' : '' }}>
-                                                        {{ $user->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <label for="user_survey" class="form-label">Sales</label>
+                                    <select id="user_survey" class="form-select" name="user_survey" required>
+                                        <option selected>Pilih Sales</option>
+                                        @foreach ($users as $user)
+                                            <option value="{{ $user->name }}">
+                                                {{ $user->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             @endif
                         </div>

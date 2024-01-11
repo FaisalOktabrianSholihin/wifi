@@ -33,7 +33,7 @@
             </h4>
             <div class="card">
                 <div class="card-body mb-4">
-                    <button class="btn btn-outline-primary float-end" data-bs-toggle="modal"
+                    <button class="btn btn-primary float-end" data-bs-toggle="modal"
                         data-bs-target="#add-pelanggan">Tambah</button>
                 </div>
                 <div class="table-responsive text-nowrap">
@@ -41,12 +41,11 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Aksi</th>
+                                {{-- <th>Aksi</th> --}}
                                 <th>No Pelanggan</th>
                                 <th>Nama Pelanggan</th>
                                 <th>Alamat</th>
                                 <th>Telepon</th>
-
                             </tr>
                         </thead>
                         <tbody class="table-border-bottom-0">
@@ -54,7 +53,7 @@
                                 @foreach ($pelanggan as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>
+                                        {{-- <td>
                                             <div class="dropdown">
                                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
                                                     data-bs-toggle="dropdown">
@@ -69,7 +68,7 @@
                                                     @endcan
                                                 </div>
                                             </div>
-                                        </td>
+                                        </td> --}}
                                         <td>{{ $item->no_pelanggan }}</td>
                                         <td>{{ $item->nama }}</td>
                                         <td>{{ $item->alamat }}</td>
@@ -86,7 +85,7 @@
     </div>
 
     {{-- modal ubah paket ges --}}
-    @foreach ($pelanggan as $item)
+    {{-- @foreach ($pelanggan as $item)
         <div class="modal fade" id="ubahpaket{{ $item->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -133,6 +132,6 @@
                 </div>
             </div>
         </div>
-    @endforeach
+    @endforeach --}}
 
 @endsection
