@@ -49,7 +49,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
                 </div>
             </div>
         </div>

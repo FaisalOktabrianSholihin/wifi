@@ -72,4 +72,9 @@ class Pelanggan extends Model
     {
         return $this->hasMany(UbahPaket::class);
     }
+
+    public function mutasi()
+    {
+        return $this->hasMany(Mutasi::class);
+    }
 }

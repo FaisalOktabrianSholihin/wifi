@@ -8,6 +8,7 @@ use App\Models\Pemasangan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Spatie\Permission\Models\Role;
 
 class PemasanganController extends Controller
@@ -22,31 +23,46 @@ class PemasanganController extends Controller
     public function index()
     {
         $admin = auth()->user()->hasRole('admin');
-        $sales = auth()->user()->hasRole('sales');
+        $salesuser = auth()->user()->hasRole('sales');
+        $teknisiuser = auth()->user()->hasRole('teknisi');
         $username = auth()->user()->name;
 
-        if ($admin || $sales) {
-            $pemasangan = Pemasangan::with('toPaket')
-                ->when($sales, function ($query) use ($username) {
-                    $query->where('user_survey', $username);
-                })
-                ->orderByDesc('id')
-                ->get();
-        } else {
-            $pemasangan = Pemasangan::where('user_action', $username)
-                ->orderByDesc('id')
-                ->with('toPaket')
-                ->has('pelanggan')
-                ->get();
+        $pemasangan = Pemasangan::with('toPaket')
+            ->when($salesuser, function ($query) use ($username) {
+                $query->where('user_survey', $username);
+            })
+            ->when($teknisiuser, function ($query) use ($username) {
+                $query->where('user_action', $username);
+            })
+            ->where(function ($query) {
+                $query->whereNull('status_lunas')
+                    ->orWhere(function ($query) {
+                        $query->where('status_survey', '!=', 'Gagal Survey')
+                            ->where('status_instalasi', '!=', 'Gagal Instalasi')
+                            ->where('status_aktivasi', '!=', 'Gagal Aktivasi')
+                            ->where('status_lunas', '!=', 'Lunas');
+                    });
+            })
+            ->orderByDesc('id')
+            ->get();
 
-            $pemasangan->load('pelanggan');
-        }
+        $berhasil = Pemasangan::where('status_lunas', 'Lunas')
+            ->with(['pelanggan', 'toPaket'])
+            ->has('pelanggan')
+            ->orderByDesc('id')
+            ->get();
 
-        // $pemasangan = Pemasangan::with('toPaket')->orderByDesc('id')->get();
-        $users = User::role('sales')->get();
+        $gagal = Pemasangan::where('status_survey', 'Gagal Survey')
+            ->orWhere('status_instalasi', 'Gagal Instalasi')
+            ->orWhere('status_aktivasi', 'Gagal Aktivasi')
+            ->with(['pelanggan', 'toPaket'])
+            ->orderByDesc('id')
+            ->get();
+
+        $sales = User::role('sales')->get();
         $teknisi = User::role('teknisi')->get();
         $pakets = Paket::orderByDesc('id')->get();
-        return view('pemasangan.index', compact('pemasangan', 'users', 'teknisi', 'pakets'));
+        return view('pemasangan.index', compact('pemasangan', 'sales', 'teknisi', 'pakets', 'berhasil', 'gagal'));
     }
 
 
@@ -77,127 +93,13 @@ class PemasanganController extends Controller
         $nomorPendaftaran = "XIX{$tahunSekarang}{$nomorUnik}";
 
         $validatedData['no_pendaftaran'] = $nomorPendaftaran;
-        $validatedData['status_survey'] = 'Belum Survey';
 
         Pemasangan::create($validatedData);
 
-        return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil disimpan.');
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        $pemasangan = Pemasangan::findOrFail($id);
-
-        $validated = [];
-
-        $statusSurvey = $pemasangan->status_survey;
-        $user = auth()->user();
-
-        if ($statusSurvey === "Berhasil Survey" || $statusSurvey === "Gagal Survey") {
-            return redirect()->route('route.pemasangans.index')->withErrors('Data gagal diupdate.');
-        } else {
-            if ($user->hasRole('admin')) {
-
-                $validated = $request->validate([
-                    'nama' => 'required',
-                    'nik' => 'required|max:16',
-                    'alamat' => 'required',
-                    'user_survey' => 'required',
-                    'telepon' => 'required',
-                ]);
-
-                $pemasangan->update($validated);
-
-                return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
-            } elseif ($user->hasRole('sales')) {
-
-                if ($request->has('user_action')) {
-                    $validated['user_action'] = $request->input('user_action');
-                } else {
-                    $validated = $request->validate([
-                        'status_survey' => 'required',
-                        'keterangan' => 'required',
-                        'tgl_action' => 'required',
-                    ]);
-                    if ($validated['status_survey'] === 'Berhasil Survey') {
-                        $lastId = Pelanggan::latest('id')->value('id');
-
-                        $nomorUrut = $lastId + 1;
-
-                        $nomorUrutFormatted = str_pad($nomorUrut, 4, '0', STR_PAD_LEFT);
-
-                        $noPelanggan = date('Y') . $nomorUrutFormatted;
-
-                        $passwordPppoe = rand(10000000, 99999999);
-                        $pemasanganId = $pemasangan->id;
-                        $pemasanganNama = $pemasangan->nama;
-                        $pemasanganAlamat = $pemasangan->alamat;
-                        $pemasanganTlp = $pemasangan->telepon;
-                        $paketId = $pemasangan->paket_id;
-
-                        Pelanggan::create([
-                            // 'no_pelanggan' => $noPelanggan,
-                            'pemasangan_id' => $pemasanganId,
-                            'nama' => $pemasanganNama,
-                            'alamat' => $pemasanganAlamat,
-                            'telepon' => $pemasanganTlp,
-                            'paket_id' => $paketId,
-                            // 'username_pppoe' => $noPelanggan,
-                            'password_pppoe' => $passwordPppoe,
-                        ]);
-
-                        $validated = $request->validate([
-                            'status_survey' => 'required',
-                            'keterangan' => 'required',
-                            'tgl_action' => 'required',
-                        ]);
-                        $pemasangan->update($validated);
-
-
-                        return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
-                    }
-                }
-                $pemasangan->update($validated);
-
-                return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
-            }
-            $pemasangan->update($validated);
-
-            return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
-        }
-    }
-
-    public function updateTeknisi(Request $request, $id)
-    {
-        $pemasangan = Pemasangan::findOrFail($id);
-
-        if (auth()->user()->hasRole('sales')) {
-            $validatedData = $request->validate([
-                'user_action' => 'required',
-            ]);
-
-            if ($pemasangan->status_survey === 'Berhasil Survey') {
-                $pemasangan->update($validatedData);
-                return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
-            } else {
-                return redirect()->route('route.pemasangans.index')->withErrors('Data tidak dapat diupdate karena status survey belum berhasil');
-            }
-        } else {
-            return redirect()->route('route.pemasangans.index')->with('message', 'Data gagal diupdate.');
-        }
-    }
-
-    public function destroy($id)
-    {
-        $pemasangans = Pemasangan::findOrFail($id);
-        $pemasangans->delete();
-
-        return back()->with('message', 'Data berhasil di hapus');
+        return redirect()->route('route.pemasangans')->with('message', 'Data berhasil disimpan.');
     }
 
     //ini terbaru
-
     //update pemasangan route nya {{ route.pemasangans.update-pemasangan }} admin yang hanya bisa uodate misal salah nama or anything else
     public function updatePemasangan(Request $request, $id)
     {
@@ -217,7 +119,7 @@ class PemasanganController extends Controller
 
         $pemasangan->update($validatedData);
 
-        return redirect()->route('route.pemasangans.index')->with('message', 'Data berhasil diupdate.');
+        return redirect()->route('route.pemasangans')->with('message', 'Data berhasil diupdate.');
     }
 
     //udpate pemasangan assignment sales jadi jangan dijadiin satu menurut gua {{ route.pemasangans.assignment-sales }}
@@ -235,7 +137,7 @@ class PemasanganController extends Controller
 
         $pemasangan->update($validatedData);
 
-        return redirect()->route('route.pemasangans.index')->with('message', 'Berhasil assignment data pemasangan ke sales.');
+        return redirect()->route('route.pemasangans')->with('message', 'Berhasil assignment data pemasangan ke sales.');
     }
 
     //update survey di sales {{ route.pemasangans.update-survey }}
@@ -257,14 +159,17 @@ class PemasanganController extends Controller
 
         $pemasangan->update($validatedData);
 
-        if ($validatedData['status_survey'] === 'Berhasil Survey') {
-            Pelanggan::create([
-                'paket_id' => $pemasangan->paket_id,
-                'pemasangan_id' => $pemasangan->id,
-            ]);
-        }
+        // if ($validatedData['status_survey'] === 'Berhasil Survey') {
+        //     Pelanggan::create([
+        //         'nama' => $pemasangan->nama,
+        //         'alamat' => $pemasangan->alamat,
+        //         'telepon' => $pemasangan->telepon,
+        //         'paket_id' => $pemasangan->paket_id,
+        //         'pemasangan_id' => $pemasangan->id,
+        //     ]);
+        // }
 
-        return redirect()->route('route.pemasangans.index')->with('message', 'Berhasil update status survey.');
+        return redirect()->route('route.pemasangans')->with('message', 'Berhasil update status survey.');
     }
     //udpate pemasangan assignment teknisi dari sales {{ route.pemasangans.assignment-teknisi }}
     public function assignmentTeknisi(Request $request, $id)
@@ -277,13 +182,16 @@ class PemasanganController extends Controller
         if ($pemasangan->status_survey === 'Belum Survey') {
             return back()->withErrors('Silahkan isi status survey terlebih dahulu');
         }
+        if ($pemasangan->status_survey === 'Gagal Survey') {
+            return back()->withErrors('Tidak bisa assignment ke pihak teknisi karena status survey gagal');
+        }
         $validatedData = $request->validate([
             'user_action' => 'required',
         ]);
 
         $pemasangan->update($validatedData);
 
-        return redirect()->route('route.pemasangans.index')->with('message', 'Berhasil assignment data pemasangan ke teknisi.');
+        return redirect()->route('route.pemasangans')->with('message', 'Berhasil assignment data pemasangan ke teknisi.');
     }
     //  {{ route.pemasangans.update-instalasi }}
     public function statusInstalasi(Request $request, $id)
@@ -302,7 +210,7 @@ class PemasanganController extends Controller
 
         $pemasangan->update($validatedData);
 
-        return redirect()->route('route.pemasangans.index')->with('message', 'Berhasil update status instalasi.');
+        return redirect()->route('route.pemasangans')->with('message', 'Berhasil update status instalasi.');
     }
     //  {{ route.pemasangans.update-aktivasi }}
 
@@ -316,7 +224,7 @@ class PemasanganController extends Controller
         if ($pemasangan->status_aktivasi === 'Berhasil Aktivasi' || $pemasangan->status_aktivasi === 'Gagal Aktivasi') {
             return back()->withErrors('Gagal mengupdate data, status aktivasi sudah diupdate');
         }
-        if ($pemasangan->status_instalasi === 'Gagal Aktivasi' || $pemasangan->status_instalasi === null) {
+        if ($pemasangan->status_instalasi === 'Gagal Instalasi' || $pemasangan->status_instalasi === null) {
             return back()->withErrors('Gagal mengupdate data, status instalasi Gagal atau belum diupdate');
         }
         $validatedData = $request->validate([
@@ -325,6 +233,52 @@ class PemasanganController extends Controller
 
         $pemasangan->update($validatedData);
 
-        return redirect()->route('route.pemasangans.index')->with('message', 'Berhasil update status aktivasi.');
+        return redirect()->route('route.pemasangans')->with('message', 'Berhasil update status aktivasi.');
+    }
+
+    public function pembayaran(Request $request, $id)
+    {
+        try {
+            $pemasangan = Pemasangan::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            throw ($e->getMessage());
+        }
+
+        $validated = $request->validate([
+            'biaya' => 'required',
+            'bayar' => 'required',
+            'diskon' => 'required',
+            'keterangan_diskon' => 'nullable',
+            'status_lunas' => 'required',
+        ]);
+
+        $update =  $pemasangan->update($validated);
+        if ($update) {
+            Pelanggan::create([
+                'nama' => $pemasangan->nama,
+                'alamat' => $pemasangan->alamat,
+                'telepon' => $pemasangan->telepon,
+                'paket_id' => $pemasangan->paket_id,
+                'pemasangan_id' => $pemasangan->id,
+            ]);
+        }
+
+        return redirect()->route('route.pemasangans')->with('message', 'Data berhasil diupdate.');
+    }
+
+    public function invoice($id)
+    {
+        try {
+            $pemasangan = Pemasangan::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            throw ($e->getMessage());
+        }
+
+        $customer = $pemasangan->pelanggan;
+        $pdf = Pdf::loadView('pelanggan.pdf', ['customer' => $customer, 'pemasangan' => $pemasangan]);
+        $pdf->setPaper(array(0, 0, 250, 500), 'portrait');
+        $filename = $customer->no_pelanggan . '_' . $customer->nama . '.pdf';
+
+        return $pdf->download($filename);
     }
 }

@@ -28,7 +28,6 @@ class Pemasangan extends Model
         'diskon',
         'bayar',
         'paket_id',
-        'lunas',
         'keterangan_diskon',
         'keterangan',
     ];

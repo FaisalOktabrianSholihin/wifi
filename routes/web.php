@@ -95,7 +95,6 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/settings', SettingController::class);
     Route::resource('/modules', ModuleController::class);
     Route::resource('/billings', BillingController::class);
-    Route::resource('/pemasangans', PemasanganController::class);
     Route::put('/pemasangans/{pemasangan}/update-teknisi', [PemasanganController::class, 'updateTeknisi'])->name('pemasangans.updateTeknisi');
     Route::put('/pelanggan/{id}/update-pembayaran', [PelangganController::class, 'updatePembayaran'])->name('pelanggans.update-pembayaran');
     Route::put('/pelanggan/{id}/update-aktivasi', [PelangganController::class, 'updateAktivasi'])->name('pelanggans.update-aktivasi');
@@ -128,18 +127,25 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/pembayarans', PembayaranController::class);
     Route::resource('/tunggakans', TunggakanController::class);
 
-    // Route::resource('/pemasangans', PemasanganController::class);
-    // Route::get('/pemasangans', [PemasanganController::class, 'index'])->name('pemasangans.index');
-    // Route::post('/pemasangans', [PemasanganController::class, 'store'])->name('pemasangans.store');
-    // Route::put('/pemasangans/{id}', [PemasanganController::class, 'update'])->name('pemasangans.update');
-    // Route::put('/pemasangans/{id}', [PemasanganController::class, 'destroy'])->name('pemasangans.destroy');
-    // Route::get('/search', [PermissionsController::class, 'search']);
-    Route::put('/pemasangans/{id}/update-pemasangan', [PemasanganController::class, 'updatePemasangan'])->name('pemasangans.update-pemasangan');
+    //pemasangan
+    Route::get('/pemasangans', [PemasanganController::class, 'index'])->name('pemasangans');
+    Route::post('/pemasangans/post', [PemasanganController::class, 'store'])->name('pemasangans.create');
+    Route::put('/pemasangans/{id}/update-pemasangan', [PemasanganController::class, 'updatePemasangan'])->name('pemasangans.update');
     Route::put('/pemasangans/{id}/assignment-sales', [PemasanganController::class, 'assignmentSales'])->name('pemasangans.assignment-sales');
     Route::put('/pemasangans/{id}/update-survey', [PemasanganController::class, 'updateSurvey'])->name('pemasangans.update-survey');
     Route::put('/pemasangans/{id}/assignment-teknisi', [PemasanganController::class, 'assignmentTeknisi'])->name('pemasangans.assignment-teknisi');
     Route::put('/pemasangans/{id}/update-instalasi', [PemasanganController::class, 'statusInstalasi'])->name('pemasangans.update-instalasi');
     Route::put('/pemasangans/{id}/update-aktivasi', [PemasanganController::class, 'statusAktivasi'])->name('pemasangans.update-aktivasi');
+    Route::put('/pemasangans/{id}/pembayaran', [PemasanganController::class, 'pembayaran'])->name('pemasangans.pembayaran');
+
+
+    //pelanggan
+    Route::get('/pelanggans', [PelangganController::class, 'index'])->name('pelanggans');
+    Route::get('/pelanggans/{id}/invoice', [PelangganController::class, 'invoice'])->name('pelanggans.invoice');
+
+    //mutasi
+    Route::put('/mutasis/{id}/assignment-teknisi', [MutasiController::class, 'assignmentTeknisi'])->name('mutasis.assignment-teknisi');
+    Route::put('/mutasis/{id}/update-mutasi', [MutasiController::class, 'updateMutasi'])->name('mutasis.status-mutasi');
 });
 // Route::get('/pemasangans', [PemasanganController::class, 'index'])->name('route.pemasangans.index')->middleware('isAuth');
 // Route::post('/pemasangans', [PemasanganController::class, 'store'])->name('route.pemasangans.store')->middleware('isAuth');

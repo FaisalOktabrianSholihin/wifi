@@ -18,13 +18,13 @@ return new class extends Migration
             $table->string('nik', 16)->nullable();
             $table->text('alamat')->nullable();
             $table->string('telepon', 20)->nullable();
-            $table->string('status_survey', 20)->nullable();
+            $table->string('status_survey', 20)->nullable()->default('Belum Survey');
             $table->string('user_survey', 20)->nullable();
             $table->string('user_action', 30)->nullable();
             $table->date('tgl_action')->nullable();
-            $table->string('status_instalasi')->nullable();
-            $table->string('status_aktivasi')->nullable();
-            $table->string('status_lunas')->nullable();
+            $table->string('status_instalasi')->nullable()->default('Belum Instalasi');
+            $table->string('status_aktivasi')->nullable()->default('Belum Aktivasi');
+            $table->string('status_lunas')->nullable()->default('Belum Lunas');
             $table->integer('biaya')->nullable()->default(0);
             $table->integer('diskon')->default(0)->nullable();
             $table->integer('bayar')->default(0)->nullable();

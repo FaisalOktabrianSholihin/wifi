@@ -87,8 +87,8 @@
                    </ul>
                    <ul class="menu-sub">
                        @can('read paket')
-                           <li class="menu-item {{ Route::is('route.ikipelanggans.index') ? 'active' : '' }}">
-                               <a href="{{ route('route.ikipelanggans.index') }}" class="menu-link">
+                           <li class="menu-item {{ Route::is('route.pelanggans') ? 'active' : '' }}">
+                               <a href="{{ route('route.pelanggans') }}" class="menu-link">
                                    <div data-i18n="Without menu" style="color: black">Pelanggan</div>
                                </a>
                            </li>
@@ -178,32 +178,15 @@
                        <div data-i18n="Layouts" style="color: black">Service</div>
                    </a>
 
-                   {{-- <ul class="menu-sub">
+
+                   <ul class="menu-sub">
                        @can('read pendaftaran')
-                           <li class="menu-item {{ Route::is('route.pemasangans.index') ? 'active' : '' }}">
-                               <a href="{{ route('route.pemasangans.index') }}" class="menu-link">
+                           <!-- Sidebar admin dan sales -->
+                           <li class="menu-item {{ Route::is('route.pemasangans') ? 'active' : '' }}">
+                               <a href="{{ route('route.pemasangans') }}" class="menu-link">
                                    <div data-i18n="Without menu" style="color: black">Pemasangan</div>
                                </a>
                            </li>
-                       @endcan
-                   </ul> --}}
-                   <ul class="menu-sub">
-                       @can('read pendaftaran')
-                           @if (auth()->user()->hasRole('teknisi'))
-                               <!-- Sidebar teknisi -->
-                               <li class="menu-item {{ Route::is('route.pelanggans.index') ? 'active' : '' }}">
-                                   <a href="{{ route('route.pelanggans.index') }}" class="menu-link">
-                                       <div data-i18n="Without menu" style="color: black">Pemasangan</div>
-                                   </a>
-                               </li>
-                           @else
-                               <!-- Sidebar admin dan sales -->
-                               <li class="menu-item {{ Route::is('route.pemasangans.index') ? 'active' : '' }}">
-                                   <a href="{{ route('route.pemasangans.index') }}" class="menu-link">
-                                       <div data-i18n="Without menu" style="color: black">Pemasangan</div>
-                                   </a>
-                               </li>
-                           @endif
                        @endcan
                    </ul>
 

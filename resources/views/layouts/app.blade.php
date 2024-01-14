@@ -53,6 +53,8 @@
 
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
@@ -76,29 +78,31 @@
                 @include('layouts.navbar')
 
                 <!-- / Navbar -->
+                <div class="content-wrapper">
 
+                    <!-- Content wrapper -->
+                    @yield('content')
+                    <!-- / Content -->
+
+                    <!-- Footer -->
+                    @include('layouts.footer')
+                    <!-- / Footer -->
+
+                    <div class="content-backdrop fade"></div>
+                </div>
                 <!-- Content wrapper -->
-                @yield('content')
-                <!-- / Content -->
-
-                <!-- Footer -->
-                @include('layouts.footer')
-                <!-- / Footer -->
-
-                <div class="content-backdrop fade"></div>
             </div>
-            <!-- Content wrapper -->
+            <!-- / Layout page -->
         </div>
-        <!-- / Layout page -->
-    </div>
 
-    <!-- Overlay -->
-    <div id="loadingOverlay" class="layout-overlay layout-menu-toggle loading-overlay">
-        <div class="spinner-border spinner-border-lg text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <div id="loadingOverlay" class="layout-overlay layout-menu-toggle loading-overlay">
+            <div class="spinner-border spinner-border-lg text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
         </div>
     </div>
-    {{-- </div> --}}
     <!-- / Layout wrapper -->
 
     <!-- Core JS -->
@@ -120,6 +124,10 @@
     <!-- Main JS -->
     <script src="{{ asset('assets/js/main.js') }}"></script>
 
+    <script src="//cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script>
+        let table = new DataTable('#myTable');
+    </script>
     <!-- Page JS -->
     <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
 
