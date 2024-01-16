@@ -9,6 +9,12 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PelangganController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['role:teknisi'], ['only' => ['invoice']]);
+    }
+
     public function index()
     {
         $pelanggan = Pelanggan::orderByDesc('id')->with(['paket', 'pemasangan'])->get();

@@ -6,6 +6,7 @@ use App\Models\Mutasi;
 use App\Models\Pelanggan;
 use App\Models\Pemasangan;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class MutasiController extends Controller
@@ -13,6 +14,8 @@ class MutasiController extends Controller
     public function __construct()
     {
         $this->middleware(['role:admin|sales'], ['only' => ['store']]);
+        $this->middleware(['role:admin'], ['only' => ['assignmentTeknisi']]);
+        $this->middleware(['role:teknisi'], ['only' => ['updateMutasi', 'pembayaran', 'invoice']]);
     }
 
     public function index()
@@ -25,7 +28,10 @@ class MutasiController extends Controller
             $mutasi = Mutasi::with('pelanggan')
                 ->where(function ($query) {
                     $query->whereNull('lunas')
-                        ->orWhere('lunas', '!=', 'Lunas');
+                        ->orWhere(function ($query) {
+                            $query->where('lunas', '!=', 'Lunas')
+                                ->where('status_mutasi', '!=', 'Gagal Mutasi');
+                        });
                 })
                 ->orderByDesc('id')
                 ->get();
@@ -33,7 +39,10 @@ class MutasiController extends Controller
             $mutasi = Mutasi::where('user_action', $username)
                 ->where(function ($query) {
                     $query->whereNull('lunas')
-                        ->orWhere('lunas', '!=', 'Lunas');
+                        ->orWhere(function ($query) {
+                            $query->where('lunas', '!=', 'Lunas')
+                                ->where('status_mutasi', '!=', 'Gagal Mutasi');
+                        });
                 })
                 ->orderByDesc('id')
                 ->with('pelanggan')
@@ -48,6 +57,7 @@ class MutasiController extends Controller
             ->with(['pelanggan'])
             ->orderByDesc('id')
             ->get();
+
         $pelanggan = Pelanggan::with('paket')->get();
         $teknisi = User::role('teknisi')->get();
 
@@ -81,9 +91,6 @@ class MutasiController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect()->back()->withErrors($e->getMessage());
         }
-        // if ($mutasi->user_action != null) {
-        //     return back()->withErrors('Data sudah diupdate');
-        // }
         $validatedData = $request->validate([
             'user_action' => 'required',
         ]);
@@ -114,5 +121,45 @@ class MutasiController extends Controller
         $mutasi->update($validatedData);
 
         return redirect()->route('route.mutasis.index')->with('message', 'Berhasil update status mutasi.');
+    }
+
+    public function pembayaran(Request $request, $id)
+    {
+        try {
+            $mutasi = Mutasi::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            throw ($e->getMessage());
+        }
+
+        $validated = $request->validate([
+            'biaya' => 'required',
+            'bayar' => 'required',
+            'diskon' => 'required',
+            'keterangan' => 'nullable',
+            'lunas' => 'required',
+        ]);
+
+        $update =  $mutasi->update($validated);
+
+        if ($update) {
+            if ($validated['lunas'] == 'Lunas') {
+                return $this->invoice($mutasi);
+
+
+                return redirect()->route('route.mutasis.index')->with('message', 'Berhasil melakukan pembayaran');
+            }
+        }
+
+        return redirect()->route('route.mutasis.index')->with('message', 'Berhasil melakukan pembayaran');
+    }
+
+    public function invoice($mutasi)
+    {
+        $customer = $mutasi->pelanggan;
+        $pdf = Pdf::loadView('mutasi.pdf', ['customer' => $customer, 'mutasi' => $mutasi]);
+        $pdf->setPaper(array(0, 0, 250, 500), 'portrait');
+        $filename = $customer->no_pelanggan . '_' . $customer->nama . '.pdf';
+
+        return $pdf->download($filename);
     }
 }

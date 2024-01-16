@@ -21,8 +21,8 @@ return new class extends Migration
             $table->integer('biaya')->default(0);
             $table->integer('diskon')->default(0);
             $table->integer('bayar')->default(0);
-            $table->string('lunas', 11);
-            $table->string('keterangan', 100);
+            $table->string('lunas', 11)->default('Belum Lunas');
+            $table->string('keterangan', 100)->nullable();
             $table->timestamps();
         });
     }

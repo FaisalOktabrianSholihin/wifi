@@ -261,19 +261,17 @@ class PemasanganController extends Controller
                 'paket_id' => $pemasangan->paket_id,
                 'pemasangan_id' => $pemasangan->id,
             ]);
+
+            if ($validated['status_lunas'] == 'Lunas') {
+                return $this->invoice($pemasangan);
+            }
         }
 
         return redirect()->route('route.pemasangans')->with('message', 'Data berhasil diupdate.');
     }
 
-    public function invoice($id)
+    public function invoice($pemasangan)
     {
-        try {
-            $pemasangan = Pemasangan::findOrFail($id);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            throw ($e->getMessage());
-        }
-
         $customer = $pemasangan->pelanggan;
         $pdf = Pdf::loadView('pelanggan.pdf', ['customer' => $customer, 'pemasangan' => $pemasangan]);
         $pdf->setPaper(array(0, 0, 250, 500), 'portrait');

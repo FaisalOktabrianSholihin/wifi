@@ -111,6 +111,10 @@
                                                                     data-bs-target="#status{{ $item->id }}"
                                                                     class="dropdown-item"><i class="bx bx-share me-1"></i>
                                                                     Status Mutasi</button>
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#pembayaran{{ $item->id }}"
+                                                                    class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                    Pembayaran</button>
                                                             @endrole
                                                         </div>
                                                     </div>
@@ -137,9 +141,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
                         </div>
                     </div>
+                    {{-- tab berhasil --}}
                     <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
                         <div class="card-body mb-4">
                         </div>
@@ -151,22 +155,26 @@
                                         <th>No Pelanggan</th>
                                         <th>Nama Pelanggan</th>
                                         <th>Jenis Mutasi</th>
+                                        <th>Alamat Baru</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>0000001</td>
-                                        <td>fawaid</td>
-                                        <td>alamat</td>
-                                        <td><span class="badge bg-secondary">Belum Diproses</span></td>
-                                    </tr>
+                                    @foreach ($berhasil as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->pelanggan->no_pelanggan }}</td>
+                                            <td>{{ $item->pelanggan->nama }}</td>
+                                            <td>{{ $item->jenis_mutasi }}</td>
+                                            <td>{{ $item->alamat_baru }}</td>
+                                            <td><span class="badge bg-success">{{ $item->status_mutasi }}</span></td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
-                            {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
                         </div>
                     </div>
+                    {{-- tab gagal --}}
                     <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
                         <div class="card-body mb-4">
                         </div>
@@ -178,20 +186,23 @@
                                         <th>No Pelanggan</th>
                                         <th>Nama Pelanggan</th>
                                         <th>Jenis Mutasi</th>
+                                        <th>Alamat Baru</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>0000001</td>
-                                        <td>fawaid</td>
-                                        <td>alamat</td>
-                                        <td><span class="badge bg-secondary">Belum Diproses</span></td>
-                                    </tr>
+                                    @foreach ($gagal as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->pelanggan->no_pelanggan }}</td>
+                                            <td>{{ $item->pelanggan->nama }}</td>
+                                            <td>{{ $item->jenis_mutasi }}</td>
+                                            <td>{{ $item->alamat_baru }}</td>
+                                            <td><span class="badge bg-danger">{{ $item->status_mutasi }}</span></td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
-                            {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
                         </div>
                     </div>
                 </div>
@@ -296,6 +307,7 @@
             </div>
         </div>
     @endforeach
+
     {{-- modal status proses  --}}
     @foreach ($mutasi as $item)
         <div class="modal fade" id="status{{ $item->id }}" tabindex="-1" aria-hidden="true">
@@ -321,7 +333,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="tgl_action" class="form-label">Tanggal Survey</label>
+                                <label for="tgl_action" class="form-label">Tanggal Mutasi</label>
                                 <input class="form-control" type="date" name="tgl_action" id="tgl_action" required />
                             </div>
                         </div>
@@ -334,6 +346,95 @@
                             @else
                                 <button type="submit" class="btn btn-primary" disabled>Simpan</button>
                             @endif
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    {{-- pembayaran --}}
+    @foreach ($mutasi as $value)
+        <div class="modal fade" id="pembayaran{{ $value->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Transaksi</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('route.mutasis.pembayaran', $value->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="row g-2">
+                                <div class="col mb-3">
+                                    <label for="nama" class="form-label">No Pelanggan</label>
+                                    <input type="text" class="form-control" value="{{ $value->no_pelanggan }}"
+                                        readonly />
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="role" class="form-label">Jenis Mutasi</label>
+                                    <input type="text" value="{{ $value->jenis_mutasi }}" class="form-control"
+                                        readonly />
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col mb-3">
+                                    <label for="nama" class="form-label">Alamat Baru</label>
+                                    <input type="text" class="form-control" value="{{ $value->alamat_baru }}"
+                                        readonly />
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="role" class="form-label">Tanggal Mutasi</label>
+                                    <input type="text" value="{{ $value->tgl_action }}" class="form-control"
+                                        readonly />
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col mb-3">
+                                    <label for="biaya" class="form-label">Biaya</label>
+                                    <input type="text" id="biaya" name="biaya" class="form-control"
+                                        value="{{ $value->biaya }}" required />
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="bayar" class="form-label">Bayar</label>
+                                    <input type="text" id="bayar" name="bayar" class="form-control"
+                                        value="{{ $value->bayar }}" required />
+                                </div>
+                            </div>
+                            <div class="row g-2">
+                                <div class="col mb-3">
+                                    <label for="diskon" class="form-label">Diskon</label>
+                                    <input type="text" id="diskon" name="diskon" class="form-control"
+                                        value="{{ $value->diskon }}" required />
+                                </div>
+                                <div class="col mb-3">
+                                    <label for="keterangan" class="form-label">Keterangan Diskon</label>
+                                    <input type="text" id="keterangan" name="keterangan" class="form-control"
+                                        value="{{ $value->keterangan }}" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-3">
+                                    <label class="form-label" for="status_lunas">Status Lunas</label>
+                                    <select class="form-select" id="status_lunas" name="lunas" required>
+                                        <option value="" selected>Pilih Status Lunas</option>
+                                        <option value="Lunas" {{ $value->status_lunas === 'Lunas' ? 'selected' : '' }}>
+                                            Lunas
+                                        </option>
+                                        <option value="Belum Lunas"
+                                            {{ $value->status_lunas === 'Belum lunas' ? 'selected' : '' }}>Belum
+                                            Lunas
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>
                 </div>

@@ -77,4 +77,9 @@ class Pelanggan extends Model
     {
         return $this->hasMany(Mutasi::class);
     }
+
+    public function pemutusan()
+    {
+        return $this->hasMany(Pemutusan::class);
+    }
 }

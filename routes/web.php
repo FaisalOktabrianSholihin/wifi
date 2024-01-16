@@ -29,6 +29,7 @@ use App\Http\Controllers\TunggakanController;
 use App\Http\Controllers\UbahPaketController;
 use App\Http\Controllers\UserController;
 use App\Models\Pelanggan;
+use App\Models\Pemutusan;
 use App\Models\UbahPaket;
 
 /*
@@ -95,19 +96,12 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/settings', SettingController::class);
     Route::resource('/modules', ModuleController::class);
     Route::resource('/billings', BillingController::class);
-    Route::put('/pemasangans/{pemasangan}/update-teknisi', [PemasanganController::class, 'updateTeknisi'])->name('pemasangans.updateTeknisi');
-    Route::put('/pelanggan/{id}/update-pembayaran', [PelangganController::class, 'updatePembayaran'])->name('pelanggans.update-pembayaran');
-    Route::put('/pelanggan/{id}/update-aktivasi', [PelangganController::class, 'updateAktivasi'])->name('pelanggans.update-aktivasi');
-    Route::put('/pelanggan/{id}/update-instalasi', [PelangganController::class, 'updateInstalasi'])->name('pelanggans.update-instalasi');
     Route::resource('/kolektors', KolektorController::class);
     Route::resource('/lokets', LoketController::class);
     Route::resource('/ubah_pakets', UbahPaketController::class);
     Route::put('/ubahpakets/{id}/update-teknisi', [UbahPaketController::class, 'updateTeknisi'])->name('ubah_pakets.update-teknisi');
     Route::put('/ubahpakets/{id}/update-pembayaran', [UbahPaketController::class, 'pembayaran'])->name('ubah_pakets.pembayaran');
     Route::get('/ubahpakets/{id}/cetak-nota', [UbahPaketController::class, 'pdf'])->name('ubah_pakets.pdf');
-    Route::resource('/mutasis', MutasiController::class);
-    Route::resource('/pemutusans', PemutusanController::class);
-    Route::resource('/pelanggans', PelangganController::class);
     Route::resource('/ikipelanggans', IkiPelangganController::class);
     Route::post('/ubahpaket/store', [UbahPaketController::class, 'store'])->name('ubah_pakets.store');
     Route::put('/ubahpaket/{id}/updateVisit', [UbahPaketController::class, 'updateVisit'])->name('ubah_pakets.visit');
@@ -144,10 +138,14 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::get('/pelanggans/{id}/invoice', [PelangganController::class, 'invoice'])->name('pelanggans.invoice');
 
     //mutasi
+    Route::get('/mutasis', [MutasiController::class, 'index'])->name('mutasis.index');
+    Route::post('/mutasis/store', [MutasiController::class, 'store'])->name('mutasis.store');
     Route::put('/mutasis/{id}/assignment-teknisi', [MutasiController::class, 'assignmentTeknisi'])->name('mutasis.assignment-teknisi');
     Route::put('/mutasis/{id}/update-mutasi', [MutasiController::class, 'updateMutasi'])->name('mutasis.status-mutasi');
+    Route::put('/mutasis/{id}/pembayaran', [MutasiController::class, 'pembayaran'])->name('mutasis.pembayaran');
+
+    //pemutusan
+    Route::get('/pemutusans', [PemutusanController::class, 'index'])->name('pemutusans.index');
+    Route::post('/pemutusans/store', [PemutusanController::class, 'store'])->name('pemutusans.store');
+    Route::put('/pemutusans/{id}/pembayaran', [PemutusanController::class, 'pembayaran'])->name('pemutusans.pembayaran');
 });
-// Route::get('/pemasangans', [PemasanganController::class, 'index'])->name('route.pemasangans.index')->middleware('isAuth');
-// Route::post('/pemasangans', [PemasanganController::class, 'store'])->name('route.pemasangans.store')->middleware('isAuth');
-// Route::put('/pemasangans/{id}', [PemasanganController::class, 'update'])->name('route.pemasangans.update')->middleware('isAuth');
-// Route::delete('/pemasangans/{id}', [PemasanganController::class, 'destroy'])->name('route.pemasangans.destroy')->middleware('isAuth');

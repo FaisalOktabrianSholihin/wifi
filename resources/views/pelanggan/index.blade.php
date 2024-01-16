@@ -43,7 +43,6 @@
                                     <th>Nama</th>
                                     <th>Alamat</th>
                                     <th>Telepon</th>
-                                    <th>Cetak Nota</th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
@@ -67,12 +66,6 @@
                                         <td>{{ $item->nama }}</td>
                                         <td>{{ $item->alamat }}</td>
                                         <td>{{ $item->telepon }}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-warning"
-                                                id="btnCetakPdf{{ $item->id }}">
-                                                <span class="tf-icons bx bxs-printer" data-bs-toggle="modal"></span>
-                                            </button>
-                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
