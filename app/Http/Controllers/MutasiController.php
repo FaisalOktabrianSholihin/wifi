@@ -69,13 +69,22 @@ class MutasiController extends Controller
         $validateData = $request->validate([
             'no_pelanggan' => 'required',
             'jenis_mutasi' => 'required',
-            'alamat_baru' => 'required',
+            'alamat_baru' => '',
         ]);
+
+        // Inisialisasi $alamat_baru dengan null
+        $alamat_baru = null;
+
+        // Periksa apakah 'alamat_baru' ada dalam request
+        if ($request->has('alamat_baru')) {
+            $alamat_baru = $validateData['alamat_baru'];
+        }
+
 
         Mutasi::create([
             'no_pelanggan' => $validateData['no_pelanggan'],
             'jenis_mutasi' => $validateData['jenis_mutasi'],
-            'alamat_baru' => $validateData['alamat_baru'],
+            'alamat_baru' => $alamat_baru,
             'status_mutasi' => 'Belum Diproses',
             'lunas' => 'Belum Lunas',
             'keterangan' => '-',

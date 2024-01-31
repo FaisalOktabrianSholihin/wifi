@@ -14,6 +14,7 @@ class Pemutusan extends Model
     protected $fillable = [
         'no_pelanggan',
         'user_action',
+        'status_pemutusan',
         'tgl_action',
         'biaya',
         'diskon',

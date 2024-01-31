@@ -34,40 +34,65 @@
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Pelanggan
+            <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Pemutusan
             </h4>
-            <div class="card">
-                <div class="card-header">
-                    @if (auth()->user()->hasRole('admin') ||
-                            auth()->user()->hasRole('sales'))
-                        <button class="btn btn-primary float-end" data-bs-toggle="modal"
-                            data-bs-target="#add-pemutusan">Tambah</button>
-                    @endif
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive text-nowrap">
-                        <table id="myTable" class="table mb-4">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    @role('teknisi')
-                                        <th>Aksi</th>
-                                    @endrole
-                                    <th>No. Pelanggan</th>
-                                    <th>Nama</th>
-                                    <th>Alamat</th>
-                                    <th>Telepon</th>
-                                    @if (auth()->user()->hasRole('admin') ||
-                                            auth()->user()->hasRole('sales'))
-                                        <th>User Action</th>
-                                    @endif
-                                </tr>
-                            </thead>
-                            <tbody class="table-border-bottom-0">
-                                @foreach ($pemutusan as $item)
+            <div class="nav-align-top mb-4">
+                <ul class="nav nav-pills mb-3" role="tablist">
+                    <li class="nav-item">
+                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true"
+                            style="color: white">Proses
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
+                            aria-selected="false" style="color: white">
+                            Berhasil
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                            data-bs-target="#navs-pills-top-messages" aria-controls="navs-pills-top-messages"
+                            aria-selected="false" style="color: white">
+                            Gagal
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="navs-pills-top-home" role="tabpanel">
+                        @if (auth()->user()->hasRole('admin') ||
+                                auth()->user()->hasRole('sales'))
+                            <div class="card-body mb-4">
+                                <button class="btn btn-primary float-end" data-bs-toggle="modal"
+                                    data-bs-target="#add-pemutusan">Tambah</button>
+                            </div>
+                        @endif
+                        <div class="table-responsive text-nowrap">
+                            <table id="myTable" class="table mb-4">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        @role('teknisi')
+                                        <th>No</th>
+                                        @if (auth()->user()->hasRole('admin') ||
+                                                auth()->user()->hasRole('teknisi'))
+                                            <th>Aksi</th>
+                                        @endif
+                                        <th>No. Pelanggan</th>
+                                        <th>Nama</th>
+                                        <th>Alamat</th>
+                                        <th>Telepon</th>
+                                        @role('admin')
+                                            <th>User Action</th>
+                                        @endrole
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @foreach ($pemutusan as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            {{-- @role('teknisi')
                                             <td>
                                                 <div class="dropdown">
                                                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -82,19 +107,122 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        @endrole
-                                        <td>{{ $item->no_pelanggan }}</td>
-                                        <td>{{ $item->pelanggan->nama }}</td>
-                                        <td>{{ $item->pelanggan->alamat }}</td>
-                                        <td>{{ $item->pelanggan->telepon }}</td>
-                                        @if (auth()->user()->hasRole('admin') ||
-                                                auth()->user()->hasRole('sales'))
-                                            <td>{{ $item->user_action }}</td>
-                                        @endif
+                                        @endrole --}}
+                                            @if (auth()->user()->hasRole('admin') ||
+                                                    auth()->user()->hasRole('teknisi'))
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                            data-bs-toggle="dropdown">
+                                                            <i class="bx bx-dots-vertical-rounded"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                            @role('admin')
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#assigment{{ $item->id }}"
+                                                                    class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                    Assigment</button>
+                                                            @endrole
+                                                            @role('teknisi')
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#status{{ $item->id }}"
+                                                                    class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                    Status Pemutusan</button>
+                                                                <button data-bs-toggle="modal"
+                                                                    data-bs-target="#pembayaran{{ $item->id }}"
+                                                                    class="dropdown-item"><i class="bx bx-share me-1"></i>
+                                                                    Pembayaran</button>
+                                                            @endrole
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            @endif
+                                            <td>{{ $item->no_pelanggan }}</td>
+                                            <td>{{ $item->pelanggan->nama }}</td>
+                                            <td>{{ $item->pelanggan->alamat }}</td>
+                                            <td>{{ $item->pelanggan->telepon }}</td>
+                                            @if (auth()->user()->hasRole('admin') ||
+                                                    auth()->user()->hasRole('sales'))
+                                                <td>{{ $item->user_action }}</td>
+                                            @endif
+                                            <td>
+                                                @if ($item->status_pemutusan === 'Belum Diproses')
+                                                    <span class="badge bg-secondary">{{ $item->status_pemutusan }}</span>
+                                                @elseif ($item->status_pemutusan === 'Gagal Pemutusan')
+                                                    <span class="badge bg-danger">{{ $item->status_pemutusan }}</span>
+                                                @elseif ($item->status_pemutusan === 'Berhasil Pemutusan')
+                                                    <span class="badge bg-success">{{ $item->status_pemutusan }}</span>
+                                                @else
+                                                    <span class="badge bg-dark">{{ $item->status_pemutusan }}</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {{-- tab berhasil --}}
+                    <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
+                        <div class="card-body mb-4">
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table id="tableBerhasil" class="table mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No Pelanggan</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Alamat</th>
+                                        <th>Telepon </th>
+                                        <th>Status</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @foreach ($berhasil as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->pelanggan->no_pelanggan }}</td>
+                                            <td>{{ $item->pelanggan->nama }}</td>
+                                            <td>{{ $item->pelanggan->alamat }}</td>
+                                            <td>{{ $item->pelanggan->telepon }}</td>
+                                            <td><span class="badge bg-success">{{ $item->status_pemutusan }}</span></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {{-- tab gagal --}}
+                    <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
+                        <div class="card-body mb-4">
+                        </div>
+                        <div class="table-responsive text-nowrap">
+                            <table id="tableGagal" class="table mb-4">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No Pelanggan</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Alamat</th>
+                                        <th>Telepon</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-border-bottom-0">
+                                    @foreach ($gagal as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->pelanggan->no_pelanggan }}</td>
+                                            <td>{{ $item->pelanggan->nama }}</td>
+                                            <td>{{ $item->pelanggan->alamat }}</td>
+                                            <td>{{ $item->pelanggan->telepon }}</td>
+                                            <td><span class="badge bg-danger">{{ $item->status_pemutusan }}</span></td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -130,7 +258,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label for="user_action" class="form-label">Teknisi</label>
                             <select id="user_action" class="form-select" name="user_action" required>
                                 <option selected>Pilih Teknisi</option>
@@ -140,7 +268,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
@@ -152,6 +280,94 @@
             </div>
         </div>
     </div>
+
+    {{-- modal status proses  --}}
+    @foreach ($pemutusan as $value)
+        <div class="modal fade" id="status{{ $value->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Status Proses</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('route.pemutusans.status-pemutusan', $value->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="status_pemutusan" class="form-label">Status Proses</label>
+                                <select id="status_pemutusan" class="form-select" name="status_pemutusan" required>
+                                    <option selected>Pilih Status Pemutusan</option>
+                                    <option value="Berhasil Pemutusan"
+                                        {{ $value->status_pemutusan === 'Berhasil Pemutusan' ? 'selected' : '' }}>Berhasil
+                                    </option>
+                                    <option value="Gagal Pemutusan"
+                                        {{ $value->status_pemutusan === 'Gagal Pemutusan' ? 'selected' : '' }}>Gagal
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tgl_action" class="form-label">Tanggal Pemutusan</label>
+                                <input class="form-control" type="date" name="tgl_action" id="tgl_action"
+                                    value="{{ $value->tgl_action }}" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                            @if ($value->status_pemutusan == 'Belum Diproses')
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            @else
+                                <button type="submit" class="btn btn-primary" disabled>Simpan</button>
+                            @endif
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+    {{-- modal teknisi ges --}}
+    @foreach ($pemutusan as $value)
+        <div class="modal fade" id="assigment{{ $value->id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Assigment Data</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="POST" action="{{ route('route.pemutusans.assignment-teknisi', $value->id) }}">
+                        @csrf
+                        @method('PUT')
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="user_action" class="form-label">Teknisi</label>
+                                <select id="user_action" class="form-select" name="user_action" required>
+                                    <option selected>Pilih Teknisi</option>
+                                    @foreach ($teknisi as $value)
+                                        <option value="{{ $value->name }}">
+                                            {{ $value->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                            @if (is_null($value->user_action))
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            @else
+                                <button type="submit" class="btn btn-primary" disabled>Simpan</button>
+                            @endif
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 
     {{-- pembayaran --}}
     @foreach ($pemutusan as $value)

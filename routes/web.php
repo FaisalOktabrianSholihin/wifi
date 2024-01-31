@@ -147,5 +147,7 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     //pemutusan
     Route::get('/pemutusans', [PemutusanController::class, 'index'])->name('pemutusans.index');
     Route::post('/pemutusans/store', [PemutusanController::class, 'store'])->name('pemutusans.store');
+    Route::put('/pemutusans/{id}/assignment-teknisi', [PemutusanController::class, 'assignmentTeknisi'])->name('pemutusans.assignment-teknisi');
+    Route::put('/pemutusans/{id}/update-pemutusan', [PemutusanController::class, 'updatePemutusan'])->name('pemutusans.status-pemutusan');
     Route::put('/pemutusans/{id}/pembayaran', [PemutusanController::class, 'pembayaran'])->name('pemutusans.pembayaran');
 });

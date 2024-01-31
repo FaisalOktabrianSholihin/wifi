@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('user_action', 30)->nullable();
             $table->date('tgl_action')->nullable();
+            $table->string('status_pemutusan', 20)->nullable();
             $table->integer('biaya')->default(0);
             $table->integer('diskon')->default(0);
             $table->integer('bayar')->default(0);

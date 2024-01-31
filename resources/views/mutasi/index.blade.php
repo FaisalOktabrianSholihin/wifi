@@ -125,7 +125,7 @@
                                             @role('admin')
                                                 <td>{{ $item->user_action }}</td>
                                             @endrole
-                                            <td>{{ $item->alamat_baru }}</td>
+                                            <td>{{ $item->jenis_mutasi }}</td>
                                             <td>
                                                 @if ($item->status_mutasi === 'Belum Diproses')
                                                     <span class="badge bg-secondary">{{ $item->status_mutasi }}</span>
@@ -148,7 +148,7 @@
                         <div class="card-body mb-4">
                         </div>
                         <div class="table-responsive text-nowrap">
-                            <table class="table mb-4">
+                            <table id="tableBerhasil" class="table mb-4">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -179,7 +179,7 @@
                         <div class="card-body mb-4">
                         </div>
                         <div class="table-responsive text-nowrap">
-                            <table class="table mb-4">
+                            <table id="tableGagal" class="table mb-4">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -210,9 +210,8 @@
         </div>
     </div>
 
-
     {{-- modal tambah ges --}}
-    <div class="modal fade" id="add-mutasi" tabindex="-1" aria-hidden="true">
+    {{-- <div class="modal fade" id="add-mutasi" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -264,8 +263,63 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 
+    {{-- Modal tambah ges --}}
+    <div class="modal fade" id="add-mutasi" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="add-mutasi-title">Tambahkan Data Mutasi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formTambah" method="POST" action="{{ route('route.mutasis.store') }}">
+                    @csrf
+                    @method('POST')
+                    <div class="modal-body">
+                        <label for="pelanggan_id" class="form-label">Cari Pelanggan</label>
+                        <div class="row">
+                            <div class="mb-3">
+                                <select id="pelanggan_id" class="form-select" style="width: 100%" name="no_pelanggan"
+                                    required>
+                                    <option selected>Pilih Pelanggan</option>
+                                    @foreach ($pelanggan as $item)
+                                        <option value="{{ $item->no_pelanggan }}">
+                                            {{ $item->no_pelanggan }} |
+                                            {{ $item->nama }} |
+                                            {{ $item->paket->paket }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="jenis_mutasi" class="form-label">Jenis Mutasi</label>
+                            <select id="jenis_mutasi" class="form-select" name="jenis_mutasi" required
+                                onchange="toggleAlamat(this)">
+                                <option selected>Pilih Jenis Mutasi</option>
+                                <option value="titik">Titik</option>
+                                <option value="alamat">Alamat</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="alamat">Alamat Baru</label>
+                            <div class="input-group input-group-merge">
+                                <input type="text" class="form-control" id="alamat" name="alamat_baru"
+                                    value="" placeholder="alamat" disabled />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary">Tambah</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     {{-- modal teknisi ges --}}
     @foreach ($mutasi as $item)
@@ -334,7 +388,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="tgl_action" class="form-label">Tanggal Mutasi</label>
-                                <input class="form-control" type="date" name="tgl_action" id="tgl_action" required />
+                                <input class="form-control" type="date" name="tgl_action" id="tgl_action"
+                                    value="{{ $item->tgl_action }}" />
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -450,6 +505,18 @@
                 placeholder: 'Cari Pelanggan',
                 dropdownParent: $('#add-mutasi')
             });
+            $('#tableBerhasil').DataTable();
+            $('#tableGagal').DataTable();
         });
+
+        function toggleAlamat(select) {
+            var alamatInput = document.getElementById("alamat");
+            if (select.value === "titik") {
+                alamatInput.disabled = true;
+                alamatInput.value = "";
+            } else {
+                alamatInput.disabled = false;
+            }
+        }
     </script>
 @endpush
