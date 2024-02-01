@@ -14,6 +14,7 @@ class Perbaikan extends Model
     protected $fillable = [
         'no_pelanggan',
         'user_action',
+        'status_perbaikan',
         'tgl_action',
         'biaya',
         'diskon',
@@ -21,4 +22,9 @@ class Perbaikan extends Model
         'lunas',
         'keterangan',
     ];
+
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class, 'no_pelanggan', 'no_pelanggan');
+    }
 }

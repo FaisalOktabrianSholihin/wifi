@@ -64,7 +64,7 @@
                             @endif
                         </div>
                         <div class="table-responsive text-nowrap">
-                            <table class="table mb-4">
+                            <table id="myTable" class="table mb-4">
                                 <thead>
                                     <tr>
                                         <th>No</th>

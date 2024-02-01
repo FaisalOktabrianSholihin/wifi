@@ -150,4 +150,11 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::put('/pemutusans/{id}/assignment-teknisi', [PemutusanController::class, 'assignmentTeknisi'])->name('pemutusans.assignment-teknisi');
     Route::put('/pemutusans/{id}/update-pemutusan', [PemutusanController::class, 'updatePemutusan'])->name('pemutusans.status-pemutusan');
     Route::put('/pemutusans/{id}/pembayaran', [PemutusanController::class, 'pembayaran'])->name('pemutusans.pembayaran');
+
+    //perbaikan
+    Route::get('/perbaikans', [PerbaikanController::class, 'index'])->name('perbaikans.index');
+    Route::post('/perbaikans/store', [PerbaikanController::class, 'store'])->name('perbaikans.store');
+    Route::put('/perbaikans/{id}/assignment-teknisi', [PerbaikanController::class, 'assignmentTeknisi'])->name('perbaikans.assignment-teknisi');
+    Route::put('/perbaikans/{id}/update-perbaikan', [PerbaikanController::class, 'updatePerbaikan'])->name('perbaikans.status-perbaikan');
+    Route::put('/perbaikans/{id}/pembayaran', [PerbaikanController::class, 'pembayaran'])->name('perbaikans.pembayaran');
 });
