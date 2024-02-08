@@ -43,21 +43,31 @@ class PerbaikanController extends Controller
             ->orderByDesc('id')
             ->get();
 
+        // $berhasil = Perbaikan::where('lunas', 'Lunas')
+        //     ->with('pelanggan')
+        //     ->orderByDesc('id')
+        //     ->get();
+
+        // $gagal = Perbaikan::where('status_perbaikan', 'Gagal Perbaikan')
+        //     ->with(['pelanggan'])
+        //     ->orderByDesc('id')
+        //     ->get();
+
+        $teknisi = User::role('teknisi')->get();
+        $pelanggan = Pelanggan::with('paket')->get();
+
+        return view('perbaikan.index', compact('perbaikan', 'teknisi', 'pelanggan'));
+    }
+
+    public function berhasil()
+    {
         $berhasil = Perbaikan::where('lunas', 'Lunas')
             ->with('pelanggan')
             ->orderByDesc('id')
             ->get();
 
-        $gagal = Perbaikan::where('status_perbaikan', 'Gagal Perbaikan')
-            ->with(['pelanggan'])
-            ->orderByDesc('id')
-            ->get();
-
-        $teknisi = User::role('teknisi')->get();
-        $pelanggan = Pelanggan::with('paket')->get();
-
-        return view('perbaikan.index', compact('perbaikan', 'teknisi', 'pelanggan', 'gagal', 'berhasil'));
-    }
+        return view('perbaikan/berhasil', compact('berhasil'));
+    }   
 
     public function store(Request $request)
     {

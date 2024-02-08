@@ -45,11 +45,10 @@
                         </button>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
+                        <a href="{{ route('route.perbaikans.berhasil') }}" class="nav-link" role="tab"
                             aria-selected="false" style="color: white">
                             Berhasil
-                        </button>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
@@ -163,7 +162,7 @@
                         </div>
                     </div>
                     {{-- tab berhasil --}}
-                    <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
+                    {{-- <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
                         <div class="card-body mb-4">
                         </div>
                         <div class="table-responsive text-nowrap">
@@ -192,9 +191,9 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- tab gagal --}}
-                    <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
+                    {{-- <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
                         <div class="card-body mb-4">
                         </div>
                         <div class="table-responsive text-nowrap">
@@ -223,7 +222,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
