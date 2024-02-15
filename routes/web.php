@@ -109,7 +109,6 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/routerss', RoutersController::class);
     Route::resource('/olts', OltController::class);
     Route::resource('/pakets', PaketController::class);
-    Route::resource('/odc-odps', OdcOdpController::class);
     Route::resource('/onus', OnuController::class);
     Route::resource('/pembayarans', PembayaranController::class);
     Route::resource('/tunggakans', TunggakanController::class);
@@ -168,4 +167,9 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::put('/perbaikans/{id}/assignment-teknisi', [PerbaikanController::class, 'assignmentTeknisi'])->name('perbaikans.assignment-teknisi');
     Route::put('/perbaikans/{id}/update-perbaikan', [PerbaikanController::class, 'updatePerbaikan'])->name('perbaikans.status-perbaikan');
     Route::put('/perbaikans/{id}/pembayaran', [PerbaikanController::class, 'pembayaran'])->name('perbaikans.pembayaran');
+
+    Route::get('/odcs', [OdcOdpController::class, 'index'])->name('odc.index');
+    Route::post('/odcs/store', [OdcOdpController::class, 'store'])->name('odc.store');
+    Route::put('/odcs/{id}/update', [OdcOdpController::class, 'update'])->name('odc.update');
+    Route::delete('/odcs/{id}/delete', [OdcOdpController::class, 'destroy'])->name('odc.destroy');
 });

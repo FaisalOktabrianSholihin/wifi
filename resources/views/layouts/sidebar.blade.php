@@ -106,10 +106,10 @@
                    </ul>
 
                    <ul class="menu-sub">
-                       @can('read odc-odp')
-                           <li class="menu-item {{ Route::is('route.odc-odps.index') ? 'active' : '' }}">
-                               <a href="{{ route('route.odc-odps.index') }}" class="menu-link">
-                                   <div data-i18n="Without menu" style="color: black">ODC-ODP</div>
+                       @can('read odc')
+                           <li class="menu-item {{ Route::is('route.odc.index') ? 'active' : '' }}">
+                               <a href="{{ route('route.odc.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu" style="color: black">ODC</div>
                                </a>
                            </li>
                        @endcan

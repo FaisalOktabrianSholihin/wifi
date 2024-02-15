@@ -90,10 +90,20 @@ class RolePermissionsSeeder extends Seeder
         $permission = Permission::create(['name' => 'update paket']);
         $permission = Permission::create(['name' => 'delete paket']);
 
-        $permission = Permission::create(['name' => 'create odc-odp']);
-        $permission = Permission::create(['name' => 'read odc-odp']);
-        $permission = Permission::create(['name' => 'update odc-odp']);
-        $permission = Permission::create(['name' => 'delete odc-odp']);
+        $permission = Permission::create(['name' => 'create odc']);
+        $permission = Permission::create(['name' => 'read odc']);
+        $permission = Permission::create(['name' => 'update odc']);
+        $permission = Permission::create(['name' => 'delete odc']);
+
+        $permission = Permission::create(['name' => 'create odp']);
+        $permission = Permission::create(['name' => 'read odp']);
+        $permission = Permission::create(['name' => 'update odp']);
+        $permission = Permission::create(['name' => 'delete odp']);
+
+        $permission = Permission::create(['name' => 'create odp port']);
+        $permission = Permission::create(['name' => 'read odp port']);
+        $permission = Permission::create(['name' => 'update odp port']);
+        $permission = Permission::create(['name' => 'delete odp port']);
 
         $permission = Permission::create(['name' => 'create onu']);
         $permission = Permission::create(['name' => 'read onu']);
@@ -190,10 +200,20 @@ class RolePermissionsSeeder extends Seeder
         $role_route->givePermissionTo('update paket');
         $role_route->givePermissionTo('delete paket');
 
-        $role_route->givePermissionTo('create odc-odp');
-        $role_route->givePermissionTo('read odc-odp');
-        $role_route->givePermissionTo('update odc-odp');
-        $role_route->givePermissionTo('delete odc-odp');
+        $role_route->givePermissionTo('create odc');
+        $role_route->givePermissionTo('read odc');
+        $role_route->givePermissionTo('update odc');
+        $role_route->givePermissionTo('delete odc');
+
+        $role_route->givePermissionTo('create odp');
+        $role_route->givePermissionTo('read odp');
+        $role_route->givePermissionTo('update odp');
+        $role_route->givePermissionTo('delete odp');
+
+        $role_route->givePermissionTo('create odp port');
+        $role_route->givePermissionTo('read odp port');
+        $role_route->givePermissionTo('update odp port');
+        $role_route->givePermissionTo('delete odp port');
 
         $role_route->givePermissionTo('create onu');
         $role_route->givePermissionTo('read onu');
