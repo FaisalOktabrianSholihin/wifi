@@ -33,24 +33,24 @@
 @endpush
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Perbaikan
+        <h4 class="fw-bold py-3 mb-4" style="color: white"><span class="text-muted fw-light">Service /</span> Pemutusan
         </h4>
         <div class="nav-align-top mb-4">
             <ul class="nav nav-pills mb-3" role="tablist">
                 <li class="nav-item">
-                    <a href="{{ route('route.perbaikans.index') }}" class="nav-link" role="tab" aria-selected="false"
+                    <a href="{{ route('route.pemasangans') }}" class="nav-link" role="tab" aria-selected="false"
                         style="color: white">
                         Proses
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('route.perbaikans-berhasil') }}" class="nav-link active" role="tab"
+                    <a href="{{ route('route.pemasangans-berhasil') }}" class="nav-link active" role="tab"
                         aria-selected="true" style="color: white">
                         Berhasil
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('route.perbaikans-gagal') }}" class="nav-link" role="tab" aria-selected="false"
+                    <a href="{{ route('route.pemasangans-gagal') }}" class="nav-link" role="tab" aria-selected="false"
                         style="color: white">
                         Gagal
                     </a>
@@ -63,10 +63,11 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>No Pelanggan</th>
-                                <th>Nama Pelanggan</th>
+                                <th>No. Pendaftaran</th>
+                                <th>NIK</th>
+                                <th>Nama Lengkap</th>
                                 <th>Alamat</th>
-                                <th>Telepon </th>
+                                <th>Telepon</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -74,11 +75,14 @@
                             @foreach ($berhasil as $item)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->pelanggan->no_pelanggan }}</td>
-                                    <td>{{ $item->pelanggan->nama }}</td>
-                                    <td>{{ $item->pelanggan->alamat }}</td>
-                                    <td>{{ $item->pelanggan->telepon }}</td>
-                                    <td><span class="badge bg-success">{{ $item->status_perbaikan }}</span></td>
+                                    <td>{{ $item->no_pendaftaran }}</td>
+                                    <td>{{ $item->nik }}</td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->alamat }}</td>
+                                    <td>{{ $item->telepon }}</td>
+                                    <td>
+                                        <span class="badge bg-success">{{ $item->status_lunas }}</span>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -87,15 +91,4 @@
             </div>
         </div>
     </div>
-    {{-- </div> --}}
 @endsection
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('#pelanggan_id').select2({
-                placeholder: 'Cari Pelanggan',
-                dropdownParent: $('#add-perbaikan')
-            });
-        });
-    </script>
-@endpush

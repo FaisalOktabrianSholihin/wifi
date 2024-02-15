@@ -61,7 +61,27 @@ class MutasiController extends Controller
         $pelanggan = Pelanggan::with('paket')->get();
         $teknisi = User::role('teknisi')->get();
 
-        return view('mutasi.index', compact('pelanggan', 'mutasi', 'teknisi', 'gagal', 'berhasil'));
+        return view('mutasi.index', compact('pelanggan', 'mutasi', 'teknisi'));
+    }
+
+    public function berhasil()
+    {
+        $berhasil = Mutasi::where('lunas', 'Lunas')
+            ->with('pelanggan')
+            ->orderByDesc('id')
+            ->get();
+
+        return view('mutasi.berhasil', compact('berhasil'));
+    }
+
+    public function gagal()
+    {
+        $gagal = Mutasi::where('status_mutasi', 'Gagal Mutasi')
+            ->with(['pelanggan'])
+            ->orderByDesc('id')
+            ->get();
+
+        return view('mutasi.gagal', compact('gagal'));
     }
 
     public function store(Request $request)

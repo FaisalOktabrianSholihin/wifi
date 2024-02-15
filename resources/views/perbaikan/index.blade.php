@@ -39,23 +39,22 @@
             <div class="nav-align-top mb-4">
                 <ul class="nav nav-pills mb-3" role="tablist">
                     <li class="nav-item">
-                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true"
-                            style="color: white">Proses
-                        </button>
+                        <a href="{{ route('route.perbaikans.index') }}" class="nav-link active" role="tab"
+                            aria-selected="true" style="color: white">
+                            Proses
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a href="{{ route('route.perbaikans.berhasil') }}" class="nav-link" role="tab"
+                        <a href="{{ route('route.perbaikans-berhasil') }}" class="nav-link" role="tab"
                             aria-selected="false" style="color: white">
                             Berhasil
                         </a>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-messages" aria-controls="navs-pills-top-messages"
+                        <a href="{{ route('route.perbaikans-gagal') }}" class="nav-link" role="tab"
                             aria-selected="false" style="color: white">
                             Gagal
-                        </button>
+                        </a>
                     </li>
                 </ul>
 

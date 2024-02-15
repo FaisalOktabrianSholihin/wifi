@@ -59,20 +59,40 @@ class PemutusanController extends Controller
         //         ->get();
         // }
 
+        // $berhasil = Pemutusan::where('lunas', 'Lunas')
+        //     ->with('pelanggan')
+        //     ->orderByDesc('id')
+        //     ->get();
+
+        // $gagal = Pemutusan::where('status_pemutusan', 'Gagal Pemutusan')
+        //     ->with(['pelanggan'])
+        //     ->orderByDesc('id')
+        //     ->get();
+
+        $teknisi = User::role('teknisi')->get();
+        $pelanggan = Pelanggan::with('paket')->get();
+
+        return view('pemutusan.index', compact('pemutusan', 'teknisi', 'pelanggan'));
+    }
+
+    public function berhasil()
+    {
         $berhasil = Pemutusan::where('lunas', 'Lunas')
             ->with('pelanggan')
             ->orderByDesc('id')
             ->get();
 
+        return view('pemutusan.berhasil', compact('berhasil'));
+    }
+
+    public function gagal()
+    {
         $gagal = Pemutusan::where('status_pemutusan', 'Gagal Pemutusan')
             ->with(['pelanggan'])
             ->orderByDesc('id')
             ->get();
 
-        $teknisi = User::role('teknisi')->get();
-        $pelanggan = Pelanggan::with('paket')->get();
-
-        return view('pemutusan.index', compact('pemutusan', 'teknisi', 'pelanggan', 'gagal', 'berhasil'));
+        return view('pemutusan.gagal', compact('gagal'));
     }
 
     public function store(Request $request)

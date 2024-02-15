@@ -46,12 +46,38 @@ class PemasanganController extends Controller
             ->orderByDesc('id')
             ->get();
 
+        // $berhasil = Pemasangan::where('status_lunas', 'Lunas')
+        //     ->with(['pelanggan', 'toPaket'])
+        //     ->has('pelanggan')
+        //     ->orderByDesc('id')
+        //     ->get();
+
+        // $gagal = Pemasangan::where('status_survey', 'Gagal Survey')
+        //     ->orWhere('status_instalasi', 'Gagal Instalasi')
+        //     ->orWhere('status_aktivasi', 'Gagal Aktivasi')
+        //     ->with(['pelanggan', 'toPaket'])
+        //     ->orderByDesc('id')
+        //     ->get();
+
+        $sales = User::role('sales')->get();
+        $teknisi = User::role('teknisi')->get();
+        $pakets = Paket::orderByDesc('id')->get();
+        return view('pemasangan.index', compact('pemasangan', 'sales', 'teknisi', 'pakets'));
+    }
+
+    public function berhasil()
+    {
         $berhasil = Pemasangan::where('status_lunas', 'Lunas')
             ->with(['pelanggan', 'toPaket'])
             ->has('pelanggan')
             ->orderByDesc('id')
             ->get();
 
+        return view('pemasangan.berhasil', compact('berhasil'));
+    }
+
+    public function gagal()
+    {
         $gagal = Pemasangan::where('status_survey', 'Gagal Survey')
             ->orWhere('status_instalasi', 'Gagal Instalasi')
             ->orWhere('status_aktivasi', 'Gagal Aktivasi')
@@ -59,12 +85,8 @@ class PemasanganController extends Controller
             ->orderByDesc('id')
             ->get();
 
-        $sales = User::role('sales')->get();
-        $teknisi = User::role('teknisi')->get();
-        $pakets = Paket::orderByDesc('id')->get();
-        return view('pemasangan.index', compact('pemasangan', 'sales', 'teknisi', 'pakets', 'berhasil', 'gagal'));
+        return view('pemasangan.gagal', compact('gagal'));
     }
-
 
     public function store(Request $request)
     {

@@ -34,24 +34,22 @@
             <div class="nav-align-top mb-4">
                 <ul class="nav nav-pills mb-3" role="tablist">
                     <li class="nav-item">
-                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true"
-                            style="color: white">Proses
-                        </button>
+                        <a href="{{ route('route.ubah_pakets.index') }}" class="nav-link active" role="tab"
+                            aria-selected="true" style="color: white">
+                            Proses
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
+                        <a href="{{ route('route.ubah_pakets-berhasil') }}" class="nav-link" role="tab"
                             aria-selected="false" style="color: white">
                             Berhasil
-                        </button>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-messages" aria-controls="navs-pills-top-messages"
+                        <a href="{{ route('route.ubah_pakets-gagal') }}" class="nav-link" role="tab"
                             aria-selected="false" style="color: white">
                             Gagal
-                        </button>
+                        </a>
                     </li>
                 </ul>
                 <div class="tab-content">
@@ -59,7 +57,7 @@
                         <div class="card-body mb-4">
                             @if (auth()->user()->hasRole('admin') ||
                                     auth()->user()->hasRole('sales'))
-                                <button class="btn btn-outline-primary float-end" data-bs-toggle="modal"
+                                <button class="btn btn-primary float-end" data-bs-toggle="modal"
                                     data-bs-target="#add-ubahpaket">Tambah</button>
                             @endif
                         </div>
@@ -176,7 +174,7 @@
                             {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
+                    {{-- <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
                         <div class="card-body mb-4">
                         </div>
                         <div class="table-responsive text-nowrap">
@@ -189,7 +187,7 @@
                                         <th>Paket Lama</th>
                                         <th>Paket Baru</th>
                                         @if (auth()->user()->hasRole('admin') ||
-                                                auth()->user()->hasRole('sales'))
+    auth()->user()->hasRole('sales'))
                                             <th>Tanggal Ubah</th>
                                         @endif
                                         @if (auth()->user()->hasRole('teknisi'))
@@ -201,7 +199,7 @@
                                     @can('read ubah paket')
                                         @foreach ($berhasil as $item)
                                             @if (auth()->user()->hasRole('admin') ||
-                                                    auth()->user()->hasRole('sales'))
+    auth()->user()->hasRole('sales'))
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $item->no_pelanggan }}</td>
@@ -226,7 +224,6 @@
                                     @endcan
                                 </tbody>
                             </table>
-                            {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
                         </div>
                     </div>
                     <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
@@ -242,7 +239,7 @@
                                         <th>Paket Lama</th>
                                         <th>Paket Baru</th>
                                         @if (auth()->user()->hasRole('admin') ||
-                                                auth()->user()->hasRole('sales'))
+    auth()->user()->hasRole('sales'))
                                             <th>Tanggal Ubah</th>
                                         @endif
                                         @if (auth()->user()->hasRole('teknisi'))
@@ -254,7 +251,7 @@
                                     @can('read ubah paket')
                                         @foreach ($gagal as $item)
                                             @if (auth()->user()->hasRole('admin') ||
-                                                    auth()->user()->hasRole('sales'))
+    auth()->user()->hasRole('sales'))
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
                                                     <td>{{ $item->no_pelanggan }}</td>
@@ -279,9 +276,8 @@
                                     @endcan
                                 </tbody>
                             </table>
-                            {{-- <div class="col-lg-12 ">{{ $kolektors->links('pagination::bootstrap-5') }}</div> --}}
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             {{-- <div class="card">

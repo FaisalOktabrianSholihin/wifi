@@ -66,8 +66,18 @@ class PerbaikanController extends Controller
             ->orderByDesc('id')
             ->get();
 
-        return view('perbaikan/berhasil', compact('berhasil'));
-    }   
+        return view('perbaikan.berhasil', compact('berhasil'));
+    }
+
+    public function gagal()
+    {
+        $gagal = Perbaikan::where('status_perbaikan', 'Gagal Perbaikan')
+            ->with(['pelanggan'])
+            ->orderByDesc('id')
+            ->get();
+
+        return view('perbaikan.gagal', compact('gagal'));
+    }
 
     public function store(Request $request)
     {

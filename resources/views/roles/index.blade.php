@@ -6,12 +6,13 @@
             <div class="card">
                 <div class="card-body">
 
-                    <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
+                    <button class="btn btn-primary float-end" data-bs-toggle="modal"
                         data-bs-target="#add-roles">Tambah</button>
 
                 </div>
+                <div class="tab-content">
                 <div class="table-responsive text-nowrap">
-                    <table class="table">
+                    <table id="myTable" class="table mb-4">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -75,6 +76,7 @@
                     </table>
                     <div class="col-lg-12 ">{{ $roles->links('pagination::bootstrap-5') }}</div>
 
+                </div>
                 </div>
             </div>
         </div>

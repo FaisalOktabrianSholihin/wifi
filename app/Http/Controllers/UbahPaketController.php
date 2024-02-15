@@ -38,21 +38,42 @@ class UbahPaketController extends Controller
                 ->get();
         }
 
+        // $berhasil = UbahPaket::where('status_proses', 'Berhasil')
+        //     ->whereNotNull('lunas')
+        //     ->with(['pelanggan', 'paket'])
+        //     ->orderByDesc('id')
+        //     ->get();
+
+        // $gagal = UbahPaket::where('status_proses', 'Gagal')
+        //     ->with(['pelanggan', 'paket'])
+        //     ->orderByDesc('id')
+        //     ->get();
+
+        $teknisi = User::role('teknisi')->get();
+        $data = Pelanggan::with('paket')->get();
+        $paket = Paket::all();
+        return view('ubah_paket.index', compact('ubahpaket', 'paket', 'teknisi', 'data'));
+    }
+
+    public function berhasil()
+    {
         $berhasil = UbahPaket::where('status_proses', 'Berhasil')
             ->whereNotNull('lunas')
             ->with(['pelanggan', 'paket'])
             ->orderByDesc('id')
             ->get();
 
+        return view('ubah_paket.berhasil', compact('berhasil'));
+    }
+
+    public function gagal()
+    {
         $gagal = UbahPaket::where('status_proses', 'Gagal')
             ->with(['pelanggan', 'paket'])
             ->orderByDesc('id')
             ->get();
 
-        $teknisi = User::role('teknisi')->get();
-        $data = Pelanggan::with('paket')->get();
-        $paket = Paket::all();
-        return view('ubah_paket.index', compact('ubahpaket', 'paket', 'teknisi', 'data', 'berhasil', 'gagal'));
+        return view('ubah_paket.gagal', compact('gagal'));
     }
 
     public function updateTeknisi(Request $request, $id)

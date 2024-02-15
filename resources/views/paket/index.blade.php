@@ -6,49 +6,50 @@
             </h4>
             <div class="card">
                 <div class="card-body">
-                    <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
-                        data-bs-target="#add">Tambah</button>
+                    <button class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#add">Tambah</button>
                 </div>
-                <div class="table-responsive text-nowrap">
-                    <table class="table mb-4">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Aksi</th>
-                                <th>Paket</th>
-                                <th>Iuran</th>
-                                <th>Instalasi</th>
-                                <th>Ubah Paket</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            @foreach ($pakets as $item)
+                <div class="tab-content">
+                    <div class="table-responsive text-nowrap">
+                        <table id="myTable" class="table mb-4">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <button data-bs-toggle="modal" data-bs-target="#update"
-                                                    class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
-                                                    Edit</button>
-                                                <button class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#delete"><i class="bx bx-trash me-1"></i>
-                                                    Delete</button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{{ $item->paket }}</td>
-                                    <td>{{ $item->iuran }}</td>
-                                    <td>{{ $item->instalasi }}</td>
-                                    <td></td>
+                                    <th>No</th>
+                                    <th>Aksi</th>
+                                    <th>Paket</th>
+                                    <th>Iuran</th>
+                                    <th>Instalasi</th>
+                                    <th>Ubah Paket</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                @foreach ($pakets as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <button data-bs-toggle="modal" data-bs-target="#update"
+                                                        class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
+                                                        Edit</button>
+                                                    <button class="dropdown-item" data-bs-toggle="modal"
+                                                        data-bs-target="#delete"><i class="bx bx-trash me-1"></i>
+                                                        Delete</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{ $item->paket }}</td>
+                                        <td>{{ $item->iuran }}</td>
+                                        <td>{{ $item->instalasi }}</td>
+                                        <td></td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

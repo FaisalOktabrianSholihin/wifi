@@ -39,24 +39,22 @@
             <div class="nav-align-top mb-4">
                 <ul class="nav nav-pills mb-3" role="tablist">
                     <li class="nav-item">
-                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-home" aria-controls="navs-pills-top-home" aria-selected="true"
-                            style="color: white">Proses
-                        </button>
+                        <a href="{{ route('route.pemutusans.index') }}" class="nav-link active" role="tab"
+                            aria-selected="true" style="color: white">
+                            Proses
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-profile" aria-controls="navs-pills-top-profile"
+                        <a href="{{ route('route.pemutusans-berhasil') }}" class="nav-link" role="tab"
                             aria-selected="false" style="color: white">
                             Berhasil
-                        </button>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
-                            data-bs-target="#navs-pills-top-messages" aria-controls="navs-pills-top-messages"
+                        <a href="{{ route('route.pemutusans-gagal') }}" class="nav-link" role="tab"
                             aria-selected="false" style="color: white">
                             Gagal
-                        </button>
+                        </a>
                     </li>
                 </ul>
 
@@ -163,7 +161,7 @@
                         </div>
                     </div>
                     {{-- tab berhasil --}}
-                    <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
+                    {{-- <div class="tab-pane fade" id="navs-pills-top-profile" role="tabpanel">
                         <div class="card-body mb-4">
                         </div>
                         <div class="table-responsive text-nowrap">
@@ -192,9 +190,9 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> --}}
                     {{-- tab gagal --}}
-                    <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
+                    {{-- <div class="tab-pane fade" id="navs-pills-top-messages" role="tabpanel">
                         <div class="card-body mb-4">
                         </div>
                         <div class="table-responsive text-nowrap">
@@ -223,7 +221,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

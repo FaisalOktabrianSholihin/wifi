@@ -20,56 +20,59 @@
                 @endif
             </div>
             <div class="card">
-                <form class="d-flex col-lg-4 mt-3" action="{{ route('route.permissions.index') }}" method="GET">
+                {{-- <form class="d-flex col-lg-4 mt-3" action="{{ route('route.permissions.index') }}" method="GET">
                     <input class="form-control me-2" id="searchInput" name="search" placeholder="Search"
                         value="{{ $search }}" />
                     <button class="btn btn-outline-primary" type="submit">Search</button>
-                </form>
+                </form> --}}
                 <div class="flex justify-end me-4 mt-4 mb-4">
-                    <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
+                    <button class="btn btn-primary float-end" data-bs-toggle="modal"
                         data-bs-target="#add-permissions">Tambah</button>
                 </div>
-                <div class="table-responsive text-nowrap">
-                    <table class="table mb-4">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>Guard</th>
-                                <th>Update</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            @foreach ($permissions as $item)
+                <div class="tab-content">
+                    <div class="table-responsive text-nowrap">
+                        <table id="myTable" class="table mb-4">
+                            <thead>
                                 <tr>
-                                    <td>{{ ($permissions->currentPage() - 1) * $permissions->perPage() + $loop->iteration }}
-                                    </td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->guard_name }}</td>
-                                    <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <button data-bs-toggle="modal" data-bs-target="#update{{ $item->id }}"
-                                                    class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
-                                                    Edit</button>
-                                                <button class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#delete-permissions{{ $item->id }}"><i
-                                                        class="bx bx-trash me-1"></i>
-                                                    Delete</button>
-                                            </div>
-                                        </div>
-                                    </td>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Guard</th>
+                                    <th>Update</th>
+                                    <th>Actions</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="col-lg-12 ">{{ $permissions->links('pagination::bootstrap-5') }}</div>
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                @foreach ($permissions as $item)
+                                    <tr>
+                                        <td>{{ ($permissions->currentPage() - 1) * $permissions->perPage() + $loop->iteration }}
+                                        </td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->guard_name }}</td>
+                                        <td>{{ $item->updated_at->format('d F Y H:i:s') }}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <button data-bs-toggle="modal"
+                                                        data-bs-target="#update{{ $item->id }}" class="dropdown-item"><i
+                                                            class="bx bx-edit-alt me-1"></i>
+                                                        Edit</button>
+                                                    <button class="dropdown-item" data-bs-toggle="modal"
+                                                        data-bs-target="#delete-permissions{{ $item->id }}"><i
+                                                            class="bx bx-trash me-1"></i>
+                                                        Delete</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{-- <div class="col-lg-12 ">{{ $permissions->links('pagination::bootstrap-5') }}</div> --}}
+                    </div>
                 </div>
             </div>
         </div>

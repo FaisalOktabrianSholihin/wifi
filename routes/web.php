@@ -98,14 +98,7 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/billings', BillingController::class);
     Route::resource('/kolektors', KolektorController::class);
     Route::resource('/lokets', LoketController::class);
-    Route::resource('/ubah_pakets', UbahPaketController::class);
-    Route::put('/ubahpakets/{id}/update-teknisi', [UbahPaketController::class, 'updateTeknisi'])->name('ubah_pakets.update-teknisi');
-    Route::put('/ubahpakets/{id}/update-pembayaran', [UbahPaketController::class, 'pembayaran'])->name('ubah_pakets.pembayaran');
-    Route::get('/ubahpakets/{id}/cetak-nota', [UbahPaketController::class, 'pdf'])->name('ubah_pakets.pdf');
     Route::resource('/ikipelanggans', IkiPelangganController::class);
-    Route::post('/ubahpaket/store', [UbahPaketController::class, 'store'])->name('ubah_pakets.store');
-    Route::put('/ubahpaket/{id}/updateVisit', [UbahPaketController::class, 'updateVisit'])->name('ubah_pakets.visit');
-    Route::put('/ubahpaket/{id}/updateStatus', [UbahPaketController::class, 'updateProses'])->name('ubah_pakets.proses');
     Route::get('/ikipelanggans/index1', [PelangganController::class, 'index1'])->name('route.ikipelanggans.index1');
     Route::get('/pelanggans/pdf/{id}', [PelangganController::class, 'pdf'])->name('pelanggans.pdf');
     Route::get('/pelanggans/pdf', [PelangganController::class, 'pdf'])->name('pdf.customer');
@@ -123,6 +116,8 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
 
     //pemasangan
     Route::get('/pemasangans', [PemasanganController::class, 'index'])->name('pemasangans');
+    Route::get('/pemasangans-berhasil', [PemasanganController::class, 'berhasil'])->name('pemasangans-berhasil');
+    Route::get('/pemasangans-gagal', [PemasanganController::class, 'gagal'])->name('pemasangans-gagal');
     Route::post('/pemasangans/post', [PemasanganController::class, 'store'])->name('pemasangans.create');
     Route::put('/pemasangans/{id}/update-pemasangan', [PemasanganController::class, 'updatePemasangan'])->name('pemasangans.update');
     Route::put('/pemasangans/{id}/assignment-sales', [PemasanganController::class, 'assignmentSales'])->name('pemasangans.assignment-sales');
@@ -132,13 +127,25 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::put('/pemasangans/{id}/update-aktivasi', [PemasanganController::class, 'statusAktivasi'])->name('pemasangans.update-aktivasi');
     Route::put('/pemasangans/{id}/pembayaran', [PemasanganController::class, 'pembayaran'])->name('pemasangans.pembayaran');
 
-
     //pelanggan
     Route::get('/pelanggans', [PelangganController::class, 'index'])->name('pelanggans');
     Route::get('/pelanggans/{id}/invoice', [PelangganController::class, 'invoice'])->name('pelanggans.invoice');
 
+    //ubah paket
+    Route::resource('/ubah_pakets', UbahPaketController::class);
+    Route::get('/ubah_pakets-berhasil', [UbahPaketController::class, 'berhasil'])->name('ubah_pakets-berhasil');
+    Route::get('/ubah_pakets-gagal', [UbahPaketController::class, 'gagal'])->name('ubah_pakets-gagal');
+    Route::put('/ubahpakets/{id}/update-teknisi', [UbahPaketController::class, 'updateTeknisi'])->name('ubah_pakets.update-teknisi');
+    Route::put('/ubahpakets/{id}/update-pembayaran', [UbahPaketController::class, 'pembayaran'])->name('ubah_pakets.pembayaran');
+    Route::get('/ubahpakets/{id}/cetak-nota', [UbahPaketController::class, 'pdf'])->name('ubah_pakets.pdf');
+    Route::post('/ubahpaket/store', [UbahPaketController::class, 'store'])->name('ubah_pakets.store');
+    Route::put('/ubahpaket/{id}/updateVisit', [UbahPaketController::class, 'updateVisit'])->name('ubah_pakets.visit');
+    Route::put('/ubahpaket/{id}/updateStatus', [UbahPaketController::class, 'updateProses'])->name('ubah_pakets.proses');
+
     //mutasi
     Route::get('/mutasis', [MutasiController::class, 'index'])->name('mutasis.index');
+    Route::get('/mutasis-berhasil', [MutasiController::class, 'berhasil'])->name('mutasis-berhasil');
+    Route::get('/mutasis-gagal', [MutasiController::class, 'gagal'])->name('mutasis-gagal');
     Route::post('/mutasis/store', [MutasiController::class, 'store'])->name('mutasis.store');
     Route::put('/mutasis/{id}/assignment-teknisi', [MutasiController::class, 'assignmentTeknisi'])->name('mutasis.assignment-teknisi');
     Route::put('/mutasis/{id}/update-mutasi', [MutasiController::class, 'updateMutasi'])->name('mutasis.status-mutasi');
@@ -146,6 +153,8 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
 
     //pemutusan
     Route::get('/pemutusans', [PemutusanController::class, 'index'])->name('pemutusans.index');
+    Route::get('/pemutusans-berhasil', [PemutusanController::class, 'berhasil'])->name('pemutusans-berhasil');
+    Route::get('/pemutusans-gagal', [PemutusanController::class, 'gagal'])->name('pemutusans-gagal');
     Route::post('/pemutusans/store', [PemutusanController::class, 'store'])->name('pemutusans.store');
     Route::put('/pemutusans/{id}/assignment-teknisi', [PemutusanController::class, 'assignmentTeknisi'])->name('pemutusans.assignment-teknisi');
     Route::put('/pemutusans/{id}/update-pemutusan', [PemutusanController::class, 'updatePemutusan'])->name('pemutusans.status-pemutusan');
@@ -153,7 +162,8 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
 
     //perbaikan
     Route::get('/perbaikans', [PerbaikanController::class, 'index'])->name('perbaikans.index');
-    Route::get('/perbaikans/berhasil', [PerbaikanController::class, 'berhasil'])->name('perbaikans.berhasil');
+    Route::get('/perbaikans-berhasil', [PerbaikanController::class, 'berhasil'])->name('perbaikans-berhasil');
+    Route::get('/perbaikans-gagal', [PerbaikanController::class, 'gagal'])->name('perbaikans-gagal');
     Route::post('/perbaikans/store', [PerbaikanController::class, 'store'])->name('perbaikans.store');
     Route::put('/perbaikans/{id}/assignment-teknisi', [PerbaikanController::class, 'assignmentTeknisi'])->name('perbaikans.assignment-teknisi');
     Route::put('/perbaikans/{id}/update-perbaikan', [PerbaikanController::class, 'updatePerbaikan'])->name('perbaikans.status-perbaikan');

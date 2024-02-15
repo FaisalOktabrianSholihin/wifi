@@ -21,63 +21,65 @@
             <div class="card">
                 <div class="card-body">
                     @can('create user')
-                        <button class="btn rounded-pill btn-outline-primary float-end" data-bs-toggle="modal"
+                        <button class="btn btn-primary float-end" data-bs-toggle="modal"
                             data-bs-target="#modalTambah">Tambah</button>
                     @endcan
                 </div>
-                <div class="table-responsive text-nowrap">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-border-bottom-0">
-                            @foreach ($user as $item)
+                <div class="tab-content">
+                    <div class="table-responsive text-nowrap">
+                        <table id="myTable" class="table mb-4">
+                            <thead>
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>
-                                        {{ $item->email }}
-                                    </td>
-                                    <td>
-                                        @if ($item->roles)
-                                            @foreach ($item->roles as $user_roles)
-                                                <span class="badge bg-label-primary me-1">{{ $user_roles->name }}</span>
-                                            @endforeach
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                data-bs-toggle="dropdown">
-                                                <i class="bx bx-dots-vertical-rounded"></i>
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                @can('update user')
-                                                    <button data-bs-toggle="modal"
-                                                        data-bs-target="#modalEdit{{ $item->id }}" class="dropdown-item"><i
-                                                            class="bx bx-edit-alt me-1"></i>
-                                                        Edit</button>
-                                                @endcan
-                                                @can('delete user')
-                                                    <button class="dropdown-item" data-bs-toggle="modal"
-                                                        data-bs-target="#modalHapus{{ $item->id }}"><i
-                                                            class="bx bx-trash me-1"></i>
-                                                        Delete</button>
-                                                @endcan
-                                            </div>
-                                        </div>
-                                    </td>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Actions</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $user->links('pagination::bootstrap-5') }}
+                            </thead>
+                            <tbody class="table-border-bottom-0">
+                                @foreach ($user as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            {{ $item->email }}
+                                        </td>
+                                        <td>
+                                            @if ($item->roles)
+                                                @foreach ($item->roles as $user_roles)
+                                                    <span class="badge bg-label-primary me-1">{{ $user_roles->name }}</span>
+                                                @endforeach
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                    data-bs-toggle="dropdown">
+                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    @can('update user')
+                                                        <button data-bs-toggle="modal"
+                                                            data-bs-target="#modalEdit{{ $item->id }}"
+                                                            class="dropdown-item"><i class="bx bx-edit-alt me-1"></i>
+                                                            Edit</button>
+                                                    @endcan
+                                                    @can('delete user')
+                                                        <button class="dropdown-item" data-bs-toggle="modal"
+                                                            data-bs-target="#modalHapus{{ $item->id }}"><i
+                                                                class="bx bx-trash me-1"></i>
+                                                            Delete</button>
+                                                    @endcan
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $user->links('pagination::bootstrap-5') }}
+                    </div>
                 </div>
             </div>
         </div>
