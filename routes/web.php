@@ -12,6 +12,7 @@ use App\Http\Controllers\KolektorController;
 use App\Http\Controllers\LoketController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\OdcOdpController;
+use App\Http\Controllers\OdpController;
 use App\Http\Controllers\OltController;
 use App\Http\Controllers\OnuController;
 use App\Http\Controllers\PaketController;
@@ -172,4 +173,9 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::post('/odcs/store', [OdcOdpController::class, 'store'])->name('odc.store');
     Route::put('/odcs/{id}/update', [OdcOdpController::class, 'update'])->name('odc.update');
     Route::delete('/odcs/{id}/delete', [OdcOdpController::class, 'destroy'])->name('odc.destroy');
+
+    Route::get('/odps', [OdpController::class, 'index'])->name('odp.index');
+    Route::post('/odps/store', [OdpController::class, 'store'])->name('odp.store');
+    Route::put('/odps/{id}/update', [OdpController::class, 'update'])->name('odp.update');
+    Route::delete('/odps/{id}/delete', [OdpController::class, 'destroy'])->name('odp.destroy');
 });

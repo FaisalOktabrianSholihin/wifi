@@ -116,6 +116,16 @@
                    </ul>
 
                    <ul class="menu-sub">
+                       @can('read odp')
+                           <li class="menu-item {{ Route::is('route.odp.index') ? 'active' : '' }}">
+                               <a href="{{ route('route.odp.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu" style="color: black">ODP</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
                        @can('read onu')
                            <li class="menu-item {{ Route::is('route.onus.index') ? 'active' : '' }}">
                                <a href="{{ route('route.onus.index') }}" class="menu-link">

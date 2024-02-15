@@ -17,4 +17,9 @@ class Odc extends Model
         'vlan',
         'ket_odc',
     ];
+
+    public function odp()
+    {
+        return $this->hasMany(Odp::class);
+    }
 }

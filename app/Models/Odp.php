@@ -18,4 +18,9 @@ class Odp extends Model
         'jumlah_port',
         'ket_odp',
     ];
+
+    public function odc()
+    {
+        return $this->belongsTo(Odc::class, 'odc_id');
+    }
 }
