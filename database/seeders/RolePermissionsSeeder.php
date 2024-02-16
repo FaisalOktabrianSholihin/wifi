@@ -110,6 +110,16 @@ class RolePermissionsSeeder extends Seeder
         $permission = Permission::create(['name' => 'update onu']);
         $permission = Permission::create(['name' => 'delete onu']);
 
+        $permission = Permission::create(['name' => 'create merk onu']);
+        $permission = Permission::create(['name' => 'read merk onu']);
+        $permission = Permission::create(['name' => 'update merk onu']);
+        $permission = Permission::create(['name' => 'delete merk onu']);
+
+        $permission = Permission::create(['name' => 'create type onu']);
+        $permission = Permission::create(['name' => 'read type onu']);
+        $permission = Permission::create(['name' => 'update type onu']);
+        $permission = Permission::create(['name' => 'delete type onu']);
+
         $permission = Permission::create(['name' => 'create olt']);
         $permission = Permission::create(['name' => 'read olt']);
         $permission = Permission::create(['name' => 'update olt']);
@@ -214,6 +224,21 @@ class RolePermissionsSeeder extends Seeder
         $role_route->givePermissionTo('read odp port');
         $role_route->givePermissionTo('update odp port');
         $role_route->givePermissionTo('delete odp port');
+
+        $role_route->givePermissionTo('create merk onu');
+        $role_route->givePermissionTo('read merk onu');
+        $role_route->givePermissionTo('update merk onu');
+        $role_route->givePermissionTo('delete merk onu');
+
+        $role_route->givePermissionTo('create type onu');
+        $role_route->givePermissionTo('read type onu');
+        $role_route->givePermissionTo('update type onu');
+        $role_route->givePermissionTo('delete type onu');
+
+        $role_admin->givePermissionTo('create type onu');
+        $role_admin->givePermissionTo('read type onu');
+        $role_admin->givePermissionTo('update type onu');
+        $role_admin->givePermissionTo('delete type onu');
 
         $role_route->givePermissionTo('create onu');
         $role_route->givePermissionTo('read onu');

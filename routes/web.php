@@ -10,6 +10,7 @@ use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PemasanganController;
 use App\Http\Controllers\KolektorController;
 use App\Http\Controllers\LoketController;
+use App\Http\Controllers\MerkOnuController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\OdcOdpController;
 use App\Http\Controllers\OdpController;
@@ -27,6 +28,7 @@ use App\Http\Controllers\RouterController;
 use App\Http\Controllers\RoutersController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TunggakanController;
+use App\Http\Controllers\TypeOnuController;
 use App\Http\Controllers\UbahPaketController;
 use App\Http\Controllers\UserController;
 use App\Models\Pelanggan;
@@ -178,4 +180,14 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::post('/odps/store', [OdpController::class, 'store'])->name('odp.store');
     Route::put('/odps/{id}/update', [OdpController::class, 'update'])->name('odp.update');
     Route::delete('/odps/{id}/delete', [OdpController::class, 'destroy'])->name('odp.destroy');
+
+    Route::get('/merk-onus', [MerkOnuController::class, 'index'])->name('merk-onu.index');
+    Route::post('/merk-onus/store', [MerkOnuController::class, 'store'])->name('merk-onu.store');
+    Route::put('/merk-onus/{id}/update', [MerkOnuController::class, 'update'])->name('merk-onu.update');
+    Route::delete('/merk-onus/{id}/delete', [MerkOnuController::class, 'destroy'])->name('merk-onu.destroy');
+
+    Route::get('/type-onus', [TypeOnuController::class, 'index'])->name('type-onu.index');
+    Route::post('/type-onus/store', [TypeOnuController::class, 'store'])->name('type-onu.store');
+    Route::put('/type-onus/{id}/update', [TypeOnuController::class, 'update'])->name('type-onu.update');
+    Route::delete('/type-onus/{id}/delete', [TypeOnuController::class, 'destroy'])->name('type-onu.destroy');
 });

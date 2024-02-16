@@ -126,6 +126,26 @@
                    </ul>
 
                    <ul class="menu-sub">
+                       @can('read merk onu')
+                           <li class="menu-item {{ Route::is('route.merk-onu.index') ? 'active' : '' }}">
+                               <a href="{{ route('route.merk-onu.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu" style="color: black">Merk ONU</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
+                       @can('read type onu')
+                           <li class="menu-item {{ Route::is('route.type-onu.index') ? 'active' : '' }}">
+                               <a href="{{ route('route.type-onu.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu" style="color: black">Type ONU</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
                        @can('read onu')
                            <li class="menu-item {{ Route::is('route.onus.index') ? 'active' : '' }}">
                                <a href="{{ route('route.onus.index') }}" class="menu-link">
