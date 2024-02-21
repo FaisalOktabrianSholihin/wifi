@@ -23,4 +23,9 @@ class Odp extends Model
     {
         return $this->belongsTo(Odc::class, 'odc_id');
     }
+
+    public function port()
+    {
+        return $this->hasMany(OdpPort::class);
+    }
 }

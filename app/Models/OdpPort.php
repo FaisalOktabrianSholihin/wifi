@@ -15,4 +15,9 @@ class OdpPort extends Model
         'odp_id',
         'odp_port',
     ];
+
+    public function odp()
+    {
+        return $this->belongsTo(Odp::class, 'odp_id');
+    }
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\MerkOnuController;
 use App\Http\Controllers\MutasiController;
 use App\Http\Controllers\OdcOdpController;
 use App\Http\Controllers\OdpController;
+use App\Http\Controllers\OdpPortController;
 use App\Http\Controllers\OltController;
 use App\Http\Controllers\OnuController;
 use App\Http\Controllers\PaketController;
@@ -190,4 +191,9 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::post('/type-onus/store', [TypeOnuController::class, 'store'])->name('type-onu.store');
     Route::put('/type-onus/{id}/update', [TypeOnuController::class, 'update'])->name('type-onu.update');
     Route::delete('/type-onus/{id}/delete', [TypeOnuController::class, 'destroy'])->name('type-onu.destroy');
+
+    Route::get('/odp-ports', [OdpPortController::class, 'index'])->name('odp-port.index');
+    Route::post('/odp-ports/store', [OdpPortController::class, 'store'])->name('odp-port.store');
+    Route::put('/odp-ports/{id}/update', [OdpPortController::class, 'update'])->name('odp-port.update');
+    Route::delete('/odp-ports/{id}/destroy', [OdpPortController::class, 'destroy'])->name('odp-port.destroy');
 });

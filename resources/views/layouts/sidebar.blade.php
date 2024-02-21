@@ -126,6 +126,16 @@
                    </ul>
 
                    <ul class="menu-sub">
+                       @can('read odp port')
+                           <li class="menu-item {{ Route::is('route.odp-port.index') ? 'active' : '' }}">
+                               <a href="{{ route('route.odp-port.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu" style="color: black">ODP PORT</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
                        @can('read merk onu')
                            <li class="menu-item {{ Route::is('route.merk-onu.index') ? 'active' : '' }}">
                                <a href="{{ route('route.merk-onu.index') }}" class="menu-link">
