@@ -126,13 +126,12 @@
         </div>
     </div>
 
-    {{-- modal edit ges --}}
     @foreach ($port as $item)
         <div class="modal fade" id="update{{ $item->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel1">Edit Data ODP</h5>
+                        <h5 class="modal-title" id="exampleModalLabel1">Edit Data ODP Port</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('route.odp-port.update', $item->id) }}" method="POST">
@@ -142,23 +141,15 @@
                             <div class="mb-3">
                                 <label for="kode_odc_{{ $item->id }}" class="form-label">Pilih ODC</label>
                                 <select id="kode_odc_{{ $item->id }}" class="form-select" name="odc_id" required>
-                                    {{-- <option value="" selected>Pilih Odc</option> --}}
-                                    @foreach ($odc as $odcItem)
-                                        <option value="{{ $odcItem->id }}"
-                                            {{ $odcItem->id == $item->odc_id ? 'selected' : '' }}>
-                                            {{ $odcItem->kode_odc }} - {{ $odcItem->odc }}
-                                        </option>
-                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="kode_odp_{{ $item->id }}" class="form-label">Pilih ODP</label>
                                 <select id="kode_odp_{{ $item->id }}" class="form-select odp-select" name="odp_id"
                                     required>
-                                    <option value="" selected>Pilih Odp</option>
-                                    {{-- Options for ODP will be populated dynamically using JavaScript --}}
                                 </select>
                             </div>
+
                             <div class="mb-3">
                                 <label for="kode" class="form-label">ODP PORT</label>
                                 <input class="form-control" type="number" id="kode" name="odp_port"
@@ -178,11 +169,12 @@
     @endforeach
 
 
+
     {{-- modal hapus ges --}}
-    @foreach ($odp as $item)
+    @foreach ($port as $item)
         <div class="modal fade" id="delete{{ $item->id }}" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form action="{{ route('route.odp.destroy', $item->id) }}" method="POST">
+                <form action="{{ route('route.odp-port.destroy', $item->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <div class="modal-content">
@@ -233,51 +225,136 @@
 
         window.addEventListener('DOMContentLoaded', updateOdpOptions);
     </script>
+
     <script>
-        // Fungsi untuk memperbarui opsi dropdown ODP berdasarkan pilihan ODC pada setiap modal
-        @foreach ($port as $item)
-            document.getElementById('kode_odc_{{ $item->id }}').addEventListener('change', function() {
-                var odcSelect = document.getElementById('kode_odc_{{ $item->id }}');
-                var odpSelect = document.getElementById('kode_odp_{{ $item->id }}');
+        function updateOptions(selectId, selectedOdpId, selectedOdcId, odpPort) {
+            console.log("Updating options for selectId:", selectId);
+            console.log("Selected ODP ID:", selectedOdpId);
+            console.log("Selected ODC ID:", selectedOdcId);
+            console.log("ODP Port:", odpPort);
 
-                // Bersihkan opsi dropdown ODP
-                odpSelect.innerHTML = '';
+            var odcSelect = document.getElementById(selectId);
+            console.log("ODC Select:", odcSelect);
 
-                // Jika ODC telah dipilih
-                if (odcSelect.value !== '') {
-                    // Ambil ODC ID yang dipilih
-                    var selectedOdcId = odcSelect.value;
+            var odpSelect = document.querySelector('#' + selectId.replace('kode_odc_', 'kode_odp_'));
+            console.log("ODP Select:", odpSelect);
 
-                    // Tambahkan opsi default
-                    var defaultOption = document.createElement('option');
-                    defaultOption.value = '';
-                    defaultOption.text = 'Pilih ODP';
-                    odpSelect.appendChild(defaultOption);
+            odcSelect.value = selectedOdcId;
+            console.log("Set ODC value:", selectedOdcId);
 
-                    // Filter dan tambahkan opsi ODP yang memiliki ODC ID yang dipilih
-                    @foreach ($odp as $odpItem)
-                        if ("{{ $odpItem->odc_id }}" === selectedOdcId) {
-                            var option = document.createElement('option');
-                            option.value = "{{ $odpItem->id }}";
-                            option.text = "{{ $odpItem->kode_odp }} - {{ $odpItem->odp }}";
-                            // Tandai opsi yang sesuai dengan odp_id yang sedang diedit
-                            option.selected = "{{ $odpItem->id }}" === "{{ $item->odp_id }}";
-                            odpSelect.appendChild(option);
+            updateOdpOptions(selectId, odpSelect.id, selectedOdpId, odpPort);
+        }
+
+        function updateOdpOptions(selectId, odpId, selectedOdpId, odpPort) {
+            console.log("Updating ODP options for selectId:", selectId);
+            console.log("Selected ODP ID:", selectedOdpId);
+            console.log("ODP Port:", odpPort);
+
+            var odcSelect = document.getElementById(selectId);
+            console.log("ODC Select for ODP options:", odcSelect);
+
+            var odpSelect = document.getElementById(odpId);
+            console.log("ODP Select:", odpSelect);
+
+            odpSelect.innerHTML = '';
+
+            if (odcSelect.value !== '') {
+                var selectedOdcId = odcSelect.value;
+
+                var defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.text = 'Pilih ODP';
+                odpSelect.appendChild(defaultOption);
+
+                console.log("Selected ODC ID for ODP options:", selectedOdcId);
+
+                @foreach ($odp as $odpItem)
+                    console.log("Checking ODP item:", "{{ $odpItem->id }}", "{{ $odpItem->odc_id }}", selectedOdcId);
+                    if ("{{ $odpItem->odc_id }}" === selectedOdcId) {
+                        var option = document.createElement('option');
+                        option.value = "{{ $odpItem->id }}";
+                        option.text = "{{ $odpItem->kode_odp }} - {{ $odpItem->odp }}";
+                        if ("{{ $odpItem->id }}" === selectedOdpId) {
+                            option.selected = true;
                         }
-                    @endforeach
-                }
-            });
+                        odpSelect.appendChild(option);
+                    }
+                @endforeach
+            }
 
-            // Panggil fungsi updateOdpOptions saat dokumen dimuat ulang
-            window.addEventListener('DOMContentLoaded', function() {
-                // Trigger change event to populate ODP dropdown initially
-                document.getElementById('kode_odc_{{ $item->id }}').dispatchEvent(new Event('change'));
+            odpSelect.value = selectedOdpId;
+        }
 
-                // Check if ODC has already been selected, if yes, trigger change event to update ODP dropdown
-                if ("{{ $item->odc_id }}") {
-                    document.getElementById('kode_odc_{{ $item->id }}').dispatchEvent(new Event('change'));
-                }
+        @foreach ($port as $item)
+            document.getElementById('update{{ $item->id }}').addEventListener('shown.bs.modal', function(event) {
+                var modal = event.target;
+                updateOptions('kode_odc_{{ $item->id }}', '{{ $item->odp_id }}', '{{ $item->odp->odc_id }}',
+                    '{{ $item->odp_port }}');
             });
         @endforeach
     </script>
+
+    @foreach ($port as $item)
+        <script>
+            document.getElementById('update{{ $item->id }}').addEventListener('shown.bs.modal', function(event) {
+                var modal = event.target;
+                var selectedOdcId = "{{ $item->odp->odc_id }}";
+                var selectedOdpId = "{{ $item->odp_id }}";
+
+                var odcSelect = modal.querySelector('#kode_odc_{{ $item->id }}');
+                var odpSelect = modal.querySelector('#kode_odp_{{ $item->id }}');
+
+                odcSelect.innerHTML = '';
+                odpSelect.innerHTML = '';
+
+                var defaultOptionOdc = document.createElement('option');
+                defaultOptionOdc.value = '';
+                defaultOptionOdc.text = 'Pilih ODC';
+                odcSelect.appendChild(defaultOptionOdc);
+
+                var defaultOptionOdp = document.createElement('option');
+                defaultOptionOdp.value = '';
+                defaultOptionOdp.text = 'Pilih ODP';
+                odpSelect.appendChild(defaultOptionOdp);
+
+                @foreach ($odc as $odcItem)
+                    var optionOdc = document.createElement('option');
+                    optionOdc.value = "{{ $odcItem->id }}";
+                    optionOdc.text = "{{ $odcItem->kode_odc }} - {{ $odcItem->odc }}";
+                    if ("{{ $odcItem->id }}" === selectedOdcId) {
+                        optionOdc.selected = true;
+                    }
+                    odcSelect.appendChild(optionOdc);
+                @endforeach
+
+                function updateOdpOptions(selectedOdcId) {
+                    odpSelect.innerHTML = '';
+
+                    var defaultOptionOdp = document.createElement('option');
+                    defaultOptionOdp.value = '';
+                    defaultOptionOdp.text = 'Pilih ODP';
+                    odpSelect.appendChild(defaultOptionOdp);
+
+                    @foreach ($odp as $odpItem)
+                        if ("{{ $odpItem->odc_id }}" === selectedOdcId) {
+                            var optionOdp = document.createElement('option');
+                            optionOdp.value = "{{ $odpItem->id }}";
+                            optionOdp.text = "{{ $odpItem->kode_odp }} - {{ $odpItem->odp }}";
+                            if ("{{ $odpItem->id }}" === selectedOdpId) {
+                                optionOdp.selected = true;
+                            }
+                            odpSelect.appendChild(optionOdp);
+                        }
+                    @endforeach
+                }
+
+                updateOdpOptions(selectedOdcId);
+
+                odcSelect.addEventListener('change', function() {
+                    var selectedOdcId = this.value;
+                    updateOdpOptions(selectedOdcId);
+                });
+            });
+        </script>
+    @endforeach
 @endsection
