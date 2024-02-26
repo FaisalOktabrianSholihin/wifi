@@ -24,6 +24,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PemutusanController;
 use App\Http\Controllers\PerbaikanController;
 use App\Http\Controllers\PermissionsController;
+use App\Http\Controllers\PortController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RouterController;
 use App\Http\Controllers\RoutersController;
@@ -200,4 +201,9 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::post('/onus/store', [OnuController::class, 'store'])->name('onu.store');
     Route::put('/onus/{id}/update', [OnuController::class, 'update'])->name('onu.update');
     Route::delete('/onus/{id}/destroy', [OnuController::class, 'destroy'])->name('onu.destroy');
+
+    Route::get('/ports', [PortController::class, 'index'])->name('port.index');
+    Route::post('/ports/store', [PortController::class, 'store'])->name('port.store');
+    Route::put('/ports/{id}/update', [PortController::class, 'update'])->name('port.update');
+    Route::delete('/ports/{id}/destroy', [PortController::class, 'destroy'])->name('port.destroy');
 });

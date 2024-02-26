@@ -166,6 +166,16 @@
                    </ul>
 
                    <ul class="menu-sub">
+                       @can('read port')
+                           <li class="menu-item {{ Route::is('route.port.index') ? 'active' : '' }}">
+                               <a href="{{ route('route.port.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu" style="color: black">OLT PORT</div>
+                               </a>
+                           </li>
+                       @endcan
+                   </ul>
+
+                   <ul class="menu-sub">
                        @can('read olt')
                            <li class="menu-item {{ Route::is('route.olts.index') ? 'active' : '' }}">
                                <a href="{{ route('route.olts.index') }}" class="menu-link">

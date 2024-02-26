@@ -125,6 +125,11 @@ class RolePermissionsSeeder extends Seeder
         $permission = Permission::create(['name' => 'update olt']);
         $permission = Permission::create(['name' => 'delete olt']);
 
+        $permission = Permission::create(['name' => 'create port']);
+        $permission = Permission::create(['name' => 'read port']);
+        $permission = Permission::create(['name' => 'update port']);
+        $permission = Permission::create(['name' => 'delete port']);
+
         $permission = Permission::create(['name' => 'create routers']);
         $permission = Permission::create(['name' => 'read routers']);
         $permission = Permission::create(['name' => 'update routers']);
@@ -219,6 +224,11 @@ class RolePermissionsSeeder extends Seeder
         $role_route->givePermissionTo('read odp');
         $role_route->givePermissionTo('update odp');
         $role_route->givePermissionTo('delete odp');
+
+        $role_admin->givePermissionTo('create port');
+        $role_admin->givePermissionTo('read port');
+        $role_admin->givePermissionTo('update port');
+        $role_admin->givePermissionTo('delete port');
 
         $role_route->givePermissionTo('create odp port');
         $role_route->givePermissionTo('read odp port');

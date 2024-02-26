@@ -13,6 +13,7 @@ class Pelanggan extends Model
 
     protected $fillable = [
         'no_pelanggan',
+        'inc_no',
         'nama',
         'alamat',
         'telepon',
@@ -86,5 +87,10 @@ class Pelanggan extends Model
     public function onu()
     {
         return $this->belongsTo(Onu::class, 'onu_id');
+    }
+
+    public function port()
+    {
+        return $this->belongsTo(Port::class, 'port_id');
     }
 }

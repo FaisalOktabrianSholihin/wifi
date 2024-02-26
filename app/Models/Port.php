@@ -16,4 +16,9 @@ class Port extends Model
         'port',
         'index_inc',
     ];
+
+    public function pelanggan()
+    {
+        return $this->hasOne(Pelanggan::class);
+    }
 }
