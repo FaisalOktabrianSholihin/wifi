@@ -157,9 +157,9 @@
 
                    <ul class="menu-sub">
                        @can('read onu')
-                           <li class="menu-item {{ Route::is('route.onus.index') ? 'active' : '' }}">
-                               <a href="{{ route('route.onus.index') }}" class="menu-link">
-                                   <div data-i18n="Without menu" style="color: black">ONU</div>
+                           <li class="menu-item {{ Route::is('route.onu.index') ? 'active' : '' }}">
+                               <a href="{{ route('route.onu.index') }}" class="menu-link">
+                                   <div data-i18n="Without menu" style="color: black">SN ONU</div>
                                </a>
                            </li>
                        @endcan

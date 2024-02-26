@@ -14,4 +14,9 @@ class TypeOnu extends Model
     protected $fillable = [
         'type_onu',
     ];
+
+    public function onu()
+    {
+        return $this->hasMany(Onu::class);
+    }
 }

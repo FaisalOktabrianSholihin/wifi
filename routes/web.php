@@ -113,7 +113,6 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::resource('/routerss', RoutersController::class);
     Route::resource('/olts', OltController::class);
     Route::resource('/pakets', PaketController::class);
-    Route::resource('/onus', OnuController::class);
     Route::resource('/pembayarans', PembayaranController::class);
     Route::resource('/tunggakans', TunggakanController::class);
 
@@ -196,4 +195,9 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::post('/odp-ports/store', [OdpPortController::class, 'store'])->name('odp-port.store');
     Route::put('/odp-ports/{id}/update', [OdpPortController::class, 'update'])->name('odp-port.update');
     Route::delete('/odp-ports/{id}/destroy', [OdpPortController::class, 'destroy'])->name('odp-port.destroy');
+
+    Route::get('/onus', [OnuController::class, 'index'])->name('onu.index');
+    Route::post('/onus/store', [OnuController::class, 'store'])->name('onu.store');
+    Route::put('/onus/{id}/update', [OnuController::class, 'update'])->name('onu.update');
+    Route::delete('/onus/{id}/destroy', [OnuController::class, 'destroy'])->name('onu.destroy');
 });

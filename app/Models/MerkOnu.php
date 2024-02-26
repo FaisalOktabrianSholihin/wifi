@@ -14,4 +14,9 @@ class MerkOnu extends Model
     protected $fillable = [
         'merk_onu',
     ];
+
+    public function onu()
+    {
+        return $this->hasMany(Onu::class);
+    }
 }

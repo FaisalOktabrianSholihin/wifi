@@ -51,6 +51,6 @@ class OdpController extends Controller
         $odps = Odp::findOrFail($id);
         $odps->delete();
 
-        return back()->with('message', 'Data Berhasil Dihapus');
+        return redirect()->back()->with('message', 'Data Berhasil Dihapus');
     }
 }

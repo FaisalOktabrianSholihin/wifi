@@ -82,4 +82,9 @@ class Pelanggan extends Model
     {
         return $this->hasMany(Pemutusan::class);
     }
+
+    public function onu()
+    {
+        return $this->belongsTo(Onu::class, 'onu_id');
+    }
 }
