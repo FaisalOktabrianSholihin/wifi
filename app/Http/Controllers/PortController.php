@@ -14,6 +14,22 @@ class PortController extends Controller
         return view('port.index', compact('port'));
     }
 
+    public function getData()
+    {
+        $port = Port::with('pelanggan')->orderByDesc('id')->get();
+        $portData = $port->map(function ($port, $index) {
+            return [
+                "id" => $port->id,
+                "No" => $index + 1,
+                "Slot" => $port->slot,
+                "Port" => $port->port,
+                "IndexInc" => $port->index_inc,
+                "NoPelanggan" => $port->pelanggan ? $port->pelanggan->no_pelanggan : "",
+            ];
+        });
+        return response()->json($portData);
+    }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([

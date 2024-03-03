@@ -26,6 +26,14 @@
         });
     </script>
 @endpush
+@push('styles')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
+@endpush
+
+
 @section('content')
     <div class="content">
         <div class="container-xxl flex-grow-1 container-p-y">
@@ -33,9 +41,10 @@
             </h4>
             <div class="card">
                 <div class="card-body">
-                    <button class="btn btn-primary float-end mb-3" data-bs-toggle="modal" data-bs-target="#add">Tambah</button>
+                    <button class="btn btn-primary float-end mb-3" data-bs-toggle="modal"
+                        data-bs-target="#add">Tambah</button>
                     <div class="table-responsive text-nowrap">
-                        <table id="myTable" class="table mb-4">
+                        {{-- <table id="myTable" class="table mb-4">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -75,9 +84,10 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>
-                    </div>
+                        </table> --}}
 
+                        <div id="jsGridTable"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -206,4 +216,114 @@
             </div>
         </div>
     @endforeach
+
+    <script>
+        $("#jsGridTable").jsGrid({
+            width: "100%",
+            height: "400px",
+
+            filtering: true,
+            sorting: true,
+            paging: true,
+            autoload: true,
+            pageSize: 10,
+            pageButtonCount: 5,
+            controller: {
+                loadData: function(filter) {
+                    return $.ajax({
+                        type: "GET",
+                        url: "/api/ports-get",
+                        data: filter,
+                        dataType: "json"
+                    }).then(function(result) {
+                        result = result.filter(function(item) {
+                            return (!filter.No || item.No.toString().indexOf(filter
+                                        .No) !== -
+                                    1) &&
+                                (!filter.Slot || item.Slot.toString().indexOf(filter
+                                        .Slot) !== -
+                                    1) &&
+                                (!filter.Port || item.Port.toString().indexOf(filter
+                                        .Port) !== -
+                                    1) &&
+                                (!filter.IndexInc || item.IndexInc.toString()
+                                    .indexOf(filter
+                                        .IndexInc) !== -
+                                    1) &&
+                                (!filter.NoPelanggan || item.NoPelanggan.toString()
+                                    .indexOf(
+                                        filter.NoPelanggan) !== -
+                                    1);
+
+                        });
+
+                        return result;
+                    });
+                }
+            },
+
+            // data: ports,
+            fields: [{
+                    name: "No",
+                    type: "number",
+                    width: 20,
+                    align: "center",
+                },
+                {
+                    name: "Actions",
+                    type: "text",
+                    width: 25,
+                    align: "center",
+                    filtering: false,
+                    itemTemplate: function(value, item) {
+                        return $("<div>").addClass("dropdown")
+                            .append($("<button>").addClass("btn p-0 dropdown-toggle hide-arrow")
+                                .attr(
+                                    "type", "button").attr("data-bs-toggle", "dropdown")
+                                .append($("<i>").addClass("bx bx-dots-vertical-rounded")))
+                            .append($("<div>").addClass("dropdown-menu")
+                                .append($("<button>").addClass("dropdown-item").attr(
+                                        "data-bs-toggle",
+                                        "modal").attr("data-bs-target", "#update" + item.id)
+                                    .append($("<i>").addClass("bx bx-edit-alt me-1")).append(
+                                        "Edit"))
+                                .append($("<button>").addClass("dropdown-item").attr(
+                                        "data-bs-toggle",
+                                        "modal").attr("data-bs-target", "#delete" + item.id)
+                                    .append($("<i>").addClass("bx bx-trash me-1")).append(
+                                        "Delete"))
+                            );
+                    }
+                },
+                {
+                    name: "Slot",
+                    type: "number",
+                    width: 50,
+                    align: "center",
+
+                },
+                {
+                    name: "Port",
+                    type: "number",
+                    width: 50,
+                    align: "center",
+
+                },
+                {
+                    name: "IndexInc",
+                    type: "number",
+                    width: 50,
+                    align: "center",
+
+                },
+                {
+                    name: "NoPelanggan",
+                    type: "text",
+                    width: 50,
+                    align: "center",
+                    sorting: false,
+                },
+            ]
+        });
+    </script>
 @endsection

@@ -203,6 +203,7 @@ Route::middleware(['isAuth'])->name('route.')->prefix('route')->group(function (
     Route::delete('/onus/{id}/destroy', [OnuController::class, 'destroy'])->name('onu.destroy');
 
     Route::get('/ports', [PortController::class, 'index'])->name('port.index');
+    Route::get('/ports-get', [PortController::class, 'getData'])->name('port.get-data');
     Route::post('/ports/store', [PortController::class, 'store'])->name('port.store');
     Route::put('/ports/{id}/update', [PortController::class, 'update'])->name('port.update');
     Route::delete('/ports/{id}/destroy', [PortController::class, 'destroy'])->name('port.destroy');
