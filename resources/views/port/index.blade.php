@@ -44,7 +44,7 @@
                     <button class="btn btn-primary float-end mb-3" data-bs-toggle="modal"
                         data-bs-target="#add">Tambah</button>
                     <div class="table-responsive text-nowrap">
-                        {{-- <table id="myTable" class="table mb-4">
+                        <table id="myTable" class="table mb-4">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -53,6 +53,39 @@
                                     <th>Port</th>
                                     <th>Index Inc</th>
                                     <th>No Pelanggan</th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="col-md-9">
+                                            <input id="searchNo" type="text" class="form-control"
+                                                placeholder="Search No">
+                                        </div>
+                                    </th>
+                                    <th></th>
+                                    <th>
+                                        <div class="col-md-9">
+                                            <input id="searchSlot" type="number" class="form-control"
+                                                placeholder="Search Slot">
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="col-md-9">
+                                            <input id="searchPort" type="number" class="form-control"
+                                                placeholder="Search Port">
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody class="table-border-bottom-0">
@@ -84,9 +117,8 @@
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table> --}}
-
-                        <div id="jsGridTable"></div>
+                        </table>
+                        {{-- <div id="jsGridTable"></div> --}}
                     </div>
                 </div>
             </div>
@@ -218,112 +250,21 @@
     @endforeach
 
     <script>
-        $("#jsGridTable").jsGrid({
-            width: "100%",
-            height: "400px",
-
-            filtering: true,
-            sorting: true,
-            paging: true,
-            autoload: true,
-            pageSize: 10,
-            pageButtonCount: 5,
-            controller: {
-                loadData: function(filter) {
-                    return $.ajax({
-                        type: "GET",
-                        url: "/api/ports-get",
-                        data: filter,
-                        dataType: "json"
-                    }).then(function(result) {
-                        result = result.filter(function(item) {
-                            return (!filter.No || item.No.toString().indexOf(filter
-                                        .No) !== -
-                                    1) &&
-                                (!filter.Slot || item.Slot.toString().indexOf(filter
-                                        .Slot) !== -
-                                    1) &&
-                                (!filter.Port || item.Port.toString().indexOf(filter
-                                        .Port) !== -
-                                    1) &&
-                                (!filter.IndexInc || item.IndexInc.toString()
-                                    .indexOf(filter
-                                        .IndexInc) !== -
-                                    1) &&
-                                (!filter.NoPelanggan || item.NoPelanggan.toString()
-                                    .indexOf(
-                                        filter.NoPelanggan) !== -
-                                    1);
-
-                        });
-
-                        return result;
+        $(document).ready(function() {
+            $('#searchSlot, #searchNo, #searchPort').on('keyup',
+                function() {
+                    var slotValue = $('#searchSlot').val().toLowerCase();
+                    var noValue = $('#searchNo').val().toLowerCase();
+                    var portValue = $('#searchPort').val().toLowerCase();
+                    $('#myTable tbody tr').filter(function() {
+                        var slotText = $(this).find('td:eq(2)').text().toLowerCase();
+                        var portText = $(this).find('td:eq(3)').text().toLowerCase();
+                        var noText = $(this).find('td:eq(0)').text()
+                            .toLowerCase();
+                        $(this).toggle(slotText.indexOf(slotValue) > -1 && noText.indexOf(noValue) > -
+                            1 && portText.indexOf(portValue) > -1);
                     });
-                }
-            },
-
-            // data: ports,
-            fields: [{
-                    name: "No",
-                    type: "number",
-                    width: 20,
-                    align: "center",
-                },
-                {
-                    name: "Actions",
-                    type: "text",
-                    width: 25,
-                    align: "center",
-                    filtering: false,
-                    itemTemplate: function(value, item) {
-                        return $("<div>").addClass("dropdown")
-                            .append($("<button>").addClass("btn p-0 dropdown-toggle hide-arrow")
-                                .attr(
-                                    "type", "button").attr("data-bs-toggle", "dropdown")
-                                .append($("<i>").addClass("bx bx-dots-vertical-rounded")))
-                            .append($("<div>").addClass("dropdown-menu")
-                                .append($("<button>").addClass("dropdown-item").attr(
-                                        "data-bs-toggle",
-                                        "modal").attr("data-bs-target", "#update" + item.id)
-                                    .append($("<i>").addClass("bx bx-edit-alt me-1")).append(
-                                        "Edit"))
-                                .append($("<button>").addClass("dropdown-item").attr(
-                                        "data-bs-toggle",
-                                        "modal").attr("data-bs-target", "#delete" + item.id)
-                                    .append($("<i>").addClass("bx bx-trash me-1")).append(
-                                        "Delete"))
-                            );
-                    }
-                },
-                {
-                    name: "Slot",
-                    type: "number",
-                    width: 50,
-                    align: "center",
-
-                },
-                {
-                    name: "Port",
-                    type: "number",
-                    width: 50,
-                    align: "center",
-
-                },
-                {
-                    name: "IndexInc",
-                    type: "number",
-                    width: 50,
-                    align: "center",
-
-                },
-                {
-                    name: "NoPelanggan",
-                    type: "text",
-                    width: 50,
-                    align: "center",
-                    sorting: false,
-                },
-            ]
+                });
         });
     </script>
 @endsection
